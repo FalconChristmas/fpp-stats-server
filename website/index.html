@@ -20,6 +20,10 @@
 <body>
     <div id="main-div" class="container" style="padding-top: 2em">
         <h1>FPP Installations Statistics</h1>
+        <div>This is a top level summary of information gather from FPP installations around the world. In unless otherwise stated
+            only those installations that have submitted statistics in the last year are included.  This report was last updated
+            <span id="lastUpdated"><i>Refresh has failed</i></span>.
+        </div>
         <div id="loading" class="ajax-loading-60px"></div>
 
         <div class="row">
@@ -76,6 +80,8 @@
             $.get("https://fppstats.thehormanns.net/api/summary"
             ).done(function (data) {
                 $("#loading").hide();
+                var when = new Date(data.ts).toISOString();
+                $("#lastUpdated").html(when);
                 console.log(data);
                 drawPieChart($("#platform365"), data.platform, "last365Days");
                 drawPieChart($("#fppMode365"), data.fppMode, "last365Days");
