@@ -1,0 +1,29 @@
+"use strict";
+const util = require("../lib/util.js");
+
+let myData = {};
+
+module.exports = [
+  {
+    name: "fppMode",
+    description:
+      "Is instance configured as Standalone, Master, Remtoe, or Bridge",
+    reset: async () => {
+      myData = {};
+    },
+    results: async () => {
+      return myData;
+    },
+    currentHandler: async (obj) => {
+      if ("systemInfo" in obj) {
+        if ("fppdMode" in obj.systemInfo) {
+          let mode = obj.systemInfo.fppdMode;
+          if (!(mode in myData)) {
+            myData[mode] = util.newCountByAgeObject();
+          }
+          util.countByAge(myData[mode], obj);
+        }
+      }
+    },
+  },
+];

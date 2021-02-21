@@ -14,3 +14,10 @@ services:
       - out_dir=/statsdata
     ports:
        - '127.0.0.1:7666:7654'
+  fpp-stats-collect:
+    build: statsCollector/.
+    restart: always
+    volumes: 
+      - statsdata:/statsdata
+    environment: 
+      - out_dir=/statsdata
