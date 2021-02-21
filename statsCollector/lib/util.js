@@ -73,7 +73,9 @@ async function processHandlers(handlers) {
   );
 
   // Gather Results
-  let results = {};
+  let results = {
+    ts: new Date().getTime()
+  };
   await Promise.all(
     handlers.map(async (h) => {
       let obj = await h.results();
