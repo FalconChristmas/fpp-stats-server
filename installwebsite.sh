@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rsync -av website/* /var/www/fpp-stats/
+rsync -av --delete website/* /var/www/fpp-stats/
