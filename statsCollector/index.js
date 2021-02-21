@@ -23,7 +23,11 @@ const start = async () => {
   // Run it now
   setTimeout(gatherStats, 10, handlers);
   // Run it every 24 hour
-  setTimeout(gatherStats, 1000*86400, handlers);
+  //setTimeout(gatherStats, 1000*86400, handlers);
+
+  // Temporary set to every hour
+  setTimeout(gatherStats, 1000 * 3600, handlers);
+
 };
 
 start();
