@@ -1,0 +1,16 @@
+version: '3'
+
+volumes:
+  statsdata:
+     driver: local
+
+services:
+  fpp-stats-api:
+    build: server/.
+    restart: always
+    volumes: 
+      - statsdata:/statsdata
+    environment: 
+      - out_dir=/statsdata
+    ports:
+       - '127.0.0.1:7666:7654'
