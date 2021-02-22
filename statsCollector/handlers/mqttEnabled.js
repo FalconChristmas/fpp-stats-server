@@ -3,14 +3,20 @@
 
 const util = require("../lib/util.js");
 
-let myData = util.newCountByAgeObject();
+let myData = {
+  yes : util.newCountByAgeObject(),
+  no: util.newCountByAgeObject(),
+};
 
 module.exports = [
   {
     name: "mqttEnabled",
     description: "Counts all instances where MQTT is configured",
     reset: async () => {
-      myData = util.newCountByAgeObject();
+      myData = {
+        yes: util.newCountByAgeObject(),
+        no: util.newCountByAgeObject(),
+      };
     },
     results: async () => {
       return myData;
@@ -20,7 +26,9 @@ module.exports = [
         if ("mqtt" in obj.systemInfo) {
           if ("configured" in obj.systemInfo.mqtt) {
             if (obj.systemInfo.mqtt.configured) {
-              util.countByAge(myData, obj);
+              util.countByAge(myData["yes"], obj);
+            } else {
+              util.countByAge(myData["no"], obj);
             }
           }
         }
