@@ -76,6 +76,23 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="chart-outer col">
+                    <h2>UI Level</h2>
+                    <div class="canvas-holder">
+                        <canvas id="uiLevel365"></canvas>
+                    </div>
+                </div>
+                <!--
+                <div class="chart-outer col">
+                    <h2>MQTT Configured?</h2>
+                    <div class="canvas-holder">
+                        <canvas id="mqtt365"></canvas>
+                    </div>
+                </div>
+                -->
+            </div>
+
         </div><!-- All Charts-->
     </div>
 
@@ -111,6 +128,7 @@
                 drawPieChart($("#fppMode365"), data.fppMode, "last365Days");
                 drawPieChart($("#version365"), data.version, "last365Days");
                 drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
+                drawPieChart($("#uiLevel365"), data.uiLevel, "last365Days");
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
                 drawBarChartObject($("#lastReportChart"), data.Instances.data, timeFields.fields, timeFields.labels);
             }).fail(function () {
