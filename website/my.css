@@ -22,6 +22,10 @@ body {
     margin-top:2em;
 }
 
+.chart-outer h2 {
+  text-align: center;
+}
+
 /* Use as <div class="ajax-loading-60px"></div> */
 .ajax-loading-60px {
 	border: 16px solid #f3f3f3;

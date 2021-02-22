@@ -68,15 +68,13 @@
                         <canvas id="cape365"></canvas>
                     </div>
                 </div>
-                <!--
-            <div class="chart-outer col">
-                <h2>MQTT Configured?</h2>
-                <div class="canvas-holder">
-                    <canvas id="future365"></canvas>
+                <div class="chart-outer col">
+                    <h2># of Devices Reporting</h2>
+                    <div class="canvas-holder">
+                        <canvas id="lastReportChart"></canvas>
+                    </div>
                 </div>
             </div>
--->
-            </div> 
 
         </div><!-- All Charts-->
     </div>
@@ -97,6 +95,10 @@
     <script src="my.js"></script>
 
     <script type="text/javascript">
+        var timeFields = {
+            fields: ["last15Days", "last30Days", "last60Days", "last180Days", "last365Days", "totalCount"],
+            labels: ["Last 15 Days", "Last 30 Days", "Last 60 Days", "Last 180 Days", "Last Year", "All Time"]
+        }
         $(document).ready(function () {
             $.get("https://fppstats.thehormanns.net/api/summary"
             ).done(function (data) {
@@ -110,6 +112,7 @@
                 drawPieChart($("#version365"), data.version, "last365Days");
                 drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
+                drawBarChartObject($("#lastReportChart"), data.Instances.data, timeFields.fields, timeFields.labels);
             }).fail(function () {
                 alert("Unable to load statistics");
             })

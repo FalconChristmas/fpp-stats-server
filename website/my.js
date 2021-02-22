@@ -6,6 +6,41 @@ function sortByValue(a, b) {
     return b.value - a.value;
 }
 
+function drawBarChartObject(ctx, obj, properties, labels) {
+    let chartData = [];
+    let textLabel = "Ignore";
+    properties.forEach((p) => {
+        chartData.push(obj[p]);
+    });
+    
+    // Generate Chart
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: textLabel,
+                data: chartData,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                display: false
+            },
+            plugins: {
+                colorschemes: {
+                    // Options from https://nagix.github.io/chartjs-plugin-colorschemes/colorchart.html
+                    scheme: 'brewer.Paired12'
+                }
+            }
+        }
+    });
+
+}
+
+
 // Creates a pi Chart from a "last seen in" format.
 function drawPieChart(ctx, input, level) {
     let textLabel = input.description;

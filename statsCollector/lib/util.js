@@ -7,7 +7,7 @@ function simpleClone(a) {
   return JSON.parse(JSON.stringify(a));
 }
 
-// A standard coundting template that is supported by
+// A standard counting template that is supported by
 // countByAge()
 function newCountByAgeObject() {
   let temp = {
