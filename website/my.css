@@ -11,7 +11,11 @@ body {
 }
 
 .canvas-holder {
-    max-width: 400px;
+    max-width: 450px;
+}
+
+#all-charts {
+  display: none;
 }
 
 .chart-outer {

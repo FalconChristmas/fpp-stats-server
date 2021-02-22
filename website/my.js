@@ -1,4 +1,7 @@
 
+
+// Simple helper function for sorting a object
+// by the "value" attribute+
 function sortByValue(a, b) {
     return b.value - a.value;
 }
@@ -8,23 +11,25 @@ function drawPieChart(ctx, input, level) {
     let textLabel = input.description;
     let chartLabels = [];
     let chartData = [];
-
     let sortable = [];
 
+    // Copy all data to a simpler structure for sorting.
     for (const [key, value] of Object.entries(input.data)) {
         sortable.push({
             label: key,
             value: value[level]
         });
     }
-    
+    // Sort the data
     sortable.sort(sortByValue);
 
+    // split labels and data for charting.
     sortable.forEach((row) => {
         chartLabels.push(row.label);
         chartData.push(row.value);
     });
 
+    // Generate Chart
     var myChart = new Chart(ctx, {
         type: 'pie',
         data: {
