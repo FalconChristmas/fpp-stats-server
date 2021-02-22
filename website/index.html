@@ -51,9 +51,9 @@
             </div>
 
             <div class="chart-outer col">
-                <h2>More Charts to be Added</h2>
+                <h2>MQTT Configured?</h2>
                 <div class="canvas-holder">
-                    <canvas id="tbd365"></canvas>
+                    <canvas id="mqtt365"></canvas>
                 </div>
             </div>
         </div>
@@ -86,6 +86,7 @@
                 drawPieChart($("#platform365"), data.platform, "last365Days");
                 drawPieChart($("#fppMode365"), data.fppMode, "last365Days");
                 drawPieChart($("#version365"), data.version, "last365Days");
+                drawPieChart($("mqtt365"), data.mqttEnabled, "last365Days");
             }).fail(function () {
                 alert("Unable to load statistics");
             })
