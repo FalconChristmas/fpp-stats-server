@@ -1,3 +1,10 @@
+/*
+ * A very simple webserver based on hapi.js for capturing data
+ * from end users and serving up the generated summary statistics file.
+ * All routes are defined in the "routes" directory and are dynamically
+ * loaded when the server starts.
+ */
+
 const Hapi = require("@hapi/hapi");
 const fs = require("fs");
 const utils = require("./lib/util.js");

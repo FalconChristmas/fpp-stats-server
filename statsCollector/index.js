@@ -1,3 +1,14 @@
+/*
+ * Stats Collector
+ * 
+ * Stats collector is designed to be rather flexible.   The "handler" directory 
+ * contains individual units for processing each statistic.   The handler will be shown
+ * the latest version of the json via currentHandler() so that it can build statistics.
+ * between each run, reset() is called and results() is called to return the data. The 
+ * "name" paramter will be the name of the json parameter that stores the results, and "description"
+ * in the final json message.
+ */
+
 "use strict";
 const fs = require("fs");
 const utils = require("./lib/util.js");

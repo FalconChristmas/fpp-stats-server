@@ -7,6 +7,8 @@ function simpleClone(a) {
   return JSON.parse(JSON.stringify(a));
 }
 
+// A standard coundting template that is supported by
+// countByAge()
 function newCountByAgeObject() {
   let temp = {
     totalCount: 0,
@@ -40,6 +42,7 @@ function countByAge(collector, obj) {
   }
 }
 
+// Returns the directory where data files are stored
 function getBaseDirectory() {
   return process.env.out_dir || "/tmp/output";
 }
@@ -48,6 +51,8 @@ function isBaseDirectoryValid() {
   return fs.existsSync(getBaseDirectory());
 }
 
+// This is the "main" loop that will run all
+// processors over all files and save the final JSON file.
 async function processHandlers(handlers) {
   // Reset All counters
   await Promise.all(
@@ -86,6 +91,7 @@ async function processHandlers(handlers) {
     })
   );
 
+  // Write the Resulting JSON file.
   let asJson = JSON.stringify(results,null,4);
   await fs.promises.writeFile(getBaseDirectory() + "/summary.json", asJson);
 }
