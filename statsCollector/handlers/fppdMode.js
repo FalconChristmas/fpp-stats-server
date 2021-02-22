@@ -15,15 +15,17 @@ module.exports = [
       return myData;
     },
     currentHandler: async (obj) => {
+      let mode = "fppd Stopped";
       if ("systemInfo" in obj) {
         if ("fppdMode" in obj.systemInfo) {
-          let mode = obj.systemInfo.fppdMode;
-          if (!(mode in myData)) {
-            myData[mode] = util.newCountByAgeObject();
-          }
-          util.countByAge(myData[mode], obj);
+          mode = obj.systemInfo.fppdMode;
         }
       }
+      if (!(mode in myData)) {
+        myData[mode] = util.newCountByAgeObject();
+      }
+      util.countByAge(myData[mode], obj);
+
     },
   },
 ];
