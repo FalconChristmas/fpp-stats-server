@@ -86,7 +86,7 @@
                 drawPieChart($("#platform365"), data.platform, "last365Days");
                 drawPieChart($("#fppMode365"), data.fppMode, "last365Days");
                 drawPieChart($("#version365"), data.version, "last365Days");
-                drawPieChart($("mqtt365"), data.mqttEnabled, "last365Days");
+                drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
             }).fail(function () {
                 alert("Unable to load statistics");
             })
