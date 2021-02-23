@@ -21,8 +21,11 @@ module.exports = [
       return myData;
     },
     currentHandler: async (obj) => {
-      let mode = "fppd Stopped";
+      let mode = "No";
       if ("systemInfo" in obj) {
+        if (("fppdStatus" in obj.systemInfo) && obj.systemInfo.fppdStatus == "Not Running") {
+          mode = "fppd Stopped";
+        }
         if ("mqtt" in obj.systemInfo) {
           if ("configured" in obj.systemInfo.mqtt) {
             if (obj.systemInfo.mqtt.configured) {
