@@ -3,6 +3,12 @@ body {
     background-color: #3498db;
 }
 
+@media only screen and (max-width: 575px) {
+   body {
+       background-color: white;
+   }
+}
+
 #main-div {
     background-color: white;
     margin-top: 1em;
@@ -10,8 +16,13 @@ body {
     padding-bottom:1em;
 }
 
+.canvas-holder canvas{
+    margin: 0 auto;
+}
+
 .canvas-holder {
-    max-width: 450px;
+    //max-width: 450px;
+    margin: 0 auto;
 }
 
 #all-charts {
