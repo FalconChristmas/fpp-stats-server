@@ -6,6 +6,68 @@ function sortByValue(a, b) {
     return b.value - a.value;
 }
 
+// Draw a bar chart where the object has
+// "name" : value
+// Sort the data but limit to the specified
+// number of rows
+function drawSortedBarChart(ctx, obj, limit) {
+    let sorted = [];
+    for (const [key, value] of Object.entries(obj)) {
+        sorted.push({
+            label: key,
+            value: value
+        });
+    }
+
+    // sort data
+    sorted.sort(sortByValue);
+
+    // limit
+    sorted = sorted.slice(0, limit);
+    let labels = [];
+    let data = [];
+
+    sorted.forEach((p) => {
+        labels.push(p.label);
+        data.push(p.value);
+    });
+
+    // Generate Chart
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Ignore",
+                data: data,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }]
+            },
+            legend: {
+                display: false
+            },
+            plugins: {
+                colorschemes: {
+                    // Options from https://nagix.github.io/chartjs-plugin-colorschemes/colorchart.html
+                    scheme: 'brewer.Paired12'
+                }
+            }
+        }
+    });
+
+
+}
+
 // Creates a bar chart of chart using the property names
 function drawBarChartObject(ctx, obj, properties, labels) {
     let chartData = [];
@@ -13,7 +75,7 @@ function drawBarChartObject(ctx, obj, properties, labels) {
     properties.forEach((p) => {
         chartData.push(obj[p]);
     });
-    
+
     // Generate Chart
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -30,6 +92,15 @@ function drawBarChartObject(ctx, obj, properties, labels) {
             legend: {
                 display: false
             },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }]
+            },
+
             plugins: {
                 colorschemes: {
                     // Options from https://nagix.github.io/chartjs-plugin-colorschemes/colorchart.html

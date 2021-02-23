@@ -83,14 +83,12 @@
                         <canvas id="uiLevel365"></canvas>
                     </div>
                 </div>
-                <!--
                 <div class="chart-outer col-sm-6">
-                    <h2>MQTT Configured?</h2>
+                    <h2>Top 10 Plugins</h2>
                     <div class="canvas-holder">
-                        <canvas id="mqtt365"></canvas>
+                        <canvas id="plugins365"></canvas>
                     </div>
                 </div>
-                -->
             </div>
 
         </div><!-- All Charts-->
@@ -131,6 +129,7 @@
                 drawPieChart($("#uiLevel365"), data.uiLevel, "last365Days");
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
                 drawBarChartObject($("#lastReportChart"), data.Instances.data, timeFields.fields, timeFields.labels);
+                drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days,10);
             }).fail(function () {
                 alert("Unable to load statistics");
             })
