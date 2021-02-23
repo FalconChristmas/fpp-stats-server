@@ -6,6 +6,7 @@ function sortByValue(a, b) {
     return b.value - a.value;
 }
 
+// Creates a bar chart of chart using the property names
 function drawBarChartObject(ctx, obj, properties, labels) {
     let chartData = [];
     let textLabel = "Ignore";
