@@ -1,0 +1,126 @@
+"use strict";
+const util = require("../lib/util.js");
+
+let myData = {};
+
+let UniverseGroup = [
+    {
+        label: "Zero",
+        min: 0,
+        max: 0
+    },
+    {
+        label: "1-49",
+        min: 1,
+        max: 49
+    },
+    {
+        label: "50-99",
+        min: 50,
+        max: 99
+    },
+    {
+        label: "100-249",
+        min: 100,
+        max: 249
+    },
+    {
+        label: "249-500",
+        min: 249,
+        max: 499
+    },
+    {
+        label: "500+",
+        min: 500,
+        max: Number.MAX_VALUE
+    },
+];
+
+let channelGroup = [
+    {
+        label: "Zero",
+        min: 0,
+        max: 0
+    },
+    {
+        label: "1-999",
+        min: 1,
+        max: 999
+    }, {
+        label: "1k-10k",
+        min: 1,
+        max: 9999
+    }, {
+        label: "10k-100k",
+        min: 10000,
+        max: 99999
+    }, {
+        label: "100k-500k",
+        min: 100000,
+        max: 499999
+    }, {
+        label: "500k-1M",
+        min: 500000,
+        max: 999999
+    }, {
+        label: "1M+",
+        min: 999999 + 1,
+        max: Number.MAX_VALUE
+    },
+];
+
+module.exports = [
+    {
+        name: "outputUniverses",
+        description:
+            "How many E131 Output Universes are configured (co-universes.json)",
+        reset: async () => {
+            myData = {
+                universe: {},
+                channel: {},
+                universeOrder: [],
+                channelOrder: ["Zero", "1-999", "1000-9,999", "10,000-49,999", "50,000-99,999", "100,000-249,999", "250,000+"]
+            };
+            UniverseGroup.forEach(e => {
+                myData.universeOrder.push(e.label);
+            });
+        },
+        results: async () => {
+            return myData;
+        },
+        currentHandler: async (obj) => {
+            let uGroup = "Zero";
+            let cGroup = "Zero";
+
+            if ("output_e131" in obj) {
+                if ("universeCount" in obj.output_e131) {
+                    let cnt = obj.output_e131.universeCount;
+                    UniverseGroup.forEach(e => {
+                        if (cnt >= e.min && cnt <= e.max) {
+                            uGroup = e.label;
+                        }
+                    });
+
+                }
+                if ("channelCount" in obj.output_e131) {
+                    let cnt = obj.output_e131.channelCount;
+                    channelGroup.forEach(e => {
+                        if (cnt >= e.min && cnt <= e.max) {
+                            cGroup = e.label;
+                        }
+                    });
+                }
+                if (!(uGroup in myData.universe)) {
+                    myData.universe[uGroup] = util.newCountByAgeObject();
+                }
+                util.countByAge(myData.universe[uGroup], obj);
+
+                if (!(cGroup in myData.channel)) {
+                    myData.channel[cGroup] = util.newCountByAgeObject();
+                }
+                util.countByAge(myData.channel[cGroup], obj);
+            }
+        }
+    },
+
+];
