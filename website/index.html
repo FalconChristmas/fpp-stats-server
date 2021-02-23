@@ -37,9 +37,9 @@
                     </div>
                 </div>
                 <div class="chart-outer col-sm-6">
-                    <h2>Platform</h2>
+                    <h2>Release</h2>
                     <div class="canvas-holder">
-                        <canvas id="platform365"></canvas>
+                        <canvas id="version365"></canvas>
                     </div>
                 </div>
 
@@ -47,48 +47,59 @@
 
             <div class="row">
                 <div class="chart-outer col-sm-6">
-                    <h2>Release</h2>
+                    <h2>Platform</h2>
                     <div class="canvas-holder">
-                        <canvas id="version365"></canvas>
+                        <canvas id="platform365"></canvas>
                     </div>
                 </div>
+                <div class="chart-outer col-sm-6">
+                    <h2>Platform Variant</h2>
+                    <div class="canvas-holder">
+                        <canvas id="platformVar365"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="chart-outer col-sm-6">
                     <h2>FPP Mode</h2>
                     <div class="canvas-holder">
                         <canvas id="fppMode365"></canvas>
                     </div>
                 </div>
-
-            </div>
-
-            <div class="row">
                 <div class="chart-outer col-sm-6">
                     <h2>Installed Cape</h2>
                     <div class="canvas-holder">
                         <canvas id="cape365"></canvas>
                     </div>
                 </div>
+
+            </div>
+
+            <div class="row">
                 <div class="chart-outer col-sm-6">
                     <h2>MQTT Configured?</h2>
                     <div class="canvas-holder">
                         <canvas id="mqtt365"></canvas>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="chart-outer col-sm-6">
                     <h2>UI Level</h2>
                     <div class="canvas-holder">
                         <canvas id="uiLevel365"></canvas>
                     </div>
                 </div>
-                <div class="chart-outer col-sm-6">
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="chart-outer col-sm-8">
                     <h2>Top 10 Plugins</h2>
                     <div class="canvas-holder">
                         <canvas id="plugins365"></canvas>
                     </div>
                 </div>
+                <div class="col-sm-2"></div>
             </div>
 
         </div><!-- All Charts-->
@@ -123,13 +134,14 @@
                 $("#lastUpdated").html(when);
                 console.log(data);
                 drawPieChart($("#platform365"), data.platform, "last365Days");
+                drawPieChart($("#platformVar365"), data.platformVariant, "last365Days");
                 drawPieChart($("#fppMode365"), data.fppMode, "last365Days");
                 drawPieChart($("#version365"), data.version, "last365Days");
                 drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
                 drawPieChart($("#uiLevel365"), data.uiLevel, "last365Days");
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
                 drawBarChartObject($("#lastReportChart"), data.Instances.data, timeFields.fields, timeFields.labels);
-                drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days,10);
+                drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days, 10);
             }).fail(function () {
                 alert("Unable to load statistics");
             })
