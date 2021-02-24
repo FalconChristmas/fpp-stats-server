@@ -79,11 +79,14 @@ module.exports = [
                 universe: {},
                 channel: {},
                 universeOrder: [],
-                channelOrder: ["Zero", "1-999", "1000-9,999", "10,000-49,999", "50,000-99,999", "100,000-249,999", "250,000+"]
+                channelOrder: []
             };
             UniverseGroup.forEach(e => {
                 myData.universeOrder.push(e.label);
             });
+            channelGroup.forEach(e => {
+                myData.channelOrder.push(e.label);
+            })
         },
         results: async () => {
             return myData;
