@@ -102,6 +102,36 @@
                 <div class="col-sm-2"></div>
             </div>
 
+            <div class="row">
+                <div class="chart-outer col-sm-6">
+                    <h2>E1.31 Output Universes</h2>
+                    <div class="canvas-holder">
+                        <canvas id="outUnivt365"></canvas>
+                    </div>
+                </div>
+                <div class="chart-outer col-sm-6">
+                    <h2>E1.31 Output Channels</h2>
+                    <div class="canvas-holder">
+                        <canvas id="outChannel365"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="chart-outer col-sm-6">
+                    <h2>E1.31 Input Universes</h2>
+                    <div class="canvas-holder">
+                        <canvas id="inUnivt365"></canvas>
+                    </div>
+                </div>
+                <div class="chart-outer col-sm-6">
+                    <h2>E1.31 Input Channels</h2>
+                    <div class="canvas-holder">
+                        <canvas id="inChannel365"></canvas>
+                    </div>
+                </div>
+            </div>
+
         </div><!-- All Charts-->
     </div>
 
@@ -142,6 +172,10 @@
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
                 drawBarChartObject($("#lastReportChart"), data.Instances.data, timeFields.fields, timeFields.labels);
                 drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days, 10);
+                drawBarChartObjectTime($("#outUnivt365"), data.outputUniverses.data.universe, data.outputUniverses.data.universeOrder,data.outputUniverses.data.universeOrder, "last365Days");
+                drawBarChartObjectTime($("#outChannel365"), data.outputUniverses.data.channel, data.outputUniverses.data.channelOrder,data.outputUniverses.data.channelOrder, "last365Days");
+                drawBarChartObjectTime($("#inUnivt365"), data.inputUniverses.data.universe, data.inputUniverses.data.universeOrder,data.inputUniverses.data.universeOrder, "last365Days");
+                drawBarChartObjectTime($("#inChannel365"), data.inputUniverses.data.channel, data.inputUniverses.data.channelOrder,data.inputUniverses.data.channelOrder, "last365Days");
             }).fail(function () {
                 alert("Unable to load statistics");
             })

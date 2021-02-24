@@ -46,25 +46,25 @@ let channelGroup = [
         label: "1-999",
         min: 1,
         max: 999
-    },{
+    }, {
         label: "1k-10k",
         min: 1,
         max: 9999
-    },{
+    }, {
         label: "10k-100k",
         min: 10000,
         max: 99999
-    },{
+    }, {
         label: "100k-500k",
         min: 100000,
         max: 499999
-    },{
+    }, {
         label: "500k-1M",
         min: 500000,
         max: 999999
-    },{
+    }, {
         label: "1M+",
-        min: 999999+1,
+        min: 999999 + 1,
         max: Number.MAX_VALUE
     },
 ];
@@ -115,17 +115,17 @@ module.exports = [
                             }
                         });
                     }
-                    if (!(uGroup in myData.universe)) {
-                        myData.universe[uGroup] = util.newCountByAgeObject();
-                    }
-                    util.countByAge(myData.universe[uGroup], obj);
-
-                    if (!(cGroup in myData.channel)) {
-                        myData.channel[cGroup] = util.newCountByAgeObject();
-                    }
-                    util.countByAge(myData.channel[cGroup], obj);
                 }
             }
+            if (!(uGroup in myData.universe)) {
+                myData.universe[uGroup] = util.newCountByAgeObject();
+            }
+            util.countByAge(myData.universe[uGroup], obj);
+
+            if (!(cGroup in myData.channel)) {
+                myData.channel[cGroup] = util.newCountByAgeObject();
+            }
+            util.countByAge(myData.channel[cGroup], obj);
         },
     },
 ];

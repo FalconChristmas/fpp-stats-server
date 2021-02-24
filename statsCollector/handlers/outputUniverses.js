@@ -113,17 +113,16 @@ module.exports = [
                         }
                     });
                 }
-                if (!(uGroup in myData.universe)) {
-                    myData.universe[uGroup] = util.newCountByAgeObject();
-                }
-                util.countByAge(myData.universe[uGroup], obj);
-
-                if (!(cGroup in myData.channel)) {
-                    myData.channel[cGroup] = util.newCountByAgeObject();
-                }
-                util.countByAge(myData.channel[cGroup], obj);
             }
+            if (!(uGroup in myData.universe)) {
+                myData.universe[uGroup] = util.newCountByAgeObject();
+            }
+            util.countByAge(myData.universe[uGroup], obj);
+
+            if (!(cGroup in myData.channel)) {
+                myData.channel[cGroup] = util.newCountByAgeObject();
+            }
+            util.countByAge(myData.channel[cGroup], obj);
         }
     },
-
 ];

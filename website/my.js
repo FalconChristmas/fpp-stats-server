@@ -109,6 +109,68 @@ function drawBarChartObject(ctx, obj, properties, labels) {
             }
         }
     });
+}
+
+/*
+* creats a bar chart for  data like 
+* {
+    group1: {
+        t1: 2,
+        t2: 4, 
+        t3: 6
+    }, {
+    group1: {
+        t1: 2,
+        t2: 4, 
+        t3: 6
+    }
+}
+where timeGroup = [t1,t2], properties = [group1,group2]
+*/
+function drawBarChartObjectTime(ctx, obj, properties, labels, timeGroup) {
+    let chartData = [];
+    let textLabel = "Ignore";
+    properties.forEach((p) => {
+        let value = 0;
+        if (p in obj) {
+            value = obj[p][timeGroup];
+        }
+        chartData.push(value);
+    });
+
+    // Generate Chart
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: textLabel,
+                data: chartData,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }]
+            },
+
+            plugins: {
+                colorschemes: {
+                    // Options from https://nagix.github.io/chartjs-plugin-colorschemes/colorchart.html
+                    scheme: 'brewer.Paired12'
+                }
+            }
+        }
+    });
 
 }
 
