@@ -132,6 +132,21 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="chart-outer col-sm-6">
+                    <h2>Output Processors</h2>
+                    <div class="canvas-holder">
+                        <canvas id="outputProcessor365"></canvas>
+                    </div>
+                </div>
+                <div class="chart-outer col-sm-6">
+                    <h2>Popular Settings</h2>
+                    <div class="canvas-holder">
+                        <canvas id="popularSettings365"></canvas>
+                    </div>
+                </div>
+            </div>
+
         </div><!-- All Charts-->
     </div>
 
@@ -176,6 +191,9 @@
                 drawBarChartObjectTime($("#outChannel365"), data.outputUniverses.data.channel, data.outputUniverses.data.channelOrder,data.outputUniverses.data.channelOrder, "last365Days");
                 drawBarChartObjectTime($("#inUnivt365"), data.inputUniverses.data.universe, data.inputUniverses.data.universeOrder,data.inputUniverses.data.universeOrder, "last365Days");
                 drawBarChartObjectTime($("#inChannel365"), data.inputUniverses.data.channel, data.inputUniverses.data.channelOrder,data.inputUniverses.data.channelOrder, "last365Days");
+                drawSortedBarChart($("#outputProcessor365"), data.outputProcessors.data, 10, day365Transformer);
+                drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 10, day365Transformer);
+                
             }).fail(function () {
                 alert("Unable to load statistics");
             })

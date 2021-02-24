@@ -6,13 +6,21 @@ function sortByValue(a, b) {
     return b.value - a.value;
 }
 
+function day365Transformer(obj) {
+    return obj.last365Days;
+}
+
 // Draw a bar chart where the object has
 // "name" : value
 // Sort the data but limit to the specified
 // number of rows
-function drawSortedBarChart(ctx, obj, limit) {
+function drawSortedBarChart(ctx, obj, limit, transformer) {
     let sorted = [];
-    for (const [key, value] of Object.entries(obj)) {
+    for (const [key, valueOrig] of Object.entries(obj)) {
+        let value = valueOrig
+        if (transformer != null) {
+            value = transformer(value);
+        }
         sorted.push({
             label: key,
             value: value
@@ -64,8 +72,6 @@ function drawSortedBarChart(ctx, obj, limit) {
             }
         }
     });
-
-
 }
 
 // Creates a bar chart of chart using the property names
@@ -173,7 +179,6 @@ function drawBarChartObjectTime(ctx, obj, properties, labels, timeGroup) {
     });
 
 }
-
 
 // Creates a pi Chart from a "last seen in" format.
 function drawPieChart(ctx, input, level) {
