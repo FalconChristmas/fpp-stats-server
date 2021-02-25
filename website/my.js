@@ -10,6 +10,22 @@ function day365Transformer(obj) {
     return obj.last365Days;
 }
 
+function formatDate(date) {
+	    var d = new Date(date),
+		        month = '' + (d.getMonth() + 1),
+		        day = '' + d.getDate(),
+		        hours = '' + d.getHours(),
+		        minutes = '' + d.getMinutes(),
+		        year = d.getFullYear();
+
+	    if (month.length < 2) month = '0' + month;
+	    if (day.length < 2) day = '0' + day;
+	    if (minutes.length < 2) minutes = '0' + minutes
+	    if (hours.length < 2) hours = '0' + hours
+
+	    return [year, month, day].join('-') + " " + [hours, minutes].join(':');
+}
+
 // Draw a bar chart where the object has
 // "name" : value
 // Sort the data but limit to the specified

@@ -174,7 +174,7 @@
             ).done(function (data) {
                 $("#loading").hide();
                 $("#all-charts").show();
-                var when = new Date(data.ts).toISOString();
+                var when = formatDate(new Date(data.ts));
                 $("#lastUpdated").html(when);
                 console.log(data);
                 drawPieChart($("#platform365"), data.platform, "last365Days");
