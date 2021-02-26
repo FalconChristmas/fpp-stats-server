@@ -81,12 +81,11 @@
                     </div>
                 </div>
                 <div class="chart-outer col-sm-6">
-                    <h2>Installed Cape</h2>
+                    <h2>UI Level</h2>
                     <div class="canvas-holder">
-                        <canvas id="cape365"></canvas>
+                        <canvas id="uiLevel365"></canvas>
                     </div>
                 </div>
-
             </div>
 
             <div class="row">
@@ -97,11 +96,33 @@
                     </div>
                 </div>
                 <div class="chart-outer col-sm-6">
-                    <h2>UI Level</h2>
+                    <h2>Installed Cape</h2>
                     <div class="canvas-holder">
-                        <canvas id="uiLevel365"></canvas>
+                        <canvas id="cape365"></canvas>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="chart-outer col-sm-8">
+                    <h2>Top 15 Capes</h2>
+                    <div class="canvas-holder">
+                        <canvas id="topCapes365"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="chart-outer col-sm-8">
+                    <h2>Top 15 Timezones</h2>
+                    <div class="canvas-holder">
+                        <canvas id="topTimezone365"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
             </div>
 
             <div class="row">
@@ -200,6 +221,8 @@
                 drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
                 drawPieChart($("#uiLevel365"), data.uiLevel, "last365Days");
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
+                drawSortedBarChart($("#topTimezone365"), data.settingsValues.data.TimeZone, 15, day365Transformer); // ME
+                drawSortedBarChart($("#topCapes365"), data.capeType.data, 15, day365Transformer);
                 drawBarChartObject($("#lastReportChart"), data.Instances.data, timeFields.fields, timeFields.labels);
                 drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days, 10);
                 drawBarChartObjectTime($("#outUnivt365"), data.outputUniverses.data.universe, data.outputUniverses.data.universeOrder,data.outputUniverses.data.universeOrder, "last365Days");
