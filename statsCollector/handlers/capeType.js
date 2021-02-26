@@ -15,6 +15,9 @@ module.exports = [
             if ("None" in myData) {
                 delete myData.None;
             }
+            if ("Unknown" in myData) {
+                delete myData.None;
+            }
             return myData;
         },
         currentHandler: async (obj) => {

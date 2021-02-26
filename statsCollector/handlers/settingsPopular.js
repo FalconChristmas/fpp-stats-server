@@ -15,6 +15,9 @@ module.exports = [
             };
         },
         results: async () => {
+            if ("FPP_UUID" in myData) {
+                delete myData.FPP_UUID;
+            }
             return myData;
         },
         currentHandler: async (obj) => {
