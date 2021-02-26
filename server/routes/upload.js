@@ -77,6 +77,8 @@ module.exports = [
       if (status != "OK") {
         request.log(["input", "error"], status);
         console.log(status);
+      } else {
+        utils.logRecord(payload);
       }
 
       let rc = { status, uuid };
