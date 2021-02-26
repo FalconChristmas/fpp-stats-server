@@ -27,7 +27,7 @@ module.exports = [
                         }
                     }
 
-                    if (platform == "Ubuntu" || platform == "Debian") {
+                    if (platform != "BeagleBone Black" && platform != "Raspberry Pi") {
                         platform = "Generic";
                     }
 

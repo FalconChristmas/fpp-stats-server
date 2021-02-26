@@ -52,9 +52,23 @@
                     </div>
                 </div>
                 <div class="chart-outer col-sm-6">
-                    <h2>Platform Variant</h2>
+                    <h2>Generic Platform Variant</h2>
                     <div class="canvas-holder">
-                        <canvas id="platformVar365"></canvas>
+                        <canvas id="platformGenericVar365"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="chart-outer col-sm-6">
+                    <h2>Pi Platform Variant</h2>
+                    <div class="canvas-holder">
+                        <canvas id="platformPiVar365"></canvas>
+                    </div>
+                </div>
+                <div class="chart-outer col-sm-6">
+                    <h2>BBB Platform Variant</h2>
+                    <div class="canvas-holder">
+                        <canvas id="platformBBBVar365"></canvas>
                     </div>
                 </div>
             </div>
@@ -178,7 +192,9 @@
                 $("#lastUpdated").html(when);
                 console.log(data);
                 drawPieChart($("#platform365"), data.platform, "last365Days");
-                drawPieChart($("#platformVar365"), data.platformVariant, "last365Days");
+                drawPieChart($("#platformGenericVar365"), data.platformVariantBreakout.data.Generic, "last365Days");
+                drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], "last365Days");
+                drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone Black"], "last365Days");
                 drawPieChart($("#fppMode365"), data.fppMode, "last365Days");
                 drawPieChart($("#version365"), data.version, "last365Days");
                 drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
