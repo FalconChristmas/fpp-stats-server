@@ -5,8 +5,8 @@ let myData = {};
 
 module.exports = [
     {
-        name: "platformVariantBreakout",
-        description: "PI 2, 3, or 4, BBB variant",
+        name: "platformVariant",
+        description: "PI 2, 3, or 4",
         reset: async () => {
             myData = {};
         },
@@ -14,33 +14,17 @@ module.exports = [
             return myData;
         },
         currentHandler: async (obj) => {
-            let platform = "Generic";
-            let platformVariant = "Unknown";
-
+            let platform = "Not Defined";
             if ("systemInfo" in obj) {
-                if ("platform" in obj.systemInfo) {
-                    platform = obj.systemInfo.platform;
-
-                    if ("platformVariant" in obj.systemInfo) {
-                        if ("platformVariant" in obj.systemInfo) {
-                            platformVariant = obj.systemInfo.platformVariant;
-                        }
-                    }
-
-                    if (platform == "Ubuntu" || platform == "Debian") {
-                        platform = "Generic";
-                    }
-
-                    if (!(platform in myData)) {
-                        myData[platform] = {};
-                    }
-
-                    if (!(platformVariant in myData[platform])) {
-                        myData[platform][platformVariant] = util.newCountByAgeObject();
-                    }
-                    util.countByAge(myData[platform][platformVariant], obj);
+                if ("platformVariant" in obj.systemInfo) {
+                    platform = obj.systemInfo.platformVariant;
                 }
             }
+
+            if (!(platform in myData)) {
+                myData[platform] = util.newCountByAgeObject();
+            }
+            util.countByAge(myData[platform], obj);
         },
-    }
+    },
 ];
