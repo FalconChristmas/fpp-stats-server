@@ -10,20 +10,27 @@ function day365Transformer(obj) {
     return obj.last365Days;
 }
 
+function remoteObjectArray(array, obj) {
+    const index = array.indexOf(obj);
+    if (index > -1) {
+        array.splice(index, 1);
+    }
+}
+
 function formatDate(date) {
-	    var d = new Date(date),
-		        month = '' + (d.getMonth() + 1),
-		        day = '' + d.getDate(),
-		        hours = '' + d.getHours(),
-		        minutes = '' + d.getMinutes(),
-		        year = d.getFullYear();
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        hours = '' + d.getHours(),
+        minutes = '' + d.getMinutes(),
+        year = d.getFullYear();
 
-	    if (month.length < 2) month = '0' + month;
-	    if (day.length < 2) day = '0' + day;
-	    if (minutes.length < 2) minutes = '0' + minutes
-	    if (hours.length < 2) hours = '0' + hours
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    if (minutes.length < 2) minutes = '0' + minutes
+    if (hours.length < 2) hours = '0' + hours
 
-	    return [year, month, day].join('-') + " " + [hours, minutes].join(':');
+    return [year, month, day].join('-') + " " + [hours, minutes].join(':');
 }
 
 // Draw a bar chart where the object has
@@ -198,13 +205,21 @@ function drawBarChartObjectTime(ctx, obj, properties, labels, timeGroup) {
 
 // Creates a pi Chart from a "last seen in" format.
 function drawPieChart(ctx, input, level) {
-    let textLabel = input.description;
+    let textLabel = "";
     let chartLabels = [];
     let chartData = [];
     let sortable = [];
 
+    let data = input;
+    if ("data" in input) {
+        data = input.data;
+    }
+    if ("description" in input) {
+        textLabel = input.description;
+    }
+
     // Copy all data to a simpler structure for sorting.
-    for (const [key, value] of Object.entries(input.data)) {
+    for (const [key, value] of Object.entries(data)) {
         sortable.push({
             label: key,
             value: value[level]

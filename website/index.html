@@ -14,7 +14,14 @@
 
     <meta name="keywords" content="Christmas Lights, Falcon Pi Player, FPP">
     <title>FPP Installations Statistics</title>
-
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TPLF0LZ42K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TPLF0LZ42K');
+    </script>
 </head>
 
 <body>
@@ -120,7 +127,7 @@
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="row">
                         <div class="col-sm-2"></div>
                         <div class="chart-outer col-sm-8">
@@ -131,7 +138,7 @@
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
-        
+
                     <div class="row">
                         <div class="col-sm-2"></div>
                         <div class="chart-outer col-sm-8">
@@ -142,7 +149,7 @@
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
-        
+
                     <div class="row">
                         <div class="col-sm-2"></div>
                         <div class="chart-outer col-sm-8">
@@ -153,8 +160,8 @@
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
-        
-        
+
+
                     <div class="row">
                         <div class="chart-outer col-sm-6">
                             <h2>Output Processors</h2>
@@ -169,11 +176,15 @@
                             </div>
                         </div>
                     </div>
-        
-        
+
+
                 </div> <!-- End General tab-->
                 <!-- Next Tab-->
                 <div class="tab-pane fade" id="pills-output" role="tabpanel" aria-labelledby="pills-output-tab">
+                    <div class="intro-div">This tab summarizes the types of outputs configured for each FPP device
+                        and was updated
+                        <span class="lastUpdated"><i>Refresh has failed</i></span>.
+                    </div>
                     <div class="row">
                         <div class="chart-outer col-sm-6">
                             <h2>E1.31 Output Universes</h2>
@@ -185,6 +196,51 @@
                             <h2>E1.31 Output Channels</h2>
                             <div class="canvas-holder">
                                 <canvas id="outChannel365"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="chart-outer col-sm-6">
+                            <h2>Local Pixel Outputs</h2>
+                            <div class="canvas-holder">
+                                <canvas id="localPixels365"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-outer col-sm-6">
+                            <h2>Usage of Other Outputs</h2>
+                            <div class="canvas-holder">
+                                <canvas id="otherOutputs365"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="chart-outer col-sm-6">
+                            <h2>Panel Channel Counts</h2>
+                            <div class="canvas-holder">
+                                <canvas id="panelChannel365"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-outer col-sm-6">
+                            <h2># of Configured Panels</h2>
+                            <div class="canvas-holder">
+                                <canvas id="PanelCounts365"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="chart-outer col-sm-6">
+                            <h2>Panel Sizes</h2>
+                            <div class="canvas-holder">
+                                <canvas id="panelSize365"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-outer col-sm-6">
+                            <h2>Types of Panels</h2>
+                            <div class="canvas-holder">
+                                <canvas id="PanelSubType365"></canvas>
                             </div>
                         </div>
                     </div>
@@ -208,7 +264,10 @@
                 </div> <!-- End Second Tab-->
                 <!-- Third Tab-->
                 <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                    ...
+                    <div class="intro-div">
+                        Questions about this tool? Ask them on the <a
+                            href="http://falconchristmas.com/forum/index.php">forums</a>.
+                    </div>
 
                 </div><!-- End Third Tab-->
             </div> <!-- End tab-content-->
@@ -239,6 +298,10 @@
                 $("#all-charts").show();
                 var when = formatDate(new Date(data.ts));
                 $(".lastUpdated").html(when);
+                remoteObjectArray(data.outputLocalPixels.data.pixelOrder, "Zero");
+                remoteObjectArray(data.outputPanels.data.panelOrder, "Zero");
+                remoteObjectArray(data.outputPanels.data.channelOrder, "Zero");
+
                 console.log(data);
                 drawPieChart($("#platform365"), data.platform, "last365Days");
                 drawPieChart($("#platformGenericVar365"), data.platformVariantBreakout.data.Generic, "last365Days");
@@ -259,6 +322,14 @@
                 drawBarChartObjectTime($("#inChannel365"), data.inputUniverses.data.channel, data.inputUniverses.data.channelOrder, data.inputUniverses.data.channelOrder, "last365Days");
                 drawSortedBarChart($("#outputProcessor365"), data.outputProcessors.data, 10, day365Transformer);
                 drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 10, day365Transformer);
+                drawBarChartObjectTime($("#localPixels365"), data.outputLocalPixels.data.pixels, data.outputLocalPixels.data.pixelOrder, data.outputLocalPixels.data.pixelOrder, "last365Days");
+                drawBarChartObjectTime($("#panelChannel365"), data.outputPanels.data.channel, data.outputPanels.data.channelOrder, data.outputPanels.data.channelOrder, "last365Days");
+                drawPieChart($("#otherOutputs365"), data.outputOther, "last365Days");
+                drawBarChartObjectTime($("#PanelCounts365"), data.outputPanels.data.panels, data.outputPanels.data.panelOrder, data.outputPanels.data.panelOrder, "last365Days");
+                drawPieChart($("#PanelSubType365"), data.outputPanels.data.panelSubType, "last365Days");
+                drawPieChart($("#panelSize365"), data.outputPanels.data.panelSize, "last365Days");
+
+                //PanelSubType365
 
             }).fail(function () {
                 alert("Unable to load statistics");
