@@ -72,10 +72,25 @@ async function processHandlers(handlers) {
   await Promise.all(
     currentFiles.map(async (f) => {
       let obj = JSON.parse(await fs.promises.readFile(f));
+      
+      // do all CurrentHandlers
+      await Promise.all(
+        handlers.map(async (h) => {
+          if ("currentHandler" in h) {
+            await h.currentHandler(obj);
+          }
+        })
+      );
+
+      let allFiles = await glob.promise(
+        getBaseDirectory() + "/" + obj.uuid + "/*.json"
+      );  
 
       await Promise.all(
         handlers.map(async (h) => {
-          await h.currentHandler(obj);
+          if ("historyHandler" in h) {
+            await h.historyHandler(obj, allFiles);
+          }
         })
       );
     })
@@ -96,7 +111,7 @@ async function processHandlers(handlers) {
   );
 
   // Write the Resulting JSON file.
-  let asJson = JSON.stringify(results,null,4);
+  let asJson = JSON.stringify(results, null, 4);
   await fs.promises.writeFile(getBaseDirectory() + "/summary.json", asJson);
 }
 
