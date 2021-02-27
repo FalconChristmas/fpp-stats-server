@@ -16,7 +16,7 @@ module.exports = [
                 delete myData.None;
             }
             if ("Unknown" in myData) {
-                delete myData.None;
+                delete myData.Unknown;
             }
             return myData;
         },
