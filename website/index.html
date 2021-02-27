@@ -217,7 +217,7 @@
                 drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
                 drawPieChart($("#uiLevel365"), data.uiLevel, "last365Days");
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
-                drawSortedBarChart($("#topTimezone365"), data.settingsValues.data.TimeZone, 15, day365Transformer); // ME
+                drawSortedBarChart($("#topTimezone365"), data.timeZone.data, 15, day365Transformer); // ME
                 drawSortedBarChart($("#topCapes365"), data.capeType.data, 15, day365Transformer);
                 drawBarChartObject($("#lastReportChart"), data.uniqueByMonth.data.data, data.uniqueByMonth.data.order, data.uniqueByMonth.data.order);
                 drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days, 10);
