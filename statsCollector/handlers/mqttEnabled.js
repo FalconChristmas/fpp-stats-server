@@ -11,11 +11,7 @@ module.exports = [
     name: "mqttEnabled",
     description: "Counts all instances where MQTT is configured",
     reset: async () => {
-      myData = {
-        Yes: util.newCountByAgeObject(),
-        No: util.newCountByAgeObject(),
-        "fppd Stopped": util.newCountByAgeObject(),
-      };
+      myData = {};
     },
     results: async () => {
       return myData;
@@ -35,6 +31,9 @@ module.exports = [
             }
           }
         }
+      }
+      if (!(mode in myData)) {
+        myData[mode] = util.newCountByAgeObject();
       }
       util.countByAge(myData[mode], obj);
     },
