@@ -200,10 +200,6 @@
     <script src="my.js"></script>
 
     <script type="text/javascript">
-        var timeFields = {
-            fields: ["last15Days", "last30Days", "last60Days", "last180Days", "last365Days", "totalCount"],
-            labels: ["Last 15 Days", "Last 30 Days", "Last 60 Days", "Last 180 Days", "Last Year", "All Time"]
-        }
         $(document).ready(function () {
             $.get("https://fppstats.thehormanns.net/api/summary"
             ).done(function (data) {
@@ -223,7 +219,7 @@
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
                 drawSortedBarChart($("#topTimezone365"), data.settingsValues.data.TimeZone, 15, day365Transformer); // ME
                 drawSortedBarChart($("#topCapes365"), data.capeType.data, 15, day365Transformer);
-                drawBarChartObject($("#lastReportChart"), data.Instances.data, timeFields.fields, timeFields.labels);
+                drawBarChartObject($("#lastReportChart"), data.uniqueByMonth.data.data, data.uniqueByMonth.data.order, data.uniqueByMonth.data.order);
                 drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days, 10);
                 drawBarChartObjectTime($("#outUnivt365"), data.outputUniverses.data.universe, data.outputUniverses.data.universeOrder,data.outputUniverses.data.universeOrder, "last365Days");
                 drawBarChartObjectTime($("#outChannel365"), data.outputUniverses.data.channel, data.outputUniverses.data.channelOrder,data.outputUniverses.data.channelOrder, "last365Days");
