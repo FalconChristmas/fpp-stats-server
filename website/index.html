@@ -20,8 +20,9 @@
 <body>
     <div id="main-div" class="container" style="padding-top: 2em">
         <h1>FPP Installations Statistics</h1>
-        <div>This is a top level summary of information gathered from FPP installations around the world. 
-            Unless otherwise stated only those installations that have submitted statistics in the last year are included. 
+        <div>This is a top level summary of information gathered from FPP installations around the world.
+            Unless otherwise stated only those installations that have submitted statistics in the last year are
+            included.
             This report was last updated
             <span id="lastUpdated"><i>Refresh has failed</i></span>.
         </div>
@@ -193,8 +194,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"
-        integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg=="
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"
+        integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
     <script src="my.js"></script>
@@ -221,13 +222,13 @@
                 drawSortedBarChart($("#topCapes365"), data.capeType.data, 15, day365Transformer);
                 drawBarChartObject($("#lastReportChart"), data.uniqueByMonth.data.data, data.uniqueByMonth.data.order, data.uniqueByMonth.data.order);
                 drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days, 10);
-                drawBarChartObjectTime($("#outUnivt365"), data.outputUniverses.data.universe, data.outputUniverses.data.universeOrder,data.outputUniverses.data.universeOrder, "last365Days");
-                drawBarChartObjectTime($("#outChannel365"), data.outputUniverses.data.channel, data.outputUniverses.data.channelOrder,data.outputUniverses.data.channelOrder, "last365Days");
-                drawBarChartObjectTime($("#inUnivt365"), data.inputUniverses.data.universe, data.inputUniverses.data.universeOrder,data.inputUniverses.data.universeOrder, "last365Days");
-                drawBarChartObjectTime($("#inChannel365"), data.inputUniverses.data.channel, data.inputUniverses.data.channelOrder,data.inputUniverses.data.channelOrder, "last365Days");
+                drawBarChartObjectTime($("#outUnivt365"), data.outputUniverses.data.universe, data.outputUniverses.data.universeOrder, data.outputUniverses.data.universeOrder, "last365Days");
+                drawBarChartObjectTime($("#outChannel365"), data.outputUniverses.data.channel, data.outputUniverses.data.channelOrder, data.outputUniverses.data.channelOrder, "last365Days");
+                drawBarChartObjectTime($("#inUnivt365"), data.inputUniverses.data.universe, data.inputUniverses.data.universeOrder, data.inputUniverses.data.universeOrder, "last365Days");
+                drawBarChartObjectTime($("#inChannel365"), data.inputUniverses.data.channel, data.inputUniverses.data.channelOrder, data.inputUniverses.data.channelOrder, "last365Days");
                 drawSortedBarChart($("#outputProcessor365"), data.outputProcessors.data, 10, day365Transformer);
                 drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 10, day365Transformer);
-                
+
             }).fail(function () {
                 alert("Unable to load statistics");
             })
