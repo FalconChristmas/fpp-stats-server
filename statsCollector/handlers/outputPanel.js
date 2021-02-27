@@ -136,6 +136,7 @@ module.exports = [
 
                 if ("type" in obj.output_panel) {
                     panelType = obj.output_panel.type;
+                    panelSubType = panelType;
                 }
 
                 if ("subType" in obj.output_panel) {
