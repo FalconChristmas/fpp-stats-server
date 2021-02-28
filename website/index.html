@@ -12,8 +12,8 @@
         crossorigin="anonymous" />
     <link rel="stylesheet" href="my.css?v=2" />
 
-    <meta name="keywords" content="Christmas Lights, Falcon Pi Player, FPP">
-    <title>FPP Installations Statistics</title>
+    <meta name="keywords" content="Christmas Lights, Falcon Pi Player, FPP, Falcon Player">
+    <title>FPP Usage Statistics</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TPLF0LZ42K"></script>
     <script>
@@ -40,6 +40,10 @@
                         aria-controls="pills-output" aria-selected="false">Outputs</a>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-settings-tab" data-toggle="pill" href="#pills-settings" role="tab"
+                        aria-controls="pills-settings" aria-selected="false">Settings</a>
+                </li>
+                <li class="nav-item" role="presentation">
                     <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
                         aria-controls="pills-contact" aria-selected="false">Contact</a>
                 </li>
@@ -64,9 +68,9 @@
                             </div>
                         </div>
                         <div class="chart-outer col-sm-6">
-                            <h2>Release</h2>
+                            <h2>Last Reported</h2>
                             <div class="canvas-holder">
-                                <canvas id="version365"></canvas>
+                                <canvas id="lastReportDaysChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -101,23 +105,9 @@
 
                     <div class="row">
                         <div class="chart-outer col-sm-6">
-                            <h2>FPP Mode</h2>
+                            <h2>Release</h2>
                             <div class="canvas-holder">
-                                <canvas id="fppMode365"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-6">
-                            <h2>UI Level</h2>
-                            <div class="canvas-holder">
-                                <canvas id="uiLevel365"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-6">
-                            <h2>MQTT Configured?</h2>
-                            <div class="canvas-holder">
-                                <canvas id="mqtt365"></canvas>
+                                <canvas id="version365"></canvas>
                             </div>
                         </div>
                         <div class="chart-outer col-sm-6">
@@ -129,8 +119,8 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-2"></div>
-                        <div class="chart-outer col-sm-8">
+                        <div class="col-sm-1"></div>
+                        <div class="chart-outer col-sm-10">
                             <h2>Top 15 Capes</h2>
                             <div class="canvas-holder">
                                 <canvas id="topCapes365"></canvas>
@@ -140,19 +130,8 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-2"></div>
-                        <div class="chart-outer col-sm-8">
-                            <h2>Top 15 Timezones</h2>
-                            <div class="canvas-holder">
-                                <canvas id="topTimezone365"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-2"></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-2"></div>
-                        <div class="chart-outer col-sm-8">
+                        <div class="col-sm-1"></div>
+                        <div class="chart-outer col-sm-10">
                             <h2>Top 10 Plugins</h2>
                             <div class="canvas-holder">
                                 <canvas id="plugins365"></canvas>
@@ -160,23 +139,6 @@
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
-
-
-                    <div class="row">
-                        <div class="chart-outer col-sm-6">
-                            <h2>Output Processors</h2>
-                            <div class="canvas-holder">
-                                <canvas id="outputProcessor365"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-6">
-                            <h2>Popular Settings</h2>
-                            <div class="canvas-holder">
-                                <canvas id="popularSettings365"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
 
                 </div> <!-- End General tab-->
                 <!-- Next Tab-->
@@ -262,16 +224,79 @@
                         </div>
                     </div>
 
+                    
+                    <div class="row">
+                        <div class="chart-outer col-sm-6">
+                            <h2>Output Processors</h2>
+                            <div class="canvas-holder">
+                                <canvas id="outputProcessor365"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+
+
 
                 </div> <!-- End Second Tab-->
                 <!-- Third Tab-->
+                <div class="tab-pane fade" id="pills-settings" role="tabpanel" aria-labelledby="pills-settings-tab">
+                    <div class="intro-div">
+                        <div class="row">
+                            <div class="col-sm-1"></div>
+                            <div class="chart-outer col-sm-10">
+                                <h2>Popular Settings</h2>
+                                <div class="canvas-holder">
+                                    <canvas id="popularSettings365"></canvas>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <div class="row">
+                            <div class="chart-outer col-sm-6">
+                                <h2>FPP Mode</h2>
+                                <div class="canvas-holder">
+                                    <canvas id="fppMode365"></canvas>
+                                </div>
+                            </div>
+                            <div class="chart-outer col-sm-6">
+                                <h2>UI Level</h2>
+                                <div class="canvas-holder">
+                                    <canvas id="uiLevel365"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="chart-outer col-sm-6">
+                                <h2>MQTT Configured?</h2>
+                                <div class="canvas-holder">
+                                    <canvas id="mqtt365"></canvas>
+                                </div>
+                            </div>    
+                        </div>
+
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="chart-outer col-sm-10">
+                            <h2>Top 15 Timezones</h2>
+                            <div class="canvas-holder">
+                                <canvas id="topTimezone365"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+
+                </div><!-- End Third Tab-->
+                <!-- 4th Tab-->
                 <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                     <div class="intro-div">
                         Questions about this tool? Ask them on the <a
                             href="http://falconchristmas.com/forum/index.php">forums</a>.
                     </div>
 
-                </div><!-- End Third Tab-->
+                </div><!-- End 4th Tab-->
             </div> <!-- End tab-content-->
 
         </div><!-- All Charts-->
@@ -305,6 +330,7 @@
                 remoteObjectArray(data.outputPanels.data.channelOrder, "Zero");
 
                 console.log(data);
+                drawBarChartObjectTime($("#lastReportDaysChart"), data.lastReported.data.data, data.lastReported.data.order, data.lastReported.data.order, "totalCount");
                 drawPieChart($("#platform365"), data.platform, "last365Days");
                 drawPieChart($("#platformGenericVar365"), data.platformVariantBreakout.data.Generic, "last365Days");
                 drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], "last365Days");
@@ -323,7 +349,7 @@
                 drawBarChartObjectTime($("#inUnivt365"), data.inputUniverses.data.universe, data.inputUniverses.data.universeOrder, data.inputUniverses.data.universeOrder, "last365Days");
                 drawBarChartObjectTime($("#inChannel365"), data.inputUniverses.data.channel, data.inputUniverses.data.channelOrder, data.inputUniverses.data.channelOrder, "last365Days");
                 drawSortedBarChart($("#outputProcessor365"), data.outputProcessors.data, 10, day365Transformer);
-                drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 10, day365Transformer);
+                drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 12, day365Transformer);
                 drawBarChartObjectTime($("#localPixels365"), data.outputLocalPixels.data.pixels, data.outputLocalPixels.data.pixelOrder, data.outputLocalPixels.data.pixelOrder, "last365Days");
                 drawBarChartObjectTime($("#panelChannel365"), data.outputPanels.data.channel, data.outputPanels.data.channelOrder, data.outputPanels.data.channelOrder, "last365Days");
                 drawPieChart($("#otherOutputs365"), data.outputOther, "last365Days");
