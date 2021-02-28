@@ -39,6 +39,7 @@ function formatDate(date) {
 // number of rows
 function drawSortedBarChart(ctx, obj, limit, transformer) {
     let sorted = [];
+
     for (const [key, valueOrig] of Object.entries(obj)) {
         let value = valueOrig
         if (transformer != null) {
@@ -69,7 +70,7 @@ function drawSortedBarChart(ctx, obj, limit, transformer) {
         data: {
             labels: labels,
             datasets: [{
-                label: "Ignore",
+                label: null,
                 data: data,
                 borderWidth: 1
             }]
@@ -100,7 +101,7 @@ function drawSortedBarChart(ctx, obj, limit, transformer) {
 // Creates a bar chart of chart using the property names
 function drawBarChartObject(ctx, obj, properties, labels) {
     let chartData = [];
-    let textLabel = "Ignore";
+    let textLabel = null;
     properties.forEach((p) => {
         chartData.push(obj[p]);
     });
@@ -158,7 +159,7 @@ where timeGroup = [t1,t2], properties = [group1,group2]
 */
 function drawBarChartObjectTime(ctx, obj, properties, labels, timeGroup) {
     let chartData = [];
-    let textLabel = "Ignore";
+    let textLabel = null;
     properties.forEach((p) => {
         let value = 0;
         if (p in obj) {
