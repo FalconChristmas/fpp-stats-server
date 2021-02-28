@@ -18,9 +18,9 @@ let myGroups = [
         min: 5,
         max: 14
     }, {
-        label: "14-31 days",
+        label: "14-30 days",
         min: 14,
-        max: 31
+        max: 30
     }, {
         label: "30-180 days",
         min: 30,
