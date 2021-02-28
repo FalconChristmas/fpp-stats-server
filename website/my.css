@@ -51,7 +51,7 @@ h1, h2 {
     margin-top:2em;
 }
 
-.chart-outer h2 {
+.chart-outer h2, .chart-outer .subTitle {
   text-align: center;
 }
 
