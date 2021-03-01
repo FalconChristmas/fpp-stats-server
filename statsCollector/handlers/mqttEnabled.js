@@ -31,6 +31,9 @@ module.exports = [
             }
           }
         }
+      } else {
+        // no systemInfo
+        mode = "fppd Stopped";
       }
       if (!(mode in myData)) {
         myData[mode] = util.newCountByAgeObject();
