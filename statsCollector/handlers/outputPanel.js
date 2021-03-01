@@ -112,6 +112,9 @@ module.exports = [
             let panelSize = "None";
 
             if ("output_panel" in obj) {
+                if (("enabled" in obj.output_panel) && (obj.output_panel.enabled ==0) ) {
+                    return;
+                }
                 if ("panelCount" in obj.output_panel) {
                     let cnt = obj.output_panel.panelCount;
                     panelGroup.forEach(e => {
