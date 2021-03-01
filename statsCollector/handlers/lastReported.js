@@ -5,7 +5,7 @@ let myData = {};
 
 let myGroups = [
     {
-        label: "Today",
+        label: "< 24 hrs",
         min: 0,
         max: 1
     },
