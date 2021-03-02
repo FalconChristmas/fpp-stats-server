@@ -144,6 +144,11 @@ module.exports = [
 
                 if ("subType" in obj.output_panel) {
                     panelSubType = obj.output_panel.subType;
+                    if (panelSubType == "LEDscapeMatrix") {
+                        panelSubType = "BeagleBone";
+                    } else if (panelSubType == "RGBMatrix") {
+                        panelSubType += "(Pi)";
+                    }
                 }
             }
 
