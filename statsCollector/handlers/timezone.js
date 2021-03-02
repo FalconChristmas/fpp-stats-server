@@ -19,6 +19,9 @@ module.exports = [
       if ("timezone" in obj) {
           timezone = obj.timezone;
       }
+      if (timezone == "+0000 GMT") {
+        timezone = "+0000 UTC";
+      }
       if (!(timezone in myData)) {
         myData[timezone] = util.newCountByAgeObject();
       }

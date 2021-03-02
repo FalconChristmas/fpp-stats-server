@@ -281,7 +281,7 @@
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="chart-outer col-sm-10">
-                            <h2>Top 15 Timezones</h2>
+                            <h2>Configured Timezones</h2>
                             <div class="canvas-holder">
                                 <canvas id="topTimezone365"></canvas>
                             </div>
@@ -325,6 +325,7 @@
                 $("#loading").hide();
                 $("#all-charts").show();
                 var when = formatDate(new Date(data.ts));
+                var timezones = Object.keys(data.timeZone.data).sort(byTimeZone);
                 $(".lastUpdated").html(when);
                 remoteObjectArray(data.outputLocalPixels.data.pixelOrder, "Zero");
                 remoteObjectArray(data.outputPanels.data.panelOrder, "Zero");
@@ -341,7 +342,7 @@
                 drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
                 drawPieChart($("#uiLevel365"), data.uiLevel, "last365Days");
                 drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
-                drawSortedBarChart($("#topTimezone365"), data.timeZone.data, 15, day365Transformer); // ME
+                drawBarChartObjectTime($("#topTimezone365"), data.timeZone.data, timezones, timezones, "last365Days"); // ME
                 drawSortedBarChart($("#topCapes365"), data.capeType.data, 15, day365Transformer);
                 drawBarChartObject($("#lastReportChart"), data.uniqueByMonth.data.data, data.uniqueByMonth.data.order, data.uniqueByMonth.data.order);
                 drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days, 10);

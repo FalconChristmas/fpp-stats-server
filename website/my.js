@@ -10,6 +10,21 @@ function day365Transformer(obj) {
     return obj.last365Days;
 }
 
+// Function to short by Timezone
+function byTimeZone(a, b)
+{
+    function toNumber(str) {
+        if (str == "Not Reported") {
+            return 99999999;
+        } else if (str.startsWith('+')) {
+            return parseInt(str.substring(1,6));
+        } else {
+            return -1 * parseInt(str.substring(1,6));
+        }
+    }
+    return toNumber(a) - toNumber(b);
+}
+
 function remoteObjectArray(array, obj) {
     const index = array.indexOf(obj);
     if (index > -1) {
