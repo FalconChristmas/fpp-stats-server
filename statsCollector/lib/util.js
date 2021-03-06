@@ -14,6 +14,7 @@ function simpleClone(a) {
 function newCountByAgeObject() {
   let temp = {
     totalCount: 0,
+    last7Days: 0,
     last15Days: 0,
     last30Days: 0,
     last60Days: 0,
@@ -30,6 +31,9 @@ function countByAge(collector, obj) {
   if ("ts" in obj) {
     let diff_days = (new Date().getTime() - obj.ts) / 86400000;
 
+    if (diff_days < 7) {
+      ++collector.last7Days;
+    }
     if (diff_days < 15) {
       ++collector.last15Days;
     }
