@@ -36,6 +36,10 @@ const start = async () => {
     console.log("\t", file);
     routes = routes.concat(require(`./routes/${file}`));
   });
+
+  // Register Plugins
+  await server.register(require('@hapi/inert'));
+
   // Add Routes
   server.route(routes);
 

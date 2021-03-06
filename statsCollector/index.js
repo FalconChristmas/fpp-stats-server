@@ -22,6 +22,8 @@ async function gatherStats(handlers) {
   console.log("Starting to gather stats", Date());
   await utils.processHandlers(handlers);
   console.log("Done Gathering Stats", Date());
+  console.log("Updating Zip Archive");
+  utils.updateZipArchive();
 }
 
 const start = async () => {

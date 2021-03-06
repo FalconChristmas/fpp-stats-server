@@ -1,6 +1,8 @@
 "use strict";
 const fs = require("fs");
 const glob = require("glob-promise");
+const archiver = require('archiver');
+const { Console } = require("console");
 
 // Clones an Object using Java Script
 function simpleClone(a) {
@@ -72,7 +74,7 @@ async function processHandlers(handlers) {
   await Promise.all(
     currentFiles.map(async (f) => {
       let obj = JSON.parse(await fs.promises.readFile(f));
-      
+
       // do all CurrentHandlers
       await Promise.all(
         handlers.map(async (h) => {
@@ -84,7 +86,7 @@ async function processHandlers(handlers) {
 
       let allFiles = await glob.promise(
         getBaseDirectory() + "/" + obj.uuid + "/*.json"
-      );  
+      );
 
       await Promise.all(
         handlers.map(async (h) => {
@@ -115,9 +117,49 @@ async function processHandlers(handlers) {
   await fs.promises.writeFile(getBaseDirectory() + "/summary.json", asJson);
 }
 
+function updateZipArchive() {
+  const output = fs.createWriteStream(getBaseDirectory() + '/all_files.zip');
+  const archive = archiver('zip', {
+    zlib: { level: 9 } // Sets the compression level.
+  });
+
+  output.on('close', function () {
+    console.log('Archive File Updated.');
+    console.log(archive.pointer() + ' total bytes');
+  });
+
+  // good practice to catch warnings (ie stat failures and other non-blocking errors)
+  archive.on('warning', function (err) {
+    if (err.code === 'ENOENT') {
+      // log warning
+      console.log("Warning creating archive");
+      console.log(err);
+    } else {
+      console.log("Error creating archive");
+      console.log(err);
+    }
+  });
+
+  // good practice to catch this error explicitly
+  archive.on('error', function (err) {
+    Console.log("On Error creating archive");
+    console.log(err);
+  });
+
+  // pipe archive data to the file
+  archive.pipe(output);
+
+  // append files from a glob pattern
+  archive.glob('**/*.json', { cwd: getBaseDirectory() });
+
+  archive.finalize();
+
+}
+
 module.exports.getBaseDirectory = getBaseDirectory;
 module.exports.isBaseDirectoryValid = isBaseDirectoryValid;
 module.exports.processHandlers = processHandlers;
 module.exports.simpleClone = simpleClone;
 module.exports.newCountByAgeObject = newCountByAgeObject;
 module.exports.countByAge = countByAge;
+module.exports.updateZipArchive = updateZipArchive;

@@ -12,6 +12,8 @@ services:
       - statsdata:/statsdata
     environment: 
       - out_dir=/statsdata
+    env_file:
+    - my.env
     ports:
        - '127.0.0.1:7666:7654'
   fpp-stats-collect:
