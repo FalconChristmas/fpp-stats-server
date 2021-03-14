@@ -1,4 +1,5 @@
-
+"use strict";
+var myData = {};
 
 // Simple helper function for sorting a object
 // by the "value" attribute+
@@ -6,26 +7,21 @@ function sortByValue(a, b) {
     return b.value - a.value;
 }
 
-function day365Transformer(obj) {
-    return obj.last365Days;
-}
-
 // Function to short by Timezone
-function byTimeZone(a, b)
-{
+function byTimeZone(a, b) {
     function toNumber(str) {
         if (str == "Not Reported") {
             return 99999999;
         } else if (str.startsWith('+')) {
-            return parseInt(str.substring(1,6));
+            return parseInt(str.substring(1, 6));
         } else {
-            return -1 * parseInt(str.substring(1,6));
+            return -1 * parseInt(str.substring(1, 6));
         }
     }
     return toNumber(a) - toNumber(b);
 }
 
-function remoteObjectArray(array, obj) {
+function removeObjectArray(array, obj) {
     const index = array.indexOf(obj);
     if (index > -1) {
         array.splice(index, 1);
@@ -271,4 +267,55 @@ function drawPieChart(ctx, input, level) {
             }
         }
     });
+}
+
+function createTimeTransformer(time) {
+    return (obj) => obj[time]    
+}
+
+function updateOptionText(data) {
+    for (const [key, valueOrig] of Object.entries(data.Instances.data)) {
+        let obj = $('select option[value="' + key + '"]');
+        let newText = obj.html() + " - " + valueOrig + "  devices"; 
+        obj.html(newText);
+    }
+
+}
+
+function refreshData(time) {
+    let data = myData;
+    var timezones = Object.keys(data.timeZone.data).sort(byTimeZone);
+    if (!(time in data.Instances.data)) {
+        time = "last365Days";
+    }
+    removeObjectArray(data.outputLocalPixels.data.pixelOrder, "Zero");
+    removeObjectArray(data.outputPanels.data.panelOrder, "Zero");
+    removeObjectArray(data.outputPanels.data.channelOrder, "Zero");
+
+    drawBarChartObjectTime($("#lastReportDaysChart"), data.lastReported.data.data, data.lastReported.data.order, data.lastReported.data.order, time);
+    drawPieChart($("#platform365"), data.platform, time);
+    drawPieChart($("#platformGenericVar365"), data.platformVariantBreakout.data.Generic, time);
+    drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], time);
+    drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone Black"], time);
+    drawPieChart($("#fppMode365"), data.fppMode, time);
+    drawPieChart($("#version365"), data.version, time);
+    drawPieChart($("#mqtt365"), data.mqttEnabled, time);
+    drawPieChart($("#uiLevel365"), data.uiLevel, time);
+    drawPieChart($("#cape365"), data.capeInstalled, time);
+    drawBarChartObjectTime($("#topTimezone365"), data.timeZone.data, timezones, timezones, time); // ME
+    drawSortedBarChart($("#topCapes365"), data.capeType.data, 15, createTimeTransformer(time));
+    drawBarChartObject($("#lastReportChart"), data.uniqueByMonth.data.data, data.uniqueByMonth.data.order, data.uniqueByMonth.data.order);
+    drawSortedBarChart($("#plugins365"), data.topPlugins.data[time], 10);
+    drawBarChartObjectTime($("#outUnivt365"), data.outputUniverses.data.universe, data.outputUniverses.data.universeOrder, data.outputUniverses.data.universeOrder, time);
+    drawBarChartObjectTime($("#outChannel365"), data.outputUniverses.data.channel, data.outputUniverses.data.channelOrder, data.outputUniverses.data.channelOrder, time);
+    drawBarChartObjectTime($("#inUnivt365"), data.inputUniverses.data.universe, data.inputUniverses.data.universeOrder, data.inputUniverses.data.universeOrder, time);
+    drawBarChartObjectTime($("#inChannel365"), data.inputUniverses.data.channel, data.inputUniverses.data.channelOrder, data.inputUniverses.data.channelOrder, time);
+    drawSortedBarChart($("#outputProcessor365"), data.outputProcessors.data, 10, createTimeTransformer(time));
+    drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 12, createTimeTransformer(time));
+    drawBarChartObjectTime($("#localPixels365"), data.outputLocalPixels.data.pixels, data.outputLocalPixels.data.pixelOrder, data.outputLocalPixels.data.pixelOrder, time);
+    drawBarChartObjectTime($("#panelChannel365"), data.outputPanels.data.channel, data.outputPanels.data.channelOrder, data.outputPanels.data.channelOrder, time);
+    drawPieChart($("#otherOutputs365"), data.outputOther, time);
+    drawBarChartObjectTime($("#PanelCounts365"), data.outputPanels.data.panels, data.outputPanels.data.panelOrder, data.outputPanels.data.panelOrder, time);
+    drawPieChart($("#PanelSubType365"), data.outputPanels.data.panelSubType, time);
+    drawPieChart($("#panelSize365"), data.outputPanels.data.panelSize, time);
 }

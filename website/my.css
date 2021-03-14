@@ -15,6 +15,19 @@ h1, h2 {
   display: none;
 }
 
+.options-div {
+  margin-bottom: 1em;
+}
+
+.nav-pills .nav-link {
+  border-radius: 1rem;
+  border: solid;
+  border-width: 1px;
+  margin: 0.2em;
+  border-color: rgb(53, 51, 63);
+  padding: .3rem 1rem;
+}
+
 
 @media only screen and (max-width: 575px) {
    body {
@@ -28,7 +41,14 @@ h1, h2 {
   .title-small {
     display: block;
   }
-  }
+}
+
+.chart-footnote {
+  font-style: italic;
+  margin-left: 1em;
+  margin-right: 1em;
+  text-align: center  ;
+}
 
 #main-div {
     background-color: white;

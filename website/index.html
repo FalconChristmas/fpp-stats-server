@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
         integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="my.css?v=3" />
+    <link rel="stylesheet" href="my.css?v=4" />
 
     <meta name="keywords" content="Christmas Lights, Falcon Pi Player, FPP, Falcon Player">
     <title>FPP Usage Statistics</title>
@@ -28,6 +28,19 @@
     <div id="main-div" class="container" style="padding-top: 2em">
         <h1 class="title-full">FPP Usage Statistics</h1>
         <h1 class="title-small">FPP Statistics</h1>
+        <div class="options-div">
+            Reported:
+            <select id="select-age">
+                <option value="last7Days">Last 7 Days</option>
+                <option value="last15Days">Last 15 Days</option>
+                <option value="last30Days">Last 30 Days</option>
+                <option value="last60Days">Last 60 Days</option>
+                <option value="last180Days">Last 180 Days</option>
+                <option value="last365Days" selected>Last Year</option>
+                <option value="totalCount">All History</option>
+
+            </select>
+        </div>
         <div id="loading" class="ajax-loading-60px"></div>
         <div id="all-charts">
             <!-- Start Menu-->
@@ -57,8 +70,7 @@
                     <!-- General Tab-->
                     <div class="intro-div">This is a top level summary of information gathered from FPP installations
                         around the world.
-                        Unless otherwise stated only those installations that have submitted statistics in the last year
-                        are included. This report was last updated
+                        Unless otherwise stated, all charts display the time period defined at the top of the page. This report was last updated
                         <span class="lastUpdated"><i>Refresh has failed</i></span>.
                     </div>
                     <div class="row">
@@ -67,6 +79,7 @@
                             <div class="canvas-holder">
                                 <canvas id="lastReportChart"></canvas>
                             </div>
+                            <div class="chart-footnote">Not impacted by time filter</div>
                         </div>
                         <div class="chart-outer col-sm-6">
                             <h2>Last Reported</h2>
@@ -225,7 +238,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="row">
                         <div class="chart-outer col-sm-6">
                             <h2>Output Processors</h2>
@@ -250,7 +263,7 @@
                                     <canvas id="popularSettings365"></canvas>
                                 </div>
                             </div>
-    
+
                         </div>
                         <div class="row">
                             <div class="chart-outer col-sm-6">
@@ -273,7 +286,7 @@
                                 <div class="canvas-holder">
                                     <canvas id="mqtt365"></canvas>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
 
                     </div>
@@ -316,50 +329,24 @@
         integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-    <script src="my.js?v=2"></script>
+    <script src="my.js?v=4"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
             $.get("https://fppstats.thehormanns.net/api/summary"
             ).done(function (data) {
+                console.log(data);
                 $("#loading").hide();
                 $("#all-charts").show();
+                myData = data;
+                updateOptionText(data);
                 var when = formatDate(new Date(data.ts));
-                var timezones = Object.keys(data.timeZone.data).sort(byTimeZone);
                 $(".lastUpdated").html(when);
-                remoteObjectArray(data.outputLocalPixels.data.pixelOrder, "Zero");
-                remoteObjectArray(data.outputPanels.data.panelOrder, "Zero");
-                remoteObjectArray(data.outputPanels.data.channelOrder, "Zero");
+                refreshData($("#select-age").val());
 
-                console.log(data);
-                drawBarChartObjectTime($("#lastReportDaysChart"), data.lastReported.data.data, data.lastReported.data.order, data.lastReported.data.order, "totalCount");
-                drawPieChart($("#platform365"), data.platform, "last365Days");
-                drawPieChart($("#platformGenericVar365"), data.platformVariantBreakout.data.Generic, "last365Days");
-                drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], "last365Days");
-                drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone Black"], "last365Days");
-                drawPieChart($("#fppMode365"), data.fppMode, "last365Days");
-                drawPieChart($("#version365"), data.version, "last365Days");
-                drawPieChart($("#mqtt365"), data.mqttEnabled, "last365Days");
-                drawPieChart($("#uiLevel365"), data.uiLevel, "last365Days");
-                drawPieChart($("#cape365"), data.capeInstalled, "last365Days");
-                drawBarChartObjectTime($("#topTimezone365"), data.timeZone.data, timezones, timezones, "last365Days"); // ME
-                drawSortedBarChart($("#topCapes365"), data.capeType.data, 15, day365Transformer);
-                drawBarChartObject($("#lastReportChart"), data.uniqueByMonth.data.data, data.uniqueByMonth.data.order, data.uniqueByMonth.data.order);
-                drawSortedBarChart($("#plugins365"), data.topPlugins.data.last365Days, 10);
-                drawBarChartObjectTime($("#outUnivt365"), data.outputUniverses.data.universe, data.outputUniverses.data.universeOrder, data.outputUniverses.data.universeOrder, "last365Days");
-                drawBarChartObjectTime($("#outChannel365"), data.outputUniverses.data.channel, data.outputUniverses.data.channelOrder, data.outputUniverses.data.channelOrder, "last365Days");
-                drawBarChartObjectTime($("#inUnivt365"), data.inputUniverses.data.universe, data.inputUniverses.data.universeOrder, data.inputUniverses.data.universeOrder, "last365Days");
-                drawBarChartObjectTime($("#inChannel365"), data.inputUniverses.data.channel, data.inputUniverses.data.channelOrder, data.inputUniverses.data.channelOrder, "last365Days");
-                drawSortedBarChart($("#outputProcessor365"), data.outputProcessors.data, 10, day365Transformer);
-                drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 12, day365Transformer);
-                drawBarChartObjectTime($("#localPixels365"), data.outputLocalPixels.data.pixels, data.outputLocalPixels.data.pixelOrder, data.outputLocalPixels.data.pixelOrder, "last365Days");
-                drawBarChartObjectTime($("#panelChannel365"), data.outputPanels.data.channel, data.outputPanels.data.channelOrder, data.outputPanels.data.channelOrder, "last365Days");
-                drawPieChart($("#otherOutputs365"), data.outputOther, "last365Days");
-                drawBarChartObjectTime($("#PanelCounts365"), data.outputPanels.data.panels, data.outputPanels.data.panelOrder, data.outputPanels.data.panelOrder, "last365Days");
-                drawPieChart($("#PanelSubType365"), data.outputPanels.data.panelSubType, "last365Days");
-                drawPieChart($("#panelSize365"), data.outputPanels.data.panelSize, "last365Days");
-
-                //PanelSubType365
+                $('#select-age').on('change', function () {
+                    refreshData(this.value);
+                });
 
             }).fail(function () {
                 alert("Unable to load statistics");
