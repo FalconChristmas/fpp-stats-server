@@ -20,6 +20,7 @@ module.exports = [
         reset: async () => {
             myData = {
                 totalCount: {},
+                last7Days: {},
                 last15Days: {},
                 last30Days: {},
                 last60Days: {},
@@ -38,6 +39,10 @@ module.exports = [
             if ("plugins" in obj) {
                 for (const [plugin, value] of Object.entries(obj.plugins)) {
                     countIt(myData.totalCount, plugin);
+
+                    if(diff_days < 7) {
+                        countIt(myData.last7Days, plugin);
+                    }
 
                     if (diff_days < 15) {
                         countIt(myData.last15Days, plugin);
