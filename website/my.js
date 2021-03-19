@@ -282,8 +282,19 @@ function updateOptionText(data) {
 
 }
 
+// If going to redraw a chart, need to replace all canvas object
+function clearCanvas() {
+    $(".canvas-holder canvas").each(function(index) {
+        let parent = $(this).parent();
+        let id = $(this).attr('id');
+        parent.html('<canvas id ="' + id + '"></canvas>');
+    });
+
+}
+
 function refreshData(time) {
     let data = myData;
+    clearCanvas();
     var timezones = Object.keys(data.timeZone.data).sort(byTimeZone);
     if (!(time in data.Instances.data)) {
         time = "last365Days";
