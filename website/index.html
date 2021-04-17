@@ -29,17 +29,25 @@
         <h1 class="title-full">FPP Usage Statistics</h1>
         <h1 class="title-small">FPP Statistics</h1>
         <div class="options-div">
-            Reported:
-            <select id="select-age">
-                <option value="last7Days">Last 7 Days</option>
-                <option value="last15Days">Last 15 Days</option>
-                <option value="last30Days">Last 30 Days</option>
-                <option value="last60Days">Last 60 Days</option>
-                <option value="last180Days">Last 180 Days</option>
-                <option value="last365Days" selected>Last Year</option>
-                <option value="totalCount">All History</option>
+            <div class="row">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                    Reported:
+                    <select id="select-age">
+                        <option value="last7Days">Last 7 Days</option>
+                        <option value="last15Days">Last 15 Days</option>
+                        <option value="last30Days">Last 30 Days</option>
+                        <option value="last60Days">Last 60 Days</option>
+                        <option value="last180Days">Last 180 Days</option>
+                        <option value="last365Days" selected>Last Year</option>
+                        <option value="totalCount">All History</option>
 
-            </select>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-4">
+                    Exclude Docker:
+                    <input type="checkbox" id="excludeDocker" checked value="True">
+                </div>
+            </div>
         </div>
         <div id="loading" class="ajax-loading-60px"></div>
         <div id="all-charts">
@@ -70,7 +78,8 @@
                     <!-- General Tab-->
                     <div class="intro-div">This is a top level summary of information gathered from FPP installations
                         around the world.
-                        Unless otherwise stated, all charts display the time period defined at the top of the page. This report was last updated
+                        Unless otherwise stated, all charts display the time period defined at the top of the page. This
+                        report was last updated
                         <span class="lastUpdated"><i>Refresh has failed</i></span>.
                     </div>
                     <div class="row">
@@ -332,25 +341,16 @@
     <script src="my.js?v=5"></script>
 
     <script type="text/javascript">
+        $("#excludeDocker").change(function () {
+            getStats();
+        });
+
+        $('#select-age').on('change', function () {
+            refreshData(this.value);
+        });
+
         $(document).ready(function () {
-            $.get("https://fppstats.thehormanns.net/api/summary"
-            ).done(function (data) {
-                console.log(data);
-                $("#loading").hide();
-                $("#all-charts").show();
-                myData = data;
-                updateOptionText(data);
-                var when = formatDate(new Date(data.ts));
-                $(".lastUpdated").html(when);
-                refreshData($("#select-age").val());
-
-                $('#select-age').on('change', function () {
-                    refreshData(this.value);
-                });
-
-            }).fail(function () {
-                alert("Unable to load statistics");
-            })
+            getStats();
         });
     </script>
 </body>

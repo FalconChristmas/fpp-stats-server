@@ -1,5 +1,6 @@
 "use strict";
 var myData = {};
+var chartsToDestroy = [];
 
 // Simple helper function for sorting a object
 // by the "value" attribute+
@@ -107,6 +108,7 @@ function drawSortedBarChart(ctx, obj, limit, transformer) {
             }
         }
     });
+    chartsToDestroy.push(myChart);
 }
 
 // Creates a bar chart of chart using the property names
@@ -150,6 +152,8 @@ function drawBarChartObject(ctx, obj, properties, labels) {
             }
         }
     });
+    chartsToDestroy.push(myChart);
+
 }
 
 /*
@@ -212,6 +216,8 @@ function drawBarChartObjectTime(ctx, obj, properties, labels, timeGroup) {
             }
         }
     });
+    chartsToDestroy.push(myChart);
+
 
 }
 
@@ -267,16 +273,23 @@ function drawPieChart(ctx, input, level) {
             }
         }
     });
+    chartsToDestroy.push(myChart);
+
 }
 
 function createTimeTransformer(time) {
-    return (obj) => obj[time]    
+    return (obj) => obj[time]
 }
 
 function updateOptionText(data) {
     for (const [key, valueOrig] of Object.entries(data.Instances.data)) {
         let obj = $('select option[value="' + key + '"]');
-        let newText = obj.html() + " - " + valueOrig + "  devices"; 
+        let base = obj.html();
+        let pos = base.indexOf(" - ");
+        if (pos > 0) {
+            base = base.substring(0, pos);
+        }
+        let newText = base + " - " + valueOrig + "  devices";
         obj.html(newText);
     }
 
@@ -284,11 +297,41 @@ function updateOptionText(data) {
 
 // If going to redraw a chart, need to replace all canvas object
 function clearCanvas() {
-    $(".canvas-holder canvas").each(function(index) {
+    $(".canvas-holder canvas").each(function (index) {
         let parent = $(this).parent();
         let id = $(this).attr('id');
         parent.html('<canvas id ="' + id + '"></canvas>');
     });
+
+    chartsToDestroy.forEach(c => {
+        c.destroy();
+    });
+    chartsToDestroy.length = 0
+}
+
+// makes an HTTP call to get the statistics
+function getStats() {
+    $("#loading").show();
+    $("#all-charts").hide();
+    let url = "https://fppstats.thehormanns.net/api/summary/true";
+
+    if ($("#excludeDocker").prop("checked")) {
+        url = "https://fppstats.thehormanns.net/api/summary/false"
+    }
+    $.get(url
+    ).done(function (data) {
+        //console.log(data);
+        $("#loading").hide();
+        $("#all-charts").show();
+        myData = data;
+        updateOptionText(data);
+        var when = formatDate(new Date(data.ts));
+        $(".lastUpdated").html(when);
+        refreshData($("#select-age").val());
+
+    }).fail(function () {
+        alert("Unable to load statistics");
+    })
 
 }
 
