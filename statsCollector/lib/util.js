@@ -61,9 +61,36 @@ function isBaseDirectoryValid() {
   return fs.existsSync(getBaseDirectory());
 }
 
+function notDocker(obj) {
+  let platform = "Unknown";
+
+  if ("systemInfo" in obj) {
+    if ("platform" in obj.systemInfo) {
+        platform = obj.systemInfo.platform;
+    }
+  }
+  return (platform != "Docker");
+}
+
+function truePredicate() {
+  return true;
+}
+
 // This is the "main" loop that will run all
 // processors over all files and save the final JSON file.
 async function processHandlers(handlers) {
+
+  // These can not be in parallel because the counters are reused. 
+  await processHandlersReally(handlers, truePredicate, "summary.json");
+  await processHandlersReally(handlers, notDocker, "summary_noDocker.json");
+
+}
+
+
+
+// This is the "main" loop that will run all
+// processors over all files and save the final JSON file.
+async function processHandlersReally(handlers, predicate, filename) {
   // Reset All counters
   await Promise.all(
     handlers.map(async (h) => {
@@ -78,6 +105,9 @@ async function processHandlers(handlers) {
   await Promise.all(
     currentFiles.map(async (f) => {
       let obj = JSON.parse(await fs.promises.readFile(f));
+      if (! predicate(obj)) {
+        return ;
+      }
 
       // do all CurrentHandlers
       await Promise.all(
@@ -118,7 +148,7 @@ async function processHandlers(handlers) {
 
   // Write the Resulting JSON file.
   let asJson = JSON.stringify(results, null, 4);
-  await fs.promises.writeFile(getBaseDirectory() + "/summary.json", asJson);
+  await fs.promises.writeFile(getBaseDirectory() + "/" + filename, asJson);
 }
 
 function updateZipArchive() {
