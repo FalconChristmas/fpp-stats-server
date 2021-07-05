@@ -310,7 +310,7 @@ function clearCanvas() {
 }
 
 // makes an HTTP call to get the statistics
-function getStats() {
+function getStats(logIt) {
     $("#loading").show();
     $("#all-charts").hide();
     let url = "https://fppstats.thehormanns.net/api/summary/true";
@@ -320,7 +320,9 @@ function getStats() {
     }
     $.get(url
     ).done(function (data) {
-        //console.log(data);
+        if (logIt) {
+            console.log(data);
+        }
         $("#loading").hide();
         $("#all-charts").show();
         myData = data;
@@ -347,6 +349,7 @@ function refreshData(time) {
     removeObjectArray(data.outputPanels.data.channelOrder, "Zero");
 
     drawBarChartObjectTime($("#lastReportDaysChart"), data.lastReported.data.data, data.lastReported.data.order, data.lastReported.data.order, time);
+    drawBarChartObjectTime($("#deviceMemoryBar"), data.deviceMemory.data.memory, data.deviceMemory.data.memoryOrder, data.deviceMemory.data.memoryOrder, time);
     drawPieChart($("#platform365"), data.platform, time);
     drawPieChart($("#platformGenericVar365"), data.platformVariantBreakout.data.Generic, time);
     drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], time);

@@ -140,6 +140,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="chart-outer col-sm-6">
+                            <h2>Device Memory</h2>
+                            <div class="canvas-holder">
+                                <canvas id="deviceMemoryBar"></canvas>
+                            </div>
+                        </div>
+<!--
+                        <div class="chart-outer col-sm-6">
+                            <h2>Installed Cape</h2>
+                            <div class="canvas-holder">
+                                <canvas id="cape365"></canvas>
+                            </div>
+                        </div>
+                    -->
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-1"></div>
@@ -350,7 +366,7 @@
         });
 
         $(document).ready(function () {
-            getStats();
+            getStats(true);
         });
     </script>
 </body>
