@@ -7,7 +7,7 @@ module.exports = [
   {
     name: "fppMode",
     description:
-      "Is instance configured as Standalone, Master, Remtoe, or Bridge",
+      "Is instance configured as Standalone, Master, Remote, or Bridge",
     reset: async () => {
       myData = {};
     },
