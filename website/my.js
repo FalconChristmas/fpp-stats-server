@@ -295,6 +295,34 @@ function updateOptionText(data) {
 
 }
 
+function fillTable(divId, data, fieldName, labelCssClass, dataCssClass, maxRows) {
+    let sortable = [];
+
+    for (const [key, value] of Object.entries(data)) {
+        sortable.push({
+            label: key,
+            value: value[fieldName]
+        });
+    }
+
+    sortable.sort(sortByValue);
+
+    let html = '<div class="row"><div class="' + labelCssClass + '">';
+    html += '<b>Release</b></div><div class="' + dataCssClass + '">';
+    html += '<b>#</b></div></div>';
+
+    sortable.forEach(function (r) {
+        if (--maxRows > 0) {
+            html += '<div class="row"><div class="' + labelCssClass + '">';
+            html += r.label;
+            html += '</div><div class="' + dataCssClass + '">' + r.value;
+            html += '</div></div>';
+        }
+    });
+
+    $("#" + divId).html(html);
+}
+
 // If going to redraw a chart, need to replace all canvas object
 function clearCanvas() {
     $(".canvas-holder canvas").each(function (index) {
@@ -375,4 +403,5 @@ function refreshData(time) {
     drawBarChartObjectTime($("#PanelCounts365"), data.outputPanels.data.panels, data.outputPanels.data.panelOrder, data.outputPanels.data.panelOrder, time);
     drawPieChart($("#PanelSubType365"), data.outputPanels.data.panelSubType, time);
     drawPieChart($("#panelSize365"), data.outputPanels.data.panelSize, time);
+    fillTable("version-detail", data.versionDetailed.data, time, "label col-10 col-md-9", "data col-1", 50);
 }
