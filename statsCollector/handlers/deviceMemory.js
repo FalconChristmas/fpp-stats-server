@@ -20,19 +20,19 @@ let memoryGroup = [
     min: 512 * 1024 + 1,
     max: 1024 * 1024
   }, {
-    label: "1-2GB",
+    label: "1.1-2GB",
     min: 1024 * 1024 + 1,
     max: 1024 * 1024 * 2
   }, {
-    label: "2-4GB",
+    label: "2.1-4GB",
     min: 1024 * 1024 * 2 + 1,
     max: 1024 * 1024 * 4
   }, {
-    label: "4-8GB",
+    label: "4.1-8GB",
     min: 1024 * 1024 * 4 + 1,
     max: 1024 * 1024 * 8
   }, {
-    label: "8GB+",
+    label: ">8GB",
     max: 1024 * 1024 * 8 + 1,
     max: Number.MAX_VALUE
   },
