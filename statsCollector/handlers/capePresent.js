@@ -18,7 +18,9 @@ module.exports = [
             let name = "No";
             if ("capeInfo" in obj) {
                 if ("name" in obj.capeInfo) {
-                    name = "Yes";
+                    if (obj.capeInfo["name"] != "None") {
+                        name = "Yes";
+                    }
                 }
             }
             if (!(name in myData)) {
