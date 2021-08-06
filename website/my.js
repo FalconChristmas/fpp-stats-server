@@ -384,6 +384,7 @@ function refreshData(time) {
     drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone Black"], time);
     drawPieChart($("#fppMode365"), data.fppMode, time);
     drawPieChart($("#version365"), data.version, time);
+    drawSortedBarChart($("#releaseos"), data.versionWithOS.data, 15, createTimeTransformer(time));
     drawPieChart($("#mqtt365"), data.mqttEnabled, time);
     drawPieChart($("#uiLevel365"), data.uiLevel, time);
     drawPieChart($("#cape365"), data.capeInstalled, time);
