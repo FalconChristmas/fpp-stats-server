@@ -43,7 +43,6 @@ module.exports = [
                 if ("name" in obj.capeInfo) {
                     name = obj.capeInfo.name;
                     name+= "-" + extractVersion(obj);
-		    console.log(name);
                 }
             }
             if (!(name in myData)) {
