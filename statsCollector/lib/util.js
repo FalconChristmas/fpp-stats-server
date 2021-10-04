@@ -152,6 +152,7 @@ async function processHandlersReally(handlers, predicate, filename) {
 }
 
 function updateZipArchive() {
+  console.time('createZip');
   const output = fs.createWriteStream(getBaseDirectory() + '/all_files.zip');
   const archive = archiver('zip', {
     zlib: { level: 9 } // Sets the compression level.
@@ -160,6 +161,7 @@ function updateZipArchive() {
   output.on('close', function () {
     console.log('Archive File Updated.');
     console.log(archive.pointer() + ' total bytes');
+    console.timeEnd('createZip');
   });
 
   // good practice to catch warnings (ie stat failures and other non-blocking errors)

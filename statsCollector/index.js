@@ -20,9 +20,12 @@ if (!utils.isBaseDirectoryValid()) {
 
 async function gatherStats(handlers) {
   console.log("Starting to gather stats", Date());
+  console.time('gather');
   await utils.processHandlers(handlers);
+  console.timeEnd('gather');
   console.log("Done Gathering Stats", Date());
   console.log("Updating Zip Archive");
+
   utils.updateZipArchive();
 }
 
