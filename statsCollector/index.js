@@ -26,7 +26,7 @@ async function gatherStats(handlers) {
   console.log("Done Gathering Stats", Date());
   console.log("Updating Zip Archive");
 
-  utils.updateZipArchive();
+  //utils.updateZipArchive();
 }
 
 const start = async () => {
