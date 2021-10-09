@@ -66,7 +66,7 @@ function notDocker(obj) {
 
   if ("systemInfo" in obj) {
     if ("platform" in obj.systemInfo) {
-        platform = obj.systemInfo.platform;
+      platform = obj.systemInfo.platform;
     }
   }
   return (platform != "Docker");
@@ -102,35 +102,34 @@ async function processHandlersReally(handlers, predicate, filename) {
   let currentFiles = await glob.promise(
     getBaseDirectory() + "/**/current.json"
   );
-  await Promise.all(
-    currentFiles.map(async (f) => {
-      let obj = JSON.parse(await fs.promises.readFile(f));
-      if (! predicate(obj)) {
-        return ;
+
+  for (const f of currentFiles) {
+    let obj = JSON.parse(await fs.promises.readFile(f));
+    if (!predicate(obj)) {
+      continue;
+    }
+
+    // do all CurrentHandlers
+    for (const h of handlers) {
+      if ("currentHandler" in h) {
+        await h.currentHandler(obj);
       }
+    }
 
-      // do all CurrentHandlers
-      await Promise.all(
-        handlers.map(async (h) => {
-          if ("currentHandler" in h) {
-            await h.currentHandler(obj);
-          }
-        })
-      );
+    // Read all files for this UUID
+    let allFiles = await glob.promise(
+      getBaseDirectory() + "/" + obj.uuid + "/*.json"
+    );
 
-      let allFiles = await glob.promise(
-        getBaseDirectory() + "/" + obj.uuid + "/*.json"
-      );
+    // do all CurrentHandlers
+    for (const h of handlers) {
+      if ("historyHandler" in h) {
+        await h.historyHandler(obj, allFiles);
+      }
+    }
+  } // End of Processing all files
 
-      await Promise.all(
-        handlers.map(async (h) => {
-          if ("historyHandler" in h) {
-            await h.historyHandler(obj, allFiles);
-          }
-        })
-      );
-    })
-  );
+  console.log('Gather');
 
   // Gather Results
   let results = {
