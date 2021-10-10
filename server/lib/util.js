@@ -11,7 +11,7 @@ function isBaseDirectoryValid() {
 
 // Logs the UUID and seconds since previous
 function logRecord(obj) {
-  // Run later
+  // Run later to avoid blocking return
   setTimeout(async function(obj) {
     let currentFiles = await glob.promise(
       getBaseDirectory() + "/" + obj.uuid + "/*.json"
@@ -47,8 +47,8 @@ function logRecord(obj) {
         }
       }
     }
-
-    console.log("Received: ", obj.uuid, ", Previous was: ", Math.round(diff), units);
+    let ts = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+    console.log("Received: ", obj.uuid, " on ", ts, ", Previous was: ", Math.round(diff), units);
   
   }, 20, obj);
 }
