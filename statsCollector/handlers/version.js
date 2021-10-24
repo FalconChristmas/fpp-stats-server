@@ -24,6 +24,11 @@ module.exports = [
             version = version.substring(0,pos);
           }
 
+          pos = version.indexOf("-");
+          if (pos > 0) {
+            version = version.substring(0,pos);
+          }
+
           if (!(version in myData)) {
             myData[version] = util.newCountByAgeObject();
           }
