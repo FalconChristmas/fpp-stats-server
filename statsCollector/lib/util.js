@@ -1,6 +1,8 @@
 "use strict";
 const fs = require("fs");
+const path = require("path");
 const glob = require("glob-promise");
+
 const archiver = require('archiver');
 const { Console } = require("console");
 
@@ -81,29 +83,42 @@ function truePredicate() {
 async function processHandlers(handlers) {
 
   // These can not be in parallel because the counters are reused. 
+  console.log('Starting Summary.json')
   await processHandlersReally(handlers, truePredicate, "summary.json");
+  console.log('Starting No Docker')
   await processHandlersReally(handlers, notDocker, "summary_noDocker.json");
 
 }
 
-
+async function* walk(dir) {
+    for await (const d of await fs.promises.opendir(dir)) {
+        const entry = path.join(dir, d.name);
+        if (d.isDirectory()) yield* walk(entry);
+        else if (d.isFile()) yield entry;
+    }
+}
 
 // This is the "main" loop that will run all
 // processors over all files and save the final JSON file.
 async function processHandlersReally(handlers, predicate, filename) {
   // Reset All counters
+  console.log('Calling Reset')
   await Promise.all(
     handlers.map(async (h) => {
       await h.reset();
     })
   );
 
-  // Find the current files
-  let currentFiles = await glob.promise(
-    getBaseDirectory() + "/**/current.json"
-  );
+  console.log("Searching for data")
 
-  for (const f of currentFiles) {
+  // Find the current files
+  // Don't use glob in this outer loop because of memory leak
+  // https://github.com/isaacs/node-glob/issues/435
+  for await (const f of walk(getBaseDirectory())) {
+    if (!(f.endsWith("current.json"))) {
+      continue;
+    }
+
     let obj = JSON.parse(await fs.promises.readFile(f));
     if (!predicate(obj)) {
       continue;
@@ -129,7 +144,7 @@ async function processHandlersReally(handlers, predicate, filename) {
     }
   } // End of Processing all files
 
-  console.log('Gather');
+  console.log('Starting Gather');
 
   // Gather Results
   let results = {
