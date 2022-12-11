@@ -1,9 +1,12 @@
 "use strict";
 const util = require("../lib/util.js");
+const moment = require("moment")
 
+const months_back = 15
 let myData = {};
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 let dateRanges = [];
+let cutoff_date = 0;
 
 function getDateRanges() {
     if (dateRanges.length < 2) {
@@ -11,9 +14,9 @@ function getDateRanges() {
         let mon = dt.getMonth();
         let year = dt.getFullYear();
         dt.setDate(1);
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < months_back; i++) {
             dateRanges.push({
-                numeric: mon,
+                numeric: year*1000 + mon,
                 stringName: months[mon] + "-" + year
             });
             if (--mon < 0) {
@@ -31,6 +34,10 @@ module.exports = [
         description:
             "Unique Devices Reporting Each Month",
         reset: async () => {
+            cutoff_date = moment().subtract(months_back, 'months').startOf('month');
+            console.log("By Month cutoff Date: ", cutoff_date)
+            cutoff_date = cutoff_date.toDate();
+
             myData = {
                 order: [],
                 data: {}
@@ -46,24 +53,26 @@ module.exports = [
             return myData;
         },
         historyHandler(obj, allFiles) {
-            let months = [];
-            let now = new Date().getTime();
+            let keys = [];
             let re = /\/([0-9]+)\.json/;
             // find all dates
             for (const f of allFiles) {
                 let m = re.exec(f);
                 if (m) {
                     let ts = parseInt(m[1]);
-                    let diff = now - ts;
 
-                    // Ignore over 1 year old
-                    if (diff < (365 * 24 * 60 * 60 * 1000)) {
-                        months.push(new Date(ts).getMonth());
+                    // Ignore over 15 months
+                    if (ts > cutoff_date) {
+                        let dt = new Date(ts)
+                        let mon = dt.getMonth();
+                        let year = dt.getFullYear();
+                        let key =year*1000 + mon;
+                        keys.push(key);
                     }
                 }
             };
             getDateRanges().forEach(d => {
-                if (months.includes(d.numeric)) {
+                if (keys.includes(d.numeric)) {
                     myData.data[d.stringName] += 1;
                 }
             })
