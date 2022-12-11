@@ -12,15 +12,36 @@ module.exports = [
       myData = {};
     },
     results: async () => {
+
       return myData;
     },
     currentHandler: async (obj) => {
       let mode = "fppd Stopped";
+      let multiText = "MultiSync Disabled"
       if ("systemInfo" in obj) {
         if ("fppdMode" in obj.systemInfo) {
           mode = obj.systemInfo.fppdMode;
         }
       }
+
+      if (mode == 'bridge' || mode == 'master') {
+        mode = 'player';
+      }
+
+      if ("settings" in obj) {
+        if ("MultiSyncEnabled" in obj.settings) {
+          if (obj.settings.MultiSyncEnabled == 1) {
+            multiText = "MultiSync Enabled";
+          } else {
+            multiText ="MultiSync Disabled";
+          }
+        }
+      }
+
+      if (mode != "fppd Stopped") {
+        mode = mode + "-" + multiText;
+      }
+
       if (!(mode in myData)) {
         myData[mode] = util.newCountByAgeObject();
       }
