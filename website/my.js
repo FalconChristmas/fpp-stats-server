@@ -376,12 +376,10 @@ function refreshData(time) {
     removeObjectArray(data.outputPanels.data.panelOrder, "Zero");
     removeObjectArray(data.outputPanels.data.channelOrder, "Zero");
 
-    $("#generic-varient-count").html(Object.keys(data.platformVariantBreakout.data.Generic.data).length);
-
     drawBarChartObjectTime($("#lastReportDaysChart"), data.lastReported.data.data, data.lastReported.data.order, data.lastReported.data.order, time);
     drawBarChartObjectTime($("#deviceMemoryBar"), data.deviceMemory.data.memory, data.deviceMemory.data.memoryOrder, data.deviceMemory.data.memoryOrder, time);
     drawPieChart($("#platform365"), data.platform, time);
-    fillTable("platformGenericVar365", data.platformVariantBreakout.data.Generic.data, time, "label col-10 col-md-9", "data col-1", 15, 'Variant');
+    fillTable("platformGenericVar365", data.platformVariantBreakout.data.Generic.data, time, "label col-10 col-md-9", "data col-1", 50, 'Variant');
     drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], time);
     drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone Black"], time);
     drawPieChart($("#fppMode365"), data.fppMode, time);
@@ -402,7 +400,7 @@ function refreshData(time) {
     drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 12, createTimeTransformer(time));
     drawBarChartObjectTime($("#localPixels365"), data.outputLocalPixels.data.pixels, data.outputLocalPixels.data.pixelOrder, data.outputLocalPixels.data.pixelOrder, time);
     drawBarChartObjectTime($("#panelChannel365"), data.outputPanels.data.channel, data.outputPanels.data.channelOrder, data.outputPanels.data.channelOrder, time);
-    drawPieChart($("#otherOutputs365"), data.outputOther, time);
+    fillTable("otherOutputs365", data.outputOther.data, time, "label col-10 col-md-9", "data col-1", 50, 'Output');
     drawBarChartObjectTime($("#PanelCounts365"), data.outputPanels.data.panels, data.outputPanels.data.panelOrder, data.outputPanels.data.panelOrder, time);
     drawPieChart($("#PanelSubType365"), data.outputPanels.data.panelSubType, time);
     drawPieChart($("#panelSize365"), data.outputPanels.data.panelSize, time);
