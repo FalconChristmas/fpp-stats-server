@@ -65,13 +65,17 @@ function isBaseDirectoryValid() {
 
 function notDocker(obj) {
   let platform = "Unknown";
+  let platformVariant = "Unknown";
 
   if ("systemInfo" in obj) {
+    if ("platformVariant" in obj.systemInfo) {
+      platformVariant = obj.systemInfo.platformVariant;
+    }
     if ("platform" in obj.systemInfo) {
       platform = obj.systemInfo.platform;
     }
   }
-  return (platform != "Docker");
+  return (platform != "Docker") && (platformVariant != "Docker");
 }
 
 function truePredicate() {

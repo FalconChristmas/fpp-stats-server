@@ -6,7 +6,7 @@ let myData = {};
 module.exports = [
     {
         name: "platformVariant",
-        description: "PI 2, 3, or 4",
+        description: "Hardware Version",
         reset: async () => {
             myData = {};
         },
