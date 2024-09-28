@@ -1,6 +1,8 @@
 "use strict";
 const util = require("../lib/util.js");
 
+const revision_regx = /^(\d+\.\d+)/;
+
 let myData = {};
 
 module.exports = [
@@ -27,6 +29,16 @@ module.exports = [
           pos = version.indexOf("-");
           if (pos > 0) {
             version = version.substring(0,pos);
+          }
+
+          // Round data to remove "revision"
+          const match = version.match(revision_regx);
+          if (match) {
+            version = match[1];
+          }
+
+          if (version != "Unknown") {
+            version = version.concat(".x");
           }
 
           if (!(version in myData)) {

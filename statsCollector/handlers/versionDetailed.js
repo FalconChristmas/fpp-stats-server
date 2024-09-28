@@ -6,7 +6,7 @@ let myData = {};
 module.exports = [
   {
     name: "versionDetailed",
-    description: "Which Release is being used?",
+    description: "Which Detailed Release is being used?",
     reset: async () => {
       myData = {};
     },
