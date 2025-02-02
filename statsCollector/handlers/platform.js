@@ -18,6 +18,10 @@ module.exports = [
         if ("platform" in obj.systemInfo) {
           let platform = obj.systemInfo.platform;
 
+          if (platform == "BeagleBone Black") {
+            platform = "BeagleBone32";
+          }
+
           if (!(platform in myData)) {
             myData[platform] = util.newCountByAgeObject();
           }

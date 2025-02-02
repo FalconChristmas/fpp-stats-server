@@ -27,7 +27,11 @@ module.exports = [
                         }
                     }
 
-                    if (platform != "BeagleBone Black" && platform != "Raspberry Pi" && platform != "Docker") {
+                    if (platform == "BeagleBone 64" || platform == "BeagleBone Black") {
+                        platform = "BeagleBone";
+                    }
+
+                    if (platform != "BeagleBone" && platform != "Raspberry Pi" && platform != "Docker") {
                         platform = "Generic";
                     }
 
