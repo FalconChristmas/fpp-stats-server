@@ -341,10 +341,11 @@ function clearCanvas() {
 function getStats(logIt) {
     $("#loading").show();
     $("#all-charts").hide();
-    let url = "https://fppstats.thehormanns.net/api/summary/true";
+    let baseUrl = "https://fppstats.thehormanns.net/api/summary/";
+    let url = baseUrl + "true";
 
     if ($("#excludeDocker").prop("checked")) {
-        url = "https://fppstats.thehormanns.net/api/summary/false"
+        url = baseUrl + "false";
     }
     $.get(url
     ).done(function (data) {
@@ -381,7 +382,7 @@ function refreshData(time) {
     drawPieChart($("#platform365"), data.platform, time);
     fillTable("platformGenericVar365", data.platformVariantBreakout.data.Generic.data, time, "label col-10 col-md-9", "data col-1", 50, 'Variant');
     drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], time);
-    drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone Black"], time);
+    drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone"], time);
     drawPieChart($("#fppMode365"), data.fppMode, time);
     drawPieChart($("#version365"), data.version, time);
     drawSortedBarChart($("#releaseos"), data.versionWithOS.data, 15, createTimeTransformer(time));
