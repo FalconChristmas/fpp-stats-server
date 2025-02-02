@@ -1,7 +1,8 @@
 "use strict";
 const util = require("../lib/util.js");
 
-const revision_regx = /^(\d+\.\d+)/;
+const revision_regx = /^(\d+)\.\d+/;
+const double_x_regex = /^(\d+)\.x\.x/;
 
 let myData = {};
 
@@ -39,7 +40,11 @@ module.exports = [
 
           if (version != "Unknown") {
             version = version.concat(".x");
-          }
+            const match2 = version.match(double_x_regex);
+            if (match2) {
+              version = match2[1].concat(".x");
+            }
+            }
 
           if (!(version in myData)) {
             myData[version] = util.newCountByAgeObject();
