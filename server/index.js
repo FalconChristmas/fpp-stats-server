@@ -8,6 +8,7 @@
 const Hapi = require("@hapi/hapi");
 const fs = require("fs");
 const utils = require("./lib/util.js");
+const github = require("./lib/github.js");
 
 if (!utils.isBaseDirectoryValid()) {
   console.log("Invalid output directory: " + utils.getBaseDirectory());
@@ -45,6 +46,13 @@ const start = async () => {
 
   await server.start();
   console.log(`Server running at: ${server.info.uri}`);
+
+  gh = new github();
+  await gh.updateCache();
+
+  setInterval(async () => {
+    await gh.updateCache(); // every hour
+  }, 3600000);
 };
 
 start();

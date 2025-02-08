@@ -3,6 +3,8 @@ version: '3'
 volumes:
   statsdata:
      driver: local
+  github:
+     driver: local
 
 services:
   fpp-stats-api:
@@ -10,8 +12,10 @@ services:
     restart: always
     volumes: 
       - statsdata:/statsdata
+      - github:/github
     environment: 
       - out_dir=/statsdata
+      - GITHUB_CACHE_DIR=/github
     env_file:
     - my.env
     ports:
