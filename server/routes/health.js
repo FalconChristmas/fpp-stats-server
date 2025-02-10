@@ -23,7 +23,7 @@ module.exports = [
                     differenceInSeconds: differenceInSeconds
                 }
             }
-            if (differenceInSeconds > 4800) {
+            if (differenceInSeconds > 500) {
                 rc.status = "WARNING";
             }
             return rc;

@@ -51,8 +51,8 @@ const start = async () => {
   await gh.updateCache();
 
   setInterval(async () => {
-    await gh.updateCache(); // every hour
-  }, 3600000);
+    await gh.updateCache(); // every 5 minutes
+  }, 5*60*1000);
 };
 
 start();
