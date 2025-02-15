@@ -381,7 +381,8 @@ function refreshData(time) {
     drawBarChartObjectTime($("#deviceMemoryBar"), data.deviceMemory.data.memory, data.deviceMemory.data.memoryOrder, data.deviceMemory.data.memoryOrder, time);
     drawPieChart($("#platform365"), data.platform, time);
     fillTable("platformGenericVar365", data.platformVariantBreakout.data.Generic.data, time, "label col-10 col-md-9", "data col-1", 50, 'Variant');
-    drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], time);
+    fillTable("platformPiVar365", data.platformVariantBreakout.data["Raspberry Pi"].data, time, "label col-10 col-md-9", "data col-1", 50, 'Variant');
+    //drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], time);
     drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone"], time);
     drawPieChart($("#fppMode365"), data.fppMode, time);
     drawPieChart($("#version365"), data.version, time);
