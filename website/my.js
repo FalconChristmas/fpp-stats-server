@@ -389,7 +389,8 @@ function refreshData(time) {
     drawPieChart($("#platform365"), data.platform, time);
     fillTable("platformGenericVar365", data.platformVariantBreakout.data.Generic.data, time, std_label_class, std_data_class, 50, 'Variant');
     fillTable("platformPiVar365", data.platformVariantBreakout.data["Raspberry Pi"].data, time, std_label_class, std_data_class, 50, 'Variant');
-    drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone"], time);
+    fillTable("platformBBBVar365", data.platformVariantBreakout.data["BeagleBone"].data, time, std_label_class, std_data_class, 50, 'Variant');
+    //drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone"], time);
     drawPieChart($("#fppMode365"), data.fppMode, time);
     drawPieChart($("#version365"), data.version, time);
     drawSortedBarChart($("#releaseos"), data.versionWithOS.data, 15, createTimeTransformer(time));
