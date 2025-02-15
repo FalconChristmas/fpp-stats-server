@@ -297,26 +297,30 @@ function updateOptionText(data) {
 
 function fillTable(divId, data, fieldName, labelCssClass, dataCssClass, maxRows, colName) {
     let sortable = [];
+    let total = 0;
 
     for (const [key, value] of Object.entries(data)) {
         sortable.push({
             label: key == "" ? "Unknown" : key,
             value: value[fieldName]
         });
+        total += value[fieldName];
     }
 
     sortable.sort(sortByValue);
 
     let html = '<div class="row"><div class="' + labelCssClass + '">';
     html += '<b>' + colName + '</b></div><div class="' + dataCssClass + '">';
-    html += '<b>#</b></div></div>';
+    html += '<b>#</b></div>';
+    html += '<div class="' + dataCssClass + '"><b>Pct</b></div></div></div></div>';
 
     sortable.forEach(function (r) {
+        let pct = (r.value/total*100).toFixed(1);
         if (--maxRows > 0) {
             html += '<div class="row"><div class="' + labelCssClass + '">';
             html += r.label;
             html += '</div><div class="' + dataCssClass + '">' + r.value;
-            html += '</div></div>';
+            html += '</div><div class="' + dataCssClass + '">' + pct + '%</div></div>';
         }
     });
 
@@ -377,12 +381,14 @@ function refreshData(time) {
     removeObjectArray(data.outputPanels.data.panelOrder, "Zero");
     removeObjectArray(data.outputPanels.data.channelOrder, "Zero");
 
+    let std_label_class =  "label col-7 col-md-6";
+    let std_data_class =  "data col-2 col-md-2 col-lg-1";
+
     drawBarChartObjectTime($("#lastReportDaysChart"), data.lastReported.data.data, data.lastReported.data.order, data.lastReported.data.order, time);
     drawBarChartObjectTime($("#deviceMemoryBar"), data.deviceMemory.data.memory, data.deviceMemory.data.memoryOrder, data.deviceMemory.data.memoryOrder, time);
     drawPieChart($("#platform365"), data.platform, time);
-    fillTable("platformGenericVar365", data.platformVariantBreakout.data.Generic.data, time, "label col-10 col-md-9", "data col-1", 50, 'Variant');
-    fillTable("platformPiVar365", data.platformVariantBreakout.data["Raspberry Pi"].data, time, "label col-10 col-md-9", "data col-1", 50, 'Variant');
-    //drawPieChart($("#platformPiVar365"), data.platformVariantBreakout.data["Raspberry Pi"], time);
+    fillTable("platformGenericVar365", data.platformVariantBreakout.data.Generic.data, time, std_label_class, std_data_class, 50, 'Variant');
+    fillTable("platformPiVar365", data.platformVariantBreakout.data["Raspberry Pi"].data, time, std_label_class, std_data_class, 50, 'Variant');
     drawPieChart($("#platformBBBVar365"), data.platformVariantBreakout.data["BeagleBone"], time);
     drawPieChart($("#fppMode365"), data.fppMode, time);
     drawPieChart($("#version365"), data.version, time);
@@ -402,9 +408,9 @@ function refreshData(time) {
     drawSortedBarChart($("#popularSettings365"), data.settingsPopular.data, 12, createTimeTransformer(time));
     drawBarChartObjectTime($("#localPixels365"), data.outputLocalPixels.data.pixels, data.outputLocalPixels.data.pixelOrder, data.outputLocalPixels.data.pixelOrder, time);
     drawBarChartObjectTime($("#panelChannel365"), data.outputPanels.data.channel, data.outputPanels.data.channelOrder, data.outputPanels.data.channelOrder, time);
-    fillTable("otherOutputs365", data.outputOther.data, time, "label col-10 col-md-9", "data col-1", 50, 'Output');
+    fillTable("otherOutputs365", data.outputOther.data, time, std_label_class, std_data_class, 50, 'Output');
     drawBarChartObjectTime($("#PanelCounts365"), data.outputPanels.data.panels, data.outputPanels.data.panelOrder, data.outputPanels.data.panelOrder, time);
     drawPieChart($("#PanelSubType365"), data.outputPanels.data.panelSubType, time);
     drawPieChart($("#panelSize365"), data.outputPanels.data.panelSize, time);
-    fillTable("version-detail", data.versionDetailed.data, time, "label col-10 col-md-9", "data col-1", 50, 'Release');
+    fillTable("version-detail", data.versionDetailed.data, time, std_label_class, std_data_class, 50, 'Release');
 }
