@@ -73,7 +73,8 @@ module.exports = [
             let pGroup = "Unknown";
 
             if ("multisync" in obj) {
-                peerCnt = obj.multisync.length;
+                // -1 is because you always see yourself
+                peerCnt = obj.multisync.length -1;
             }
             peerGroup.forEach(e => {
                 if (peerCnt >= e.min && peerCnt <= e.max) {
