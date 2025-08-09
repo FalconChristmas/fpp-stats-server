@@ -154,15 +154,15 @@ h2 {
 
 @media only screen and (max-width: 576px) {
   #version-detail .label {
-    padding-left: 1.5em;
+    padding-left: 1em;
   }
 
   #platform365 .label {
-    padding-left: 3em;
+    padding-left: 1em;
   }
 
   #platformPiVar365 .label {
-    padding-left: 3em;
+    padding-left: 1em;
   }
 
   #version-detail {
