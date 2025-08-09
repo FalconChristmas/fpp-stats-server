@@ -77,11 +77,12 @@ h2 {
 
 .table-holder {
   margin-left: 5px;
-  margin-right:5px;
+  margin-right: 5px;
 }
-.table-holder > div {
+
+.table-holder>div {
   margin-left: 10px;
-  margin-right:5px;
+  margin-right: 5px;
   height: 275px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -143,6 +144,10 @@ h2 {
   padding-left: 2em;
 }
 
+#platform365 .label {
+  padding-left: 2em;
+}
+
 #platformPiVar365 .label {
   padding-left: 1em;
 }
@@ -150,6 +155,10 @@ h2 {
 @media only screen and (max-width: 576px) {
   #version-detail .label {
     padding-left: 1.5em;
+  }
+
+  #platform365 .label {
+    padding-left: 3em;
   }
 
   #platformPiVar365 .label {
@@ -166,6 +175,10 @@ h2 {
     padding-left: 1em;
   }
 
+  #platform365 .label {
+    padding-left: 1em;
+  }
+
   #platformPiVar365 .label {
     padding-left: 1em;
   }
@@ -175,6 +188,10 @@ h2 {
 @media only screen and (min-width: 991px) {
   #version-detail .label {
     padding-left: 2em;
+  }
+
+  #platform365 .label {
+    padding-left: 5em;
   }
 
   #platformPiVar365 .label {

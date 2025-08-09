@@ -383,7 +383,7 @@ function refreshData(time) {
     removeObjectArray(data.outputPanels.data.channelOrder, "Zero");
 
     let std_label_class =  "label col-7 col-md-6";
-    let std_data_class =  "data col-2 col-md-2 col-lg-1";
+    let std_data_class =  "data col-2 col-md-3 col-lg-2";
 
     drawBarChartObjectTime($("#lastReportDaysChart"), data.lastReported.data.data, data.lastReported.data.order, data.lastReported.data.order, time);
     drawBarChartObjectTime($("#deviceMemoryBar"), data.deviceMemory.data.memory, data.deviceMemory.data.memoryOrder, data.deviceMemory.data.memoryOrder, time);
