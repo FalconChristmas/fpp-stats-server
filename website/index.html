@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
         integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="my.css?v=11" />
+    <link rel="stylesheet" href="my.css?v=12" />
 
     <meta name="keywords" content="Christmas Lights, Falcon Pi Player, FPP, Falcon Player">
     <title>FPP Usage Statistics</title>
@@ -64,6 +64,10 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="pills-settings-tab" data-toggle="pill" href="#pills-settings" role="tab"
                         aria-controls="pills-settings" aria-selected="false">Settings</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-details-tab" data-toggle="pill" href="#pills-details" role="tab"
+                        aria-controls="pills-details" aria-selected="false">Details</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
@@ -347,6 +351,27 @@
 
                 </div><!-- End Third Tab-->
                 <!-- 4th Tab-->
+                <div class="tab-pane fade" id="pills-details" role="tabpanel" aria-labelledby="pills-details-tab">
+                    <div class="intro-div">
+                        <div class="row">
+                            <div class="chart-outer col-sm-12 col-md-6">
+                                <h2>All Plugins</h2>
+                                <div class="table-holder">
+                                    <div id="all-plugins"></div>
+                                </div>
+                            </div>
+                            <div class="chart-outer col-sm-12 col-md-6">
+                                <h2>Installed Capes</h2>
+                                 <div class="table-holder">
+                                    <div id="all-capes"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div><!-- End Third Tab-->
+                <!-- 5th Tab-->
                 <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                     <div class="intro-div">
                         Questions about this tool? Ask them on the <a
@@ -372,7 +397,7 @@
         integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-    <script src="my.js?v=11"></script>
+    <script src="my.js?v=12"></script>
 
     <script type="text/javascript">
         $("#excludeDocker").change(function () {

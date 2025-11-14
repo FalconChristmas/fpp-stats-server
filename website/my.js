@@ -300,11 +300,12 @@ function fillTable(divId, data, fieldName, labelCssClass, dataCssClass, maxRows,
     let total = 0;
 
     for (const [key, value] of Object.entries(data)) {
+        let cnt = (fieldName === null || fieldName === undefined) ? value : value[fieldName];
         sortable.push({
             label: key == "" ? "Unknown" : key,
-            value: value[fieldName]
+            value: cnt
         });
-        total += value[fieldName];
+        total += cnt;
     }
 
     sortable.sort(sortByValue);
@@ -417,4 +418,6 @@ function refreshData(time) {
     drawPieChart($("#PanelSubType365"), data.outputPanels.data.panelSubType, time);
     drawPieChart($("#panelSize365"), data.outputPanels.data.panelSize, time);
     fillTable("version-detail", data.versionDetailed.data, time, std_label_class, std_data_class, 50, 'Release');
+    fillTable("all-plugins", data.topPlugins.data[time], null, std_label_class, std_data_class, 2000, 'Release');
+    fillTable("all-capes", data.capeType.data, time, std_label_class, std_data_class, 2000, 'Release');
 }
