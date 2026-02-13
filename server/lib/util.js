@@ -1,5 +1,5 @@
 const fs = require("fs");
-const glob = require("glob-promise");
+const glob = require("glob");
 
 function getBaseDirectory() {
   return process.env.out_dir || "/tmp/output";
@@ -13,7 +13,7 @@ function isBaseDirectoryValid() {
 function logRecord(obj) {
   // Run later to avoid blocking return
   setTimeout(async function(obj) {
-    let currentFiles = await glob.promise(
+    let currentFiles = await glob(
       getBaseDirectory() + "/" + obj.uuid + "/*.json"
     );
 
