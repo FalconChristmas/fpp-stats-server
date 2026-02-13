@@ -60,6 +60,39 @@ class GithubQuery {
     }
 
     /**
+    * Finds all the current Releases for FPP and returns them as an array of release objects.
+    * @returns {Promise} A promise that resolves to an array of release objects
+    */
+    async _getReleases() {
+        let page = 1;
+        let rc = [];
+        let cnt = 0;
+        do {
+            console.log("GetReleases: Page: " + page);
+            const response = await octokit.request("GET /repos/{owner}/{repo}/releases?page={page}", {
+                owner: "FalconChristmas",
+                repo: "fpp",
+                page: page
+            });
+            cnt = response.data.length;
+            rc = rc.concat(response.data);
+            page++;
+        } while (cnt > 0);
+
+        for (const release of rc) {
+            delete release.assets_url;
+            delete release.upload_url;
+            release.asset_cnt = release.assets.length;
+            delete release.assets;
+            delete release.tarball_url;
+            delete release.zipball_url;
+            delete release.author;
+        }
+
+        return rc;
+    }
+
+    /**
      * REturns details of a specific commit from local cache or GitHub.
      * @param {string} hash The commit hash to retrieve
      * @returns Object The commit details
@@ -91,6 +124,7 @@ class GithubQuery {
      */
     async updateCache() {
         try {
+            let releases = await this._getReleases();
             let branches = await this._getBranches();
             for (let i = 0; i < branches.length; i++) {
                 let branch = branches[i];
@@ -107,6 +141,7 @@ class GithubQuery {
             // Create file record to be served by the server
             let answer = {
                 branches: branches,
+                releases: releases,
                 last_updated: new Date().toISOString()
             }
             console.log("Saving Branch_details");
