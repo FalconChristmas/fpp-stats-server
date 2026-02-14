@@ -1,7 +1,7 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
-const glob = require("glob-promise");
+const { glob } = require('glob');
 
 const archiver = require('archiver');
 const { Console } = require("console");
@@ -136,7 +136,7 @@ async function processHandlersReally(handlers, predicate, filename) {
     }
 
     // Read all files for this UUID
-    let allFiles = await glob.promise(
+    let allFiles = await glob(
       getBaseDirectory() + "/" + obj.uuid + "/*.json"
     );
 
