@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const { glob } = require('glob');
 
-const archiver = require('archiver');
 const { Console } = require("console");
 
 // Clones an Object using Java Script
