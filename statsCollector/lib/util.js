@@ -95,11 +95,11 @@ async function processHandlers(handlers) {
 }
 
 async function* walk(dir) {
-    for await (const d of await fs.promises.opendir(dir)) {
-        const entry = path.join(dir, d.name);
-        if (d.isDirectory()) yield* walk(entry);
-        else if (d.isFile()) yield entry;
-    }
+  for await (const d of await fs.promises.opendir(dir)) {
+    const entry = path.join(dir, d.name);
+    if (d.isDirectory()) yield* walk(entry);
+    else if (d.isFile()) yield entry;
+  }
 }
 
 // This is the "main" loop that will run all
@@ -169,46 +169,6 @@ async function processHandlersReally(handlers, predicate, filename) {
   await fs.promises.writeFile(getBaseDirectory() + "/" + filename, asJson);
 }
 
-function updateZipArchive() {
-  console.time('createZip');
-  const output = fs.createWriteStream(getBaseDirectory() + '/all_files.zip');
-  const archive = archiver('zip', {
-    zlib: { level: 9 } // Sets the compression level.
-  });
-
-  output.on('close', function () {
-    console.log('Archive File Updated.');
-    console.log(archive.pointer() + ' total bytes');
-    console.timeEnd('createZip');
-  });
-
-  // good practice to catch warnings (ie stat failures and other non-blocking errors)
-  archive.on('warning', function (err) {
-    if (err.code === 'ENOENT') {
-      // log warning
-      console.log("Warning creating archive");
-      console.log(err);
-    } else {
-      console.log("Error creating archive");
-      console.log(err);
-    }
-  });
-
-  // good practice to catch this error explicitly
-  archive.on('error', function (err) {
-    Console.log("On Error creating archive");
-    console.log(err);
-  });
-
-  // pipe archive data to the file
-  archive.pipe(output);
-
-  // append files from a glob pattern
-  archive.glob('**/*.json', { cwd: getBaseDirectory() });
-
-  archive.finalize();
-
-}
 
 module.exports.getBaseDirectory = getBaseDirectory;
 module.exports.isBaseDirectoryValid = isBaseDirectoryValid;
@@ -216,4 +176,3 @@ module.exports.processHandlers = processHandlers;
 module.exports.simpleClone = simpleClone;
 module.exports.newCountByAgeObject = newCountByAgeObject;
 module.exports.countByAge = countByAge;
-module.exports.updateZipArchive = updateZipArchive;

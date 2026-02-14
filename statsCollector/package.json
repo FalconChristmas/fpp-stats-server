@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/FalconChristmas/fpp-stats-server#readme",
   "dependencies": {
-    "archiver": "^7.0.1",
     "glob": "^13.0.3",
     "moment": "^2.30.1"
   }

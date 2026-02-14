@@ -5,8 +5,8 @@ do
     echo "Starting Process"
     node ./index.js
     echo "Starting Zip"
-    time (find /statsdata -name "*.json" | zip -@ -qq /statsdata/new_all_files.zip)
-    mv /statsdata/new_all_files.zip /statsdata/all_files.zip
+    time (find /statsdata -type f -name "*.json" -print0 | tar --null -cf - --files-from=- | gzip -9 -n > /statsdata/all_files.tar.gz
+    mv /statsdata/all_files.tar.gz /statsdata/all_files.tar.gz
     echo "Zip Done"
     sleep 3600 # An hour
 
