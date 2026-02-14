@@ -3,7 +3,7 @@
 Back end server for capturing statistics from [FPP installations](https://github.com/FalconChristmas/fpp).  Also includes the code for generating a user facing website that summarizes some of the data.   There is an overall docker-compose file that creates the storage volume and shares it between the containers.   The website is intended to be severed up separately. 
 
 # NOTE
-Before building, the my.env.sample should be copied to my.env and a unique string set for allowing the stats file to be downloaded. 
+Before building, the my.env.sample should be copied to my.env and a unique string set for allowing the stats file to be downloaded. In addition, a github token
 
 # Components
 ## Server

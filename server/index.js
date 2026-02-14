@@ -15,6 +15,11 @@ if (!utils.isBaseDirectoryValid()) {
   process.exit(1);
 }
 
+if (!process.env.API_KEY) {
+  console.log("Error: API_KEY environment variable not set");
+  process.exit(1);
+}
+
 const server = new Hapi.Server({
   port: process.env.port || 7654,
   routes: {

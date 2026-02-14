@@ -45,12 +45,16 @@ class GithubQuery {
         let rc = [];
         let cnt = 0;
         do {
-            console.log("GetBranches: Page: " + page);
             const response = await octokit.request("GET /repos/{owner}/{repo}/branches?page={page}", {
                 owner: "FalconChristmas",
                 repo: "fpp",
-                page: page
+                page: page,
+                per_page: 100
             });
+            const limit = response.headers['x-ratelimit-limit'];
+            const remaining = response.headers['x-ratelimit-remaining'];
+            const resetTime = response.headers['x-ratelimit-reset'];
+            console.log("GetBranches: Page: " + page + ", Rate Limit: " + limit + ", Remaining: " + remaining + ", Reset Time: " + new Date(resetTime * 1000).toISOString());
             cnt = response.data.length;
             rc = rc.concat(response.data);
             page++;
@@ -68,12 +72,17 @@ class GithubQuery {
         let rc = [];
         let cnt = 0;
         do {
-            console.log("GetReleases: Page: " + page);
             const response = await octokit.request("GET /repos/{owner}/{repo}/releases?page={page}", {
                 owner: "FalconChristmas",
                 repo: "fpp",
-                page: page
+                page: page,
+                per_page: 100
             });
+            const limit = response.headers['x-ratelimit-limit'];
+            const remaining = response.headers['x-ratelimit-remaining'];
+            const resetTime = response.headers['x-ratelimit-reset'];
+            console.log("GetReleases: Page: " + page + ", Rate Limit: " + limit + ", Remaining: " + remaining + ", Reset Time: " + new Date(resetTime * 1000).toISOString());
+
             cnt = response.data.length;
             rc = rc.concat(response.data);
             page++;
