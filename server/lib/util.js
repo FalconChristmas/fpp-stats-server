@@ -1,5 +1,5 @@
 const fs = require("fs");
-const glob = require("glob");
+const { glob } = require('glob');
 
 function getBaseDirectory() {
   return process.env.out_dir || "/tmp/output";
