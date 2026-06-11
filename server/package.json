@@ -18,7 +18,7 @@
   "homepage": "https://github.com/FalconChristmas/fpp-stats-server#readme",
   "dependencies": {
     "@hapi/hapi": "^21.4.4",
-    "@hapi/inert": "^7.1.0",
+    "@hapi/inert": "^7.1.1",
     "@octokit/core": "^7.0.6",
     "@octokit/rest": "^22.0.1",
     "glob": "^13.0.3"
