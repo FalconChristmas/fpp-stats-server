@@ -346,8 +346,8 @@ function clearCanvas() {
 function getStats(logIt) {
     $("#loading").show();
     $("#all-charts").hide();
-    let baseUrl = "https://fppstats.thehormanns.net/api/summary/";
-    //baseUrl = "http://localhost:7666/summary/";
+    //let baseUrl = "https://fppstats.thehormanns.net/api/summary/";
+    let baseUrl = "http://localhost:7654/summary/";
     let url = baseUrl + "true";
 
     if ($("#excludeDocker").prop("checked")) {
@@ -424,4 +424,10 @@ function refreshData(time) {
     fillTable("version-detail", data.versionDetailed.data, time, std_label_class, std_data_class, 50, 'Release');
     fillTable("all-plugins", data.topPlugins.data[time], null, std_label_class, std_data_class, 2000, 'Release');
     fillTable("all-capes", data.capeType.data, time, std_label_class, std_data_class, 2000, 'Release');
+
+    drawBarChartObjectTime($("#sequenceBytes365"), data.sequenceBytes.data.bytes, data.sequenceBytes.data.bytesOrder, data.sequenceBytes.data.bytesOrder, time);
+    fillTable("sensorVoltage365", data.sensorVoltage.data.voltage, time, std_label_class, std_data_class, 50, 'Voltage');
+    drawBarChartObjectTime($("#wifiStrength365"), data.wifiStrength.data.strength, data.wifiStrength.data.strengthOrder, data.wifiStrength.data.strengthOrder, time);
+    drawSortedBarChart($("#nonFpp365"), data.nonFppMultisync.data.types, 15, createTimeTransformer(time));
+    fillTable("all-nonfpp", data.nonFppMultisync.data.types, time, std_label_class, std_data_class, 2000, 'Device');
 }

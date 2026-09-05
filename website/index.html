@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
         integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="my.css?v=13" />
+    <link rel="stylesheet" href="my.css?v=14" />
 
     <meta name="keywords" content="Christmas Lights, Falcon Pi Player, FPP, Falcon Player">
     <title>FPP Usage Statistics</title>
@@ -181,6 +181,36 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="chart-outer col-sm-12 col-md-6">
+                            <h2>Reported Voltages</h2>
+                            <div class="table-holder">
+                                <div id="sensorVoltage365"></div>
+                            </div>
+                            <div class="chart-footnote">Only devices reporting voltage sensors; 0V usually means an
+                                unpopulated input. A dual-rail board is counted on each
+                                rail, so percentages are of readings, not devices.</div>
+                        </div>
+                        <div class="chart-outer col-sm-12 col-md-6">
+                            <h2>Wifi Signal Strength</h2>
+                            <div class="canvas-holder">
+                                <canvas id="wifiStrength365"></canvas>
+                            </div>
+                            <div class="chart-footnote">Only if Wifi connected. Best interface per device, read
+                                shortly after boot.</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="chart-outer col-sm-12 col-md-6">
+                            <h2>Non-FPP Gear on the Network</h2>
+                            <div class="subTitle">Seen via multisync</div>
+                            <div class="canvas-holder">
+                                <canvas id="nonFpp365"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Edit me -->
                     <div class="row">
                         <div class="col-sm-1"></div>
@@ -312,6 +342,18 @@
 
 
 
+                    <div class="row">
+                        <div class="chart-outer col-sm-12 col-md-6">
+                            <h2>Sequence Storage</h2>
+                            <div class="subTitle">Devices with at least one sequence</div>
+                            <div class="canvas-holder">
+                                <canvas id="sequenceBytes365"></canvas>
+                            </div>
+                            <div class="chart-footnote">Excludes devices with no sequences. Sequence library only, not
+                                total disk usage.</div>
+                        </div>
+                    </div>
+
                 </div> <!-- End Second Tab-->
                 <!-- Third Tab-->
                 <div class="tab-pane fade" id="pills-settings" role="tabpanel" aria-labelledby="pills-settings-tab">
@@ -382,6 +424,14 @@
                             </div>
 
                         </div>
+                        <div class="row">
+                            <div class="chart-outer col-sm-12 col-md-6">
+                                <h2>Non-FPP Devices Detected</h2>
+                                <div class="table-holder">
+                                    <div id="all-nonfpp"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div><!-- End Third Tab-->
@@ -411,7 +461,7 @@
         integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-    <script src="my.js?v=13"></script>
+    <script src="my.js?v=14"></script>
 
     <script type="text/javascript">
         $("#excludeDocker").change(function () {
