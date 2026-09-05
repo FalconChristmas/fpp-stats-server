@@ -346,8 +346,8 @@ function clearCanvas() {
 function getStats(logIt) {
     $("#loading").show();
     $("#all-charts").hide();
-    //let baseUrl = "https://fppstats.thehormanns.net/api/summary/";
-    let baseUrl = "http://localhost:7654/summary/";
+    let baseUrl = "https://fppstats.thehormanns.net/api/summary/";
+    //let baseUrl = "http://localhost:7654/summary/";
     let url = baseUrl + "true";
 
     if ($("#excludeDocker").prop("checked")) {
