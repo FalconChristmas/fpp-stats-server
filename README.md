@@ -14,3 +14,16 @@ This is a second process that will periodically process all of the stats files t
 
 ## Website
 A simple, flat website that uses Chart.js to summarize some of the statistics.  Given that is just plan HTML5, no server for hosting is included to allow for flexibility. 
+
+The live site is at [fppstats.falconchristmas.com](https://fppstats.falconchristmas.com/).
+
+## Tools
+`tools/make-og-image.js` regenerates `website/og-image.png`, the social sharing
+(Open Graph / Twitter card) image referenced from `index.html`.  It screenshots
+the live site's charts and composes them into a 1200x630 card.  Re-run it when
+the numbers on the card have drifted:
+
+```
+cd tools && npm install && npm run build
+```
+
