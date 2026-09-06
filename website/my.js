@@ -363,6 +363,7 @@ function getStats(logIt) {
         myData = data;
         updateOptionText(data);
         var when = formatDate(new Date(data.ts));
+	when = when + " EST"
         $(".lastUpdated").html(when);
         refreshData($("#select-age").val());
 
