@@ -270,6 +270,18 @@ function drawPieChart(ctx, input, level) {
                     // Options from https://nagix.github.io/chartjs-plugin-colorschemes/colorchart.html
                     scheme: 'brewer.Paired12'
                 }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        let dataset = data.datasets[tooltipItem.datasetIndex];
+                        let label = data.labels[tooltipItem.index] || "";
+                        let value = dataset.data[tooltipItem.index];
+                        let total = dataset.data.reduce((sum, val) => sum + val, 0);
+                        let percentage = total ? (value / total * 100).toFixed(1) : 0;
+                        return label + ": " + value + " (" + percentage + "%)";
+                    }
+                }
             }
         }
     });
