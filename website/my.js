@@ -367,6 +367,7 @@ function getStats(logIt) {
         refreshData($("#select-age").val());
 
     }).fail(function () {
+        $(".lastUpdated").html("<i>Refresh has failed</i>");
         alert("Unable to load statistics");
     })
 
@@ -431,3 +432,18 @@ function refreshData(time) {
     drawSortedBarChart($("#nonFpp365"), data.nonFppMultisync.data.types, 15, createTimeTransformer(time));
     fillTable("all-nonfpp", data.nonFppMultisync.data.types, time, std_label_class, std_data_class, 2000, 'Device');
 }
+
+// Page bootstrapping.  This lives here rather than inline in index.html so
+// that every script tag can be deferred, which keeps them off the critical
+// rendering path.
+$(document).ready(function () {
+    $("#excludeDocker").change(function () {
+        getStats();
+    });
+
+    $('#select-age').on('change', function () {
+        refreshData(this.value);
+    });
+
+    getStats(true);
+});

@@ -1,19 +1,75 @@
 <!DOCTYPE HTML>
 
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>FPP Usage Statistics &mdash; Falcon Player Install Data, Versions &amp; Hardware Trends</title>
+    <meta name="description"
+        content="Live statistics from Falcon Player (FPP) installations worldwide: FPP and OS versions, Raspberry Pi and BeagleBone platforms, capes, plugins, pixel and E1.31 output counts, and more.">
+    <link rel="canonical" href="https://fppstats.falconchristmas.com/">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+    <meta name="theme-color" content="#0b3d2e">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FPP Usage Statistics">
+    <meta property="og:title" content="FPP Usage Statistics">
+    <meta property="og:description"
+        content="Live statistics from Falcon Player (FPP) installations worldwide: versions, platforms, capes, plugins and output configuration.">
+    <meta property="og:url" content="https://fppstats.falconchristmas.com/">
+    <meta property="og:image" content="https://fppstats.falconchristmas.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FPP Usage Statistics">
+    <meta name="twitter:description"
+        content="Live statistics from Falcon Player (FPP) installations worldwide: versions, platforms, capes, plugins and output configuration.">
+    <meta name="twitter:image" content="https://fppstats.falconchristmas.com/og-image.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "FPP (Falcon Player) Usage Statistics",
+      "description": "Aggregated, anonymized telemetry reported by Falcon Player (FPP) installations worldwide, summarizing FPP and OS releases, hardware platforms such as Raspberry Pi and BeagleBone, installed capes and plugins, and pixel, E1.31, ArtNet and DDP output configuration.",
+      "url": "https://fppstats.falconchristmas.com/",
+      "keywords": [
+        "Falcon Player",
+        "FPP",
+        "Christmas lights",
+        "pixel controllers",
+        "Raspberry Pi",
+        "BeagleBone",
+        "E1.31",
+        "sACN",
+        "DDP",
+        "ArtNet"
+      ],
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "creator": {
+        "@type": "Organization",
+        "name": "Falcon Christmas",
+        "url": "https://falconchristmas.com/"
+      }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fppstats.falconchristmas.com" crossorigin>
+    <link rel="preconnect" href="https://stackpath.bootstrapcdn.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://code.jquery.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
         integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="my.css?v=14" />
+    <link rel="stylesheet" href="my.css?v=15" />
 
-    <meta name="keywords" content="Christmas Lights, Falcon Pi Player, FPP, Falcon Player">
-    <title>FPP Usage Statistics</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TPLF0LZ42K"></script>
     <script>
@@ -26,8 +82,8 @@
 
 <body>
     <div id="main-div" class="container" style="padding-top: 2em">
-        <h1 class="title-full">FPP Usage Statistics</h1>
-        <h1 class="title-small">FPP Statistics</h1>
+        <h1><span class="title-full">FPP Usage Statistics</span><span class="title-small">FPP
+                Statistics</span></h1>
         <div class="options-div">
             <div class="row">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
@@ -84,7 +140,7 @@
                         around the world.
                         Unless otherwise stated, all charts display the time period defined at the top of the page. This
                         report was last updated
-                        <span class="lastUpdated"><i>Refresh has failed</i></span>.
+                        <span class="lastUpdated">recently</span>.
                     </div>
                     <div class="row">
                         <div class="chart-outer col-sm-12 col-md-6">
@@ -250,7 +306,7 @@
                 <div class="tab-pane fade" id="pills-output" role="tabpanel" aria-labelledby="pills-output-tab">
                     <div class="intro-div">This tab summarizes the types of outputs configured for each FPP device
                         and was updated
-                        <span class="lastUpdated"><i>Refresh has failed</i></span>.
+                        <span class="lastUpdated">recently</span>.
                     </div>
                     <div class="row">
                         <div class="chart-outer col-sm-12 col-md-6">
@@ -449,33 +505,20 @@
     </div>
 
     <!-- All Javascript from here on out-->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    <script defer src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"
         integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-    <script src="my.js?v=14"></script>
-
-    <script type="text/javascript">
-        $("#excludeDocker").change(function () {
-            getStats();
-        });
-
-        $('#select-age').on('change', function () {
-            refreshData(this.value);
-        });
-
-        $(document).ready(function () {
-            getStats(true);
-        });
-    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes@0.4.0/dist/chartjs-plugin-colorschemes.min.js"
+        integrity="sha384-0WA9QnomkGg92heCmsmXue8THsww3+rdpEDoyozGgPzvL+IMzm4MEYUChVAt+ay2" crossorigin="anonymous"></script>
+    <script defer src="my.js?v=15"></script>
 </body>
 
 </html>
