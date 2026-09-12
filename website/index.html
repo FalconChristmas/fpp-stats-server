@@ -11,7 +11,8 @@
         content="Live statistics from Falcon Player (FPP) installations worldwide: FPP and OS versions, Raspberry Pi and BeagleBone platforms, capes, plugins, pixel and E1.31 output counts, and more.">
     <link rel="canonical" href="https://fppstats.falconchristmas.com/">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
-    <meta name="theme-color" content="#0b3d2e">
+    <meta name="theme-color" content="#2a78d6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#131313" media="(prefers-color-scheme: dark)">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="FPP Usage Statistics">
@@ -57,18 +58,15 @@
     }
     </script>
 
-    <link rel="preconnect" href="https://fppstats.falconchristmas.com" crossorigin>
-    <link rel="preconnect" href="https://stackpath.bootstrapcdn.com" crossorigin>
+    <link rel="preconnect" href="https://fppstats.thehormanns.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://code.jquery.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
-        integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
-        crossorigin="anonymous" />
-    <link rel="stylesheet" href="my.css?v=15" />
+    <link rel="stylesheet" href="my.css?v=24">
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.1/chart.umd.min.js"
+        integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ"
+        crossorigin="anonymous"></script>
+    <script defer src="my.js?v=24"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TPLF0LZ42K"></script>
@@ -81,444 +79,80 @@
 </head>
 
 <body>
-    <div id="main-div" class="container" style="padding-top: 2em">
-        <h1><span class="title-full">FPP Usage Statistics</span><span class="title-small">FPP
-                Statistics</span></h1>
-        <div class="options-div">
-            <div class="row">
-                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
-                    Reported:
-                    <select id="select-age">
-                        <option value="last7Days">Last 7 Days</option>
-                        <option value="last15Days">Last 15 Days</option>
-                        <option value="last30Days">Last 30 Days</option>
-                        <option value="last60Days">Last 60 Days</option>
-                        <option value="last180Days">Last 180 Days</option>
-                        <option value="last365Days" selected>Last Year</option>
-                        <option value="totalCount">All History</option>
 
-                    </select>
-                </div>
-                <div class="col-6 col-sm-4">
-                    Exclude Docker:
-                    <input type="checkbox" id="excludeDocker" checked value="True">
-                </div>
+    <a class="skip-link" href="#sections">Skip to the statistics</a>
+
+    <header class="topbar">
+        <div class="wrap topbar-in">
+            <div class="brand">FPP <span>Statistics</span></div>
+
+            <div class="topbar-filters">
+                <label class="chk window-label" for="window">Reported:</label>
+                <select id="window" aria-label="Time window for reported statistics">
+                    <option value="last7Days">Last 7 days</option>
+                    <option value="last15Days">Last 15 days</option>
+                    <option value="last30Days">Last 30 days</option>
+                    <option value="last60Days">Last 60 days</option>
+                    <option value="last180Days">Last 180 days</option>
+                    <option value="last365Days" selected>Last year</option>
+                    <option value="totalCount">All history</option>
+                </select>
+
+                <label class="chk"><input type="checkbox" id="docker" checked> Exclude Docker</label>
+            </div>
+
+            <button class="btn" type="button" id="goto-catalog">Find statistics</button>
+            <button class="btn icon-only" type="button" id="theme" title="Toggle light / dark"
+                aria-label="Switch theme">◐</button>
+        </div>
+    </header>
+
+    <main class="wrap">
+
+        <div class="hero">
+            <h1>FPP Usage Statistics</h1>
+            <p>Anonymous, aggregated telemetry from Falcon Player installations worldwide — releases,
+                hardware, output configuration and settings. Every figure reflects the time window and
+                Docker filter set above. Charts show only the top values; switch any card to
+                <strong>Table</strong> for the complete list with exact counts and percentages.</p>
+            <div class="stat-row">
+                <div><span class="n" id="n-window">&mdash;</span><span class="k" id="n-window-k">devices in
+                        window</span></div>
+                <div><span class="n" id="n-total">&mdash;</span><span class="k">devices all time</span></div>
+                <div><span class="n" id="n-updated">&mdash;</span><span class="k">last updated</span></div>
             </div>
         </div>
-        <div id="loading" class="ajax-loading-60px"></div>
-        <div id="all-charts">
-            <!-- Start Menu-->
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="pills-general-tab" data-toggle="pill" href="#pills-general"
-                        role="tab" aria-controls="pills-general" aria-selected="true">General</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-output-tab" data-toggle="pill" href="#pills-output" role="tab"
-                        aria-controls="pills-output" aria-selected="false">Outputs</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-settings-tab" data-toggle="pill" href="#pills-settings" role="tab"
-                        aria-controls="pills-settings" aria-selected="false">Settings</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-details-tab" data-toggle="pill" href="#pills-details" role="tab"
-                        aria-controls="pills-details" aria-selected="false">Details</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
-                        aria-controls="pills-contact" aria-selected="false">Contact</a>
-                </li>
-            </ul>
 
-            <!-- Start Tabs-->
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-general" role="tabpanel"
-                    aria-labelledby="pills-general-tab">
-                    <!-- General Tab-->
-                    <div class="intro-div">This is a top level summary of information gathered from FPP installations
-                        around the world.
-                        Unless otherwise stated, all charts display the time period defined at the top of the page. This
-                        report was last updated
-                        <span class="lastUpdated">recently</span>.
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2># of Devices Reporting</h2>
-                            <div class="canvas-holder">
-                                <canvas id="lastReportChart"></canvas>
-                            </div>
-                            <div class="chart-footnote">Not impacted by time filter</div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Last Reported</h2>
-                            <div class="canvas-holder">
-                                <canvas id="lastReportDaysChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2># Multisync Peers</h2>
-                            <div class="canvas-holder">
-                                <canvas id="peerChart"></canvas>
-                            </div>
-                        </div>
+        <section class="catalog" id="catalog" aria-labelledby="catalog-h">
+            <div class="catalog-head">
+                <h2 id="catalog-h">Find statistics <span class="cat-n" id="cat-n"></span></h2>
+                <label class="sr-only" for="cat-filter">Filter statistics</label>
+                <input class="cat-filter" id="cat-filter" type="search"
+                    placeholder="Filter &mdash; try &ldquo;panel&rdquo;, &ldquo;sACN&rdquo;, &ldquo;disk&rdquo;, &ldquo;Pi 5&rdquo;&hellip;">
+                <button class="btn cat-toggle" type="button" id="cat-toggle" aria-expanded="false"
+                    aria-controls="cat-body">
+                    <span id="cat-toggle-t">Show all</span><span class="chev" aria-hidden="true">&#9662;</span>
+                </button>
+            </div>
+            <div class="cat-body" id="cat-body">
+                <div class="cat-grid" id="cat-grid"></div>
+            </div>
+            <div class="sr-only" id="cat-status" role="status" aria-live="polite"></div>
+        </section>
 
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Platform</h2>
-                            <div class="table-holder">
-                                <div id="platform365"></div>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Generic Platform Variant</h2>
-                            <div class="table-holder">
-                                <div id="platformGenericVar365"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Pi Platform Variant</h2>
-                            <div class="table-holder">
-                                <div id="platformPiVar365"></div>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>BBB Platform Variant</h2>
-                            <div class="table-holder">
-                                <div id="platformBBBVar365"></div>
-                            </div>
-                        </div>
-                    </div>
+        <div id="loading" class="loading" role="status" aria-live="polite">
+            <div class="spinner"></div>
+            Loading statistics&hellip;
+        </div>
 
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Release</h2>
-                            <div class="canvas-holder">
-                                <canvas id="version365"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Release Details</h2>
-                            <div class="table-holder">
-                                <div id="version-detail"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Device Memory</h2>
-                            <div class="canvas-holder">
-                                <canvas id="deviceMemoryBar"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Installed Cape</h2>
-                            <div class="canvas-holder">
-                                <canvas id="cape365"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Device Storage</h2>
-                            <div class="canvas-holder">
-                                <canvas id="deviceStorageBar"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Device Used Storage</h2>
-                            <div class="canvas-holder">
-                                <canvas id="deviceUsedStorageBar"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Reported Voltages</h2>
-                            <div class="table-holder">
-                                <div id="sensorVoltage365"></div>
-                            </div>
-                            <div class="chart-footnote">Only devices reporting voltage sensors; 0V usually means an
-                                unpopulated input. A dual-rail board is counted on each
-                                rail, so percentages are of readings, not devices.</div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Wifi Signal Strength</h2>
-                            <div class="canvas-holder">
-                                <canvas id="wifiStrength365"></canvas>
-                            </div>
-                            <div class="chart-footnote">Only if Wifi connected. Best interface per device, read
-                                shortly after boot.</div>
-                        </div>
-                    </div>
+        <div id="sections" hidden></div>
 
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Non-FPP Gear on the Network</h2>
-                            <div class="subTitle">Seen via multisync</div>
-                            <div class="canvas-holder">
-                                <canvas id="nonFpp365"></canvas>
-                            </div>
-                        </div>
-                    </div>
+        <footer>
+            Questions about this tool? Ask them on the
+            <a href="http://falconchristmas.com/forum/index.php">FalconChristmas forums</a>.
+        </footer>
+    </main>
 
-                    <!-- Edit me -->
-                    <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="chart-outer col-sm-10">
-                            <h2>FPP Version / OS Version</h2>
-                            <div class="canvas-holder">
-                                <canvas id="releaseos"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-2"></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="chart-outer col-sm-10">
-                            <h2>Top 15 Capes</h2>
-                            <div class="canvas-holder">
-                                <canvas id="topCapes365"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-2"></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="chart-outer col-sm-10">
-                            <h2>Top 10 Plugins</h2>
-                            <div class="canvas-holder">
-                                <canvas id="plugins365"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-2"></div>
-                    </div>
-
-                </div> <!-- End General tab-->
-                <!-- Next Tab-->
-                <div class="tab-pane fade" id="pills-output" role="tabpanel" aria-labelledby="pills-output-tab">
-                    <div class="intro-div">This tab summarizes the types of outputs configured for each FPP device
-                        and was updated
-                        <span class="lastUpdated">recently</span>.
-                    </div>
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Total Output Universes</h2>
-                            <div class="subTitle">E1.31, ArtNet, DDP, KiNet</div>
-                            <div class="canvas-holder">
-                                <canvas id="outUnivt365"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Network Output Channels</h2>
-                            <div class="subTitle">E1.31, ArtNet, DDP, KiNet</div>
-                            <div class="canvas-holder">
-                                <canvas id="outChannel365"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Local Pixel Outputs</h2>
-                            <div class="canvas-holder">
-                                <canvas id="localPixels365"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Usage of Other Outputs</h2>
-                            <div class="table-holder">
-                                <div id="otherOutputs365"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Panel Channel Counts</h2>
-                            <div class="canvas-holder">
-                                <canvas id="panelChannel365"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2># of Configured Panels</h2>
-                            <div class="canvas-holder">
-                                <canvas id="PanelCounts365"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Panel Sizes</h2>
-                            <div class="canvas-holder">
-                                <canvas id="panelSize365"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>LED Panel Channel Types</h2>
-                            <div class="canvas-holder">
-                                <canvas id="PanelSubType365"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>E1.31 Input Universes</h2>
-                            <div class="canvas-holder">
-                                <canvas id="inUnivt365"></canvas>
-                            </div>
-                        </div>
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>E1.31 Input Channels</h2>
-                            <div class="canvas-holder">
-                                <canvas id="inChannel365"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Output Processors</h2>
-                            <div class="canvas-holder">
-                                <canvas id="outputProcessor365"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="row">
-                        <div class="chart-outer col-sm-12 col-md-6">
-                            <h2>Sequence Storage</h2>
-                            <div class="subTitle">Devices with at least one sequence</div>
-                            <div class="canvas-holder">
-                                <canvas id="sequenceBytes365"></canvas>
-                            </div>
-                            <div class="chart-footnote">Excludes devices with no sequences. Sequence library only, not
-                                total disk usage.</div>
-                        </div>
-                    </div>
-
-                </div> <!-- End Second Tab-->
-                <!-- Third Tab-->
-                <div class="tab-pane fade" id="pills-settings" role="tabpanel" aria-labelledby="pills-settings-tab">
-                    <div class="intro-div">
-                        <div class="row">
-                            <div class="col-sm-1"></div>
-                            <div class="chart-outer col-sm-10">
-                                <h2>Devices with Settings</h2>
-                                <div class="canvas-holder">
-                                    <canvas id="popularSettings365"></canvas>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="chart-outer col-sm-12 col-md-6">
-                                <h2>FPP Mode</h2>
-                                <div class="canvas-holder">
-                                    <canvas id="fppMode365"></canvas>
-                                </div>
-                            </div>
-                            <div class="chart-outer col-sm-12 col-md-6">
-                                <h2>UI Level</h2>
-                                <div class="canvas-holder">
-                                    <canvas id="uiLevel365"></canvas>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="chart-outer col-sm-12 col-md-6">
-                                <h2>MQTT Configured?</h2>
-                                <div class="canvas-holder">
-                                    <canvas id="mqtt365"></canvas>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="chart-outer col-sm-10">
-                            <h2>Configured Timezones</h2>
-                            <div class="canvas-holder">
-                                <canvas id="topTimezone365"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-sm-2"></div>
-                    </div>
-
-                </div><!-- End Third Tab-->
-                <!-- 4th Tab-->
-                <div class="tab-pane fade" id="pills-details" role="tabpanel" aria-labelledby="pills-details-tab">
-                    <div class="intro-div">
-                        <div class="row">
-                            <div class="chart-outer col-sm-12 col-md-6">
-                                <h2>All Plugins</h2>
-                                <div class="table-holder">
-                                    <div id="all-plugins"></div>
-                                </div>
-                            </div>
-                            <div class="chart-outer col-sm-12 col-md-6">
-                                <h2>Installed Capes</h2>
-                                 <div class="table-holder">
-                                    <div id="all-capes"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="chart-outer col-sm-12 col-md-6">
-                                <h2>Non-FPP Devices Detected</h2>
-                                <div class="table-holder">
-                                    <div id="all-nonfpp"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div><!-- End Third Tab-->
-                <!-- 5th Tab-->
-                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                    <div class="intro-div">
-                        Questions about this tool? Ask them on the <a
-                            href="http://falconchristmas.com/forum/index.php">forums</a>.
-                    </div>
-
-                </div><!-- End 4th Tab-->
-            </div> <!-- End tab-content-->
-
-        </div><!-- All Charts-->
-    </div>
-
-    <!-- All Javascript from here on out-->
-    <script defer src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"
-        integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes@0.4.0/dist/chartjs-plugin-colorschemes.min.js"
-        integrity="sha384-0WA9QnomkGg92heCmsmXue8THsww3+rdpEDoyozGgPzvL+IMzm4MEYUChVAt+ay2" crossorigin="anonymous"></script>
-    <script defer src="my.js?v=15"></script>
 </body>
 
 </html>

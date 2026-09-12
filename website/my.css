@@ -1,207 +1,812 @@
+/* ===================================================================
+   FPP Usage Statistics — stylesheet
+
+   Light is the base palette; dark is a *selected* set of steps for the
+   dark surface, not an automatic inversion. Every color is a token on
+   :root so the two themes swap in one place.
+   =================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --surface-0: #f4f4f1;
+  /* page ground */
+  --surface-1: #fcfcfb;
+  /* cards */
+  --surface-2: #efeeea;
+  /* wells, hovers */
+  --border: #dedcd6;
+  --border-strong: #c6c3ba;
+
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #78766f;
+
+  --accent: #2a78d6;
+  --accent-ink: #1c5cab;
+  --accent-soft: #e8f0fc;
+  --on-accent: #ffffff;
+
+  /* Categorical series, in fixed order. Never cycled: past slot 8 a
+     chart folds its tail into a real "Other" bucket. */
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --s4: #eda100;
+  --s5: #e87ba4;
+  --s6: #008300;
+  --s7: #4a3aa7;
+  --s8: #e34948;
+
+  --grid: #e6e4de;
+  --shadow: 0 1px 2px rgba(16, 16, 16, .06), 0 4px 16px rgba(16, 16, 16, .05);
+  --radius: 12px;
+
+  /* Measured at runtime from the sticky bar; see setTopbarHeight().
+     The literal here is only a pre-measurement fallback. */
+  --topbar-h: 56px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-0: #131313;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #33332f;
+    --border-strong: #4a4a45;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #918f85;
+    --accent: #3987e5;
+    --accent-ink: #86b6ef;
+    --accent-soft: #16283f;
+    --on-accent: #0b0b0b;
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --s4: #c98500;
+    --s5: #d55181;
+    --s6: #008300;
+    --s7: #9085e9;
+    --s8: #e66767;
+    --grid: #2c2c2a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 16px rgba(0, 0, 0, .3);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-0: #131313;
+  --surface-1: #1a1a19;
+  --surface-2: #232322;
+  --border: #33332f;
+  --border-strong: #4a4a45;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #918f85;
+  --accent: #3987e5;
+  --accent-ink: #86b6ef;
+  --accent-soft: #16283f;
+  --on-accent: #0b0b0b;
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --s4: #c98500;
+  --s5: #d55181;
+  --s6: #008300;
+  --s7: #9085e9;
+  --s8: #e66767;
+  --grid: #2c2c2a;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 16px rgba(0, 0, 0, .3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* FIX 4: offset deep-link landings by the *measured* bar height,
+     not a guessed constant, because the bar wraps on narrow screens. */
+  scroll-padding-top: calc(var(--topbar-h) + 12px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
-  background-color: #1f78b4;
+  margin: 0;
+  background: var(--surface-0);
+  color: var(--text-primary);
+  font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2 {
-  color: #222366;
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: 20px;
 }
 
-.title-full {
-  display: block;
+a {
+  color: var(--accent-ink);
 }
 
-.title-small {
-  display: none;
+/* Visible only to assistive technology. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
-.options-div {
-  margin-bottom: 1em;
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 100;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 8px 14px;
+  border-radius: 0 0 8px 8px;
+  text-decoration: none;
+  transition: top .15s ease;
 }
 
-.nav-pills .nav-link {
-  border-radius: 1rem;
-  border: solid;
-  border-width: 1px;
-  margin: 0.2em;
-  border-color: rgb(53, 51, 63);
-  padding: .3rem 1rem;
+.skip-link:focus {
+  top: 0;
 }
 
+:is(a, button, select, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 
-@media only screen and (max-width: 575px) {
-  body {
-    background-color: white;
+/* ---------- sticky bar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  /* FIX 6: opaque fallback first. Where color-mix is unsupported the
+     declaration below is dropped and this one keeps the bar opaque,
+     rather than letting charts scroll through the header text. */
+  background: var(--surface-1);
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  .topbar {
+    backdrop-filter: blur(10px);
+  }
+}
+
+.topbar-in {
+  display: flex;
+  align-items: center;
+  gap: 10px 12px;
+  padding-block: 9px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: -.01em;
+  margin-right: auto;
+  white-space: nowrap;
+}
+
+.brand span {
+  color: var(--accent-ink);
+}
+
+select,
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+select,
+.btn {
+  background: var(--surface-1);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.btn:hover,
+select:hover {
+  background: var(--surface-2);
+}
+
+.chk {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.icon-only {
+  min-width: 34px;
+  text-align: center;
+}
+
+/* FIX 5: a deliberate two-row composition on phones rather than
+   whatever flex-wrap happens to produce. Row 1 is identity + actions,
+   row 2 is the filters. Labels that only repeat the control are
+   dropped to keep the bar to two rows at 360px. */
+@media (max-width: 640px) {
+  .topbar-in {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-template-areas:
+      "brand find theme"
+      "filters filters filters";
+    gap: 8px;
+    padding-block: 8px;
   }
 
-  .title-full {
+  .brand {
+    grid-area: brand;
+    margin: 0;
+    align-self: center;
+  }
+
+  #goto-catalog {
+    grid-area: find;
+  }
+
+  #theme {
+    grid-area: theme;
+  }
+
+  .topbar-filters {
+    grid-area: filters;
+  }
+
+  .topbar-filters .window-label {
     display: none;
   }
 
-  .title-small {
-    display: block;
+  .topbar select {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 }
 
-.chart-footnote {
-  font-style: italic;
-  margin-left: 1em;
-  margin-right: 1em;
-  text-align: center;
+.topbar-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
-#main-div {
-  background-color: white;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding-bottom: 1em;
-  border-radius: 25px;
+/* ---------- hero ---------- */
+.hero {
+  padding-block: 40px 12px;
 }
 
-.intro-div {
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-bottom: 0em;
+.hero h1 {
+  font-size: clamp(26px, 5vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -.025em;
+  margin: 0 0 10px;
 }
 
-.tab-content {
-  border: solid;
-  border-radius: 25px;
-  padding-top: 1em;
-  padding-bottom: 1em;
+.hero p {
+  color: var(--text-secondary);
+  margin: 0;
 }
 
-.canvas-holder canvas {
-  margin: 0 auto;
+.hero p strong {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
-.table-holder {
-  margin-left: 5px;
-  margin-right: 5px;
+.stat-row {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 22px;
 }
 
-.table-holder>div {
-  margin-left: 10px;
-  margin-right: 5px;
-  height: 275px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+.stat-row .n {
+  /* One size for all three figures. The date is the longest of them,
+     so the whole row is set at the size that suits it. */
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  display: block;
 }
 
-
-.canvas-holder {
-  /*max-width: 450px;*/
-  margin: 0 auto;
+.stat-row .k {
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
-#all-charts {
+/* ---------- the finder ---------- */
+.catalog {
+  margin-block: 28px 8px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  scroll-margin-top: calc(var(--topbar-h) + 12px);
+}
+
+.catalog h2 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+
+.catalog-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cat-n {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.cat-filter {
+  flex: 1 1 220px;
+  min-width: 0;
+  margin: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 7px 12px;
+}
+
+.cat-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.cat-toggle .chev {
+  transition: transform .18s ease;
+  font-size: 11px;
+}
+
+.cat-toggle[aria-expanded="false"] .chev {
+  transform: rotate(-90deg);
+}
+
+/* Collapsed. FIX 6: `hidden` is the floor — where grid-row animation
+   is unsupported the body is simply hidden, instead of never
+   collapsing at all. Browsers that do support it animate and the
+   [hidden] is removed a frame later by script. */
+.cat-body[hidden] {
   display: none;
 }
 
-.chart-outer {
-  margin-top: 2em;
+@supports (grid-template-rows: 0fr) {
+  .cat-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows .22s ease, opacity .18s ease, margin-top .22s ease;
+    margin-top: 14px;
+    opacity: 1;
+  }
+
+  .cat-body>* {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .catalog.collapsed .cat-body {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-top: 0;
+  }
 }
 
-.chart-outer h2,
-.chart-outer .subTitle {
+@media (prefers-reduced-motion: reduce) {
+
+  .cat-body,
+  .cat-toggle .chev {
+    transition: none;
+  }
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+  gap: 8px;
+}
+
+.cat-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.cat-item:hover {
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+
+.cat-item b {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cat-item span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
+.cat-empty {
+  grid-column: 1/-1;
+  padding: 22px;
+  color: var(--text-muted);
   text-align: center;
+  font-size: 14px;
 }
 
-/* Use as <div class="ajax-loading-60px"></div> */
-.ajax-loading-60px {
-  border: 16px solid #f3f3f3;
+.cat-sec {
+  grid-column: 1/-1;
+  color: var(--text-muted);
+  font: 600 11px/1 ui-sans-serif, system-ui;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  margin-top: 12px;
+  padding-left: 10px;
+}
+
+.cat-sec:first-child {
+  margin-top: 0;
+}
+
+/* ---------- sections & cards ---------- */
+.section-head {
+  margin: 42px 0 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  scroll-margin-top: calc(var(--topbar-h) + 12px);
+}
+
+.section-head h2 {
+  font-size: 20px;
+  margin: 0;
+  letter-spacing: -.015em;
+}
+
+.section-head em {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: normal;
+}
+
+/* Cards are capped at two per row. Three-across leaves roughly 380px
+   per chart, which is too narrow for Chart.js to fit every x-axis
+   label — it silently drops every other one. Two-across gives each
+   chart ~570px at full width, where the labels fit.
+
+   Single column below the breakpoint. minmax(0, 1fr) rather than a
+   px minimum keeps the tracks from exceeding the container on a
+   360px phone, which would scroll the whole page sideways. */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 16px 16px;
+  scroll-margin-top: calc(var(--topbar-h) + 12px);
+  min-width: 0;
+}
+
+.card.wide {
+  grid-column: 1/-1;
+}
+
+.card.flash {
+  animation: flash 1.4s ease-out;
+}
+
+@keyframes flash {
+
+  0%,
+  35% {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  100% {
+    border-color: var(--border);
+    box-shadow: var(--shadow);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.flash {
+    animation: none;
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+  flex-wrap: wrap;
+}
+
+.card-head h3 {
+  font-size: 15px;
+  margin: 0;
+  letter-spacing: -.01em;
+  min-width: 0;
+}
+
+.icon-btn {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 60px;
-  height: 60px;
-  -webkit-animation: ajax-spin 2s linear infinite;
-  /* Safari */
-  animation: ajax-spin 2s linear infinite;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-muted);
+  font: 600 12px/1 serif;
+  cursor: pointer;
+  padding: 0;
 }
 
-/* Safari */
-@-webkit-keyframes ajax-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
+.icon-btn:hover,
+.icon-btn[aria-expanded="true"] {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
 
-  100% {
-    -webkit-transform: rotate(360deg);
+.card-tools {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.seg button {
+  background: var(--surface-1);
+  border: 0;
+  padding: 3px 9px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.csv-btn {
+  font-size: 12px;
+  padding: 3px 9px;
+}
+
+/* CSV is a desktop affordance only. */
+@media (max-width: 767px) {
+  .csv-btn {
+    display: none;
   }
 }
 
-@keyframes ajax-spin {
-  0% {
-    transform: rotate(0deg);
-  }
+.details {
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 12px;
+  margin: 8px 0 4px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
 
-  100% {
+.details[hidden] {
+  display: none;
+}
+
+.details .src {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.plot {
+  position: relative;
+  height: 260px;
+  margin-top: 10px;
+}
+
+.plot[hidden],
+.tablewrap[hidden],
+.rowcount[hidden] {
+  display: none;
+}
+
+.tablewrap {
+  margin-top: 10px;
+  /* Matches .plot height so the card is the same size in either view.
+     This also reserves space for cards that are in table mode but have
+     not lazily rendered yet — without it they occupy no height, and a
+     jump past them drifts as they fill in. */
+  min-height: 260px;
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+caption {
+  text-align: left;
+  padding: 6px 10px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  text-align: right;
+  font-size: 11px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+thead th:first-child {
+  text-align: left;
+}
+
+tbody td {
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+tbody td:first-child {
+  text-align: left;
+  font-variant-numeric: normal;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.rowcount {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.foot-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.45;
+}
+
+/* ---------- states ---------- */
+.loading {
+  padding: 80px 0;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 14px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
     transform: rotate(360deg);
   }
 }
 
-#version-detail .label {
-  padding-left: 2em;
-}
-
-#platform365 .label {
-  padding-left: 2em;
-}
-
-#platformPiVar365 .label {
-  padding-left: 1em;
-}
-
-@media only screen and (max-width: 576px) {
-  #version-detail .label {
-    padding-left: 1em;
-  }
-
-  #platform365 .label {
-    padding-left: 1em;
-  }
-
-  #platformPiVar365 .label {
-    padding-left: 1em;
-  }
-
-  #version-detail {
-    width: 95%;
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 3s;
   }
 }
 
-@media only screen and (min-width: 577px) {
-  #version-detail .label {
-    padding-left: 1em;
-  }
-
-  #platform365 .label {
-    padding-left: 1em;
-  }
-
-  #platformPiVar365 .label {
-    padding-left: 1em;
-  }
-
+.retry {
+  margin-top: 14px;
 }
 
-@media only screen and (min-width: 991px) {
-  #version-detail .label {
-    padding-left: 2em;
-  }
-
-  #platform365 .label {
-    padding-left: 5em;
-  }
-
-  #platformPiVar365 .label {
-    padding-left: 5em;
-  }
-
+footer {
+  color: var(--text-muted);
+  font-size: 13px;
+  padding-block: 24px 40px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
 }
 
-@media only screen and (min-width: 1200px) {
-  #version-detail .label {
-    padding-left: 7em;
-  }
+footer code {
+  font-size: 12px;
+  word-break: break-all;
 }
