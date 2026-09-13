@@ -4,7 +4,8 @@
   "description": "Process all the supplied data files and genereate a statistical summary",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./lib/scrub.selftest.js",
+    "scrub": "node ./scrub-archive.js"
   },
   "repository": {
     "type": "git",

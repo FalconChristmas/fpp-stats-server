@@ -262,25 +262,32 @@ curl http://localhost:7654/fpp_commits
 ### 8. Archive Download
 **GET /archive/{DOWNLOAD_KEY}**
 
-Downloads a ZIP archive containing all collected statistics data.
+Downloads a gzipped tar archive containing all collected statistics data.
 
 **Parameters:**
 - `DOWNLOAD_KEY`: Secret key required for access (configured via environment variable)
 
 **Response:**
-- Content-Type: `application/zip`
-- Content-Disposition: `attachment; filename="archive.zip"`
-- Body: ZIP file containing all collected data
+- Content-Type: `application/gzip`
+- Content-Disposition: `attachment; filename="archive.tar.gz"`
+- Body: gzipped tar of every `*.json` file in the data directory
 
 **Example:**
 ```bash
-curl -o archive.zip http://localhost:7654/archive/your-secret-download-key
+curl -o archive.tar.gz http://localhost:7654/archive/your-secret-download-key
 ```
+
+**Freshness:**
+- The archive is rebuilt by the statsCollector container every 4 hours, so it can
+  be up to 4 hours behind the most recent upload.
+- If a rebuild fails the previous archive is served unchanged rather than being
+  replaced with an unscrubbed one.
 
 **Security Notes:**
 - Download key must be configured in server environment
 - Access is logged for security monitoring
-- Contains sensitive usage statistics data
+- Records in the archive are scrubbed of identifying fields before it is built —
+  see [Data Retention](#data-retention)
 
 ---
 
@@ -300,6 +307,44 @@ Error responses typically include:
   "uuid": "relevant-uuid-if-applicable"
 }
 ```
+
+---
+
+## Data Retention
+
+Uploaded records are kept indefinitely — history is preserved rather than aged
+out. What is removed is *fields*, not records.
+
+Every 4 hours, before the downloadable archive is rebuilt, the statsCollector
+scrubs the stored records in place:
+
+**Removed**
+- `capeInfo.serialNumber` and `capeInfo.cs` — together, the join key to a
+  purchase record
+- `capeInfo.vendor.*` — reduced to `name`; the block carries sole traders'
+  personal names, e-mail, phone and postal addresses
+- `multisync[].capeInfo.*` — the same treatment for peer cape records
+- Any top-level block not on the allowlist — historically these have included
+  full `ip addr` output and lists of LAN addresses
+- Settings whose value is personal, a credential, or free text — replaced with
+  the marker `__SET__`, which preserves set-vs-unset analytics
+
+**Kept**
+- The device `uuid` and peer uuids — required for collision detection and show
+  deduplication
+- Hardware, platform and version information
+- Every enumerable, numeric and boolean setting
+- The `consent` block recording agreement to collection
+
+The scrub is idempotent and runs over the whole archive each time, so a policy
+change reaches historical records on the next pass.
+
+There is a window: `POST /upload` writes the raw payload, so a record is stored
+unscrubbed for up to 4 hours before the next pass. The published archive and
+`summary.json` are built from scrubbed data.
+
+Full detail, including the reasoning behind each keep decision, is in
+[statsCollector/docs/SCRUBBING.md](../../statsCollector/docs/SCRUBBING.md).
 
 ---
 
