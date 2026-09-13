@@ -50,8 +50,9 @@ function flatRows(obj) {
 
 // Timezone ordering, carried over from the original site.
 function tzKey(s) {
-  if (s === "Not Reported") return 99999999;
-  return (s.startsWith("+") ? 1 : -1) * parseInt(s.substring(1, 6), 10);
+  const m = /^UTC([+-])(\d{2}):(\d{2})$/.exec(s);
+  if (!m) return 99999999;
+  return (m[1] === "+" ? 1 : -1) * (parseInt(m[2], 10) * 60 + parseInt(m[3], 10));
 }
 
 /* ------------------------------------------------------------------
@@ -342,9 +343,10 @@ const REGISTRY = [
   /* ---------------- Environment ---------------- */
   {
     id: "timezone", section: "environment", wide: true, chart: "bar", label: "Devices", limit: 40,
-    title: "Configured Timezone",
-    desc: "The timezone each device is set to — the closest thing this dataset has to a map of where FPP is used.",
-    keywords: ["timezone", "tz", "region", "country", "location", "utc", "geography", "where"],
+    title: "Configured UTC Offset",
+    desc: "The UTC offset each device is set to — the closest thing this dataset has to a map of where FPP is used.",
+    keywords: ["timezone", "tz", "utc", "gmt", "offset", "region", "country", "location", "geography", "where"],
+    note: "Grouped by the configured timezone's standard (non-DST) offset, so a zone stays in one bucket year-round.",
     rows: (d, w) => {
       const o = d.timeZone.data;
       return Object.keys(o).sort((a, b) => tzKey(a) - tzKey(b))
