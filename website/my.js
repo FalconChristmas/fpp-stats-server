@@ -317,6 +317,13 @@ const REGISTRY = [
     rows: (d, w) => ageRows(d.uiLevel.data, w),
   },
   {
+    id: "media-backend", section: "settings", chart: "pie", label: "Devices",
+    title: "Media Backend",
+    desc: "Which backend FPP is configured to use for playing audio and video.",
+    keywords: ["media", "backend", "audio", "sound", "video", "pipewire", "sdl", "mpv", "playback"],
+    rows: (d, w) => ageRows(d.mediaBackend.data, w),
+  },
+  {
     id: "mqtt", section: "settings", chart: "pie", label: "Devices",
     title: "MQTT Configured?",
     desc: "How many installs have MQTT configured for home-automation integration.",
