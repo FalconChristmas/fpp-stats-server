@@ -19,8 +19,13 @@ const util = require("../lib/util.js");
 // That needs every record before anything can be counted, so the handler
 // gathers per-record summaries and does the grouping in results().
 
-// Names that identify a header rather than a product
-const GENERIC_CAPES = new Set(["PiHat", "spixels", "Unknown", "None", ""]);
+// Names that mean no cape was identified
+const NO_CAPE = new Set(["Unknown", "None", ""]);
+
+// A Pi with no EEPROM cape reports the pixel string base type as its cape.
+// That is a generic hat rather than a product, but it drives pixels all
+// the same, so it counts when strings are actually configured behind it.
+const GENERIC_HATS = new Set(["PiHat", "spixels"]);
 
 // Capes that drive nothing: displays, buttons and fan control for the host
 // itself.  This chart is output hardware, so they are left out.
@@ -44,7 +49,10 @@ function isMap(v) {
     return (v !== null) && (typeof v === "object") && !Array.isArray(v);
 }
 
-function capeName(cape) {
+// obj is the stats record when the cape is the reporter's own; a peer's
+// cape comes with no output config, so a generic hat there is taken on
+// its name alone.
+function capeName(cape, obj) {
     if (!isMap(cape)) {
         return null;
     }
@@ -52,7 +60,16 @@ function capeName(cape) {
     if (("present" in cape) && !cape.present) {
         return null;
     }
-    return (GENERIC_CAPES.has(name) || DISPLAY_CAPES.has(name)) ? null : name;
+    if (NO_CAPE.has(name) || DISPLAY_CAPES.has(name)) {
+        return null;
+    }
+    if (GENERIC_HATS.has(name) && obj !== undefined) {
+        let pixels = isMap(obj.output_pixel_pi) ? obj.output_pixel_pi.pixelCount : 0;
+        if (!(pixels > 0)) {
+            return null;
+        }
+    }
+    return name;
 }
 
 // Per-record summaries, in arrival order
@@ -171,7 +188,7 @@ module.exports = [
             let self = util.stablePeerUuid(obj.uuid);
             let rec = { ts: ts, peers: [], controllers: {} };
 
-            noteCape(self, capeName(obj.capeInfo), ts);
+            noteCape(self, capeName(obj.capeInfo, obj), ts);
 
             if (Array.isArray(obj.multisync)) {
                 // A controller with a real uuid may appear on more than one
