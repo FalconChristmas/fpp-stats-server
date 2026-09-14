@@ -17,7 +17,7 @@ module.exports = [
             let platform = "Not Defined";
             if ("systemInfo" in obj) {
                 if ("platformVariant" in obj.systemInfo) {
-                    platform = obj.systemInfo.platformVariant;
+                    platform = util.normalizePlatformVariant(obj.systemInfo.platformVariant);
                 }
             }
 

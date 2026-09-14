@@ -20,8 +20,11 @@ module.exports = [
         currentHandler: async (obj) => {
             let outputs = {};
             // Only want to count unique ones
-            if ("output_other" in obj) {
-                if ("types" in obj.output_other) {
+            // types is absent when the config file is missing and an empty
+            // array when it holds nothing, so guard the shape rather than
+            // just the key.
+            if (obj.output_other !== null && typeof obj.output_other === "object") {
+                if (Array.isArray(obj.output_other.types)) {
                     obj.output_other.types.forEach(e => {
                         outputs[e] = 1;
                     });

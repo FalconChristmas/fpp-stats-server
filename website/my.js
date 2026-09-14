@@ -103,6 +103,7 @@ const REGISTRY = [
     title: "Multisync Peers",
     desc: "How many other FPP devices each install can see on its network via multisync — in effect, how big people's shows are.",
     keywords: ["network", "peers", "remote", "show size", "sync", "multisync", "players"],
+    note: "Distinct peer devices, excluding the host itself. Counts only gear that announces itself, so an install driving plain E1.31 receivers can show None while still running a large show.",
     rows: (d, w) => ageRowsOrdered(d.multisyncPeers.data.peers, d.multisyncPeers.data.peerOrder, w),
   },
 
@@ -208,7 +209,7 @@ const REGISTRY = [
     desc: "How many network output universes are configured per device, across E1.31 / sACN, ArtNet, DDP and KiNet.",
     source: "co-universes.json",
     keywords: ["e1.31", "e131", "sacn", "artnet", "ddp", "kinet", "universe", "network output"],
-    note: "Devices with no configured universes are excluded.",
+    note: "Devices with no configured universes are excluded. DDP and Twinkly outputs are addressed by channel rather than by universe, so an install using only those is excluded here while still sending data — the channel chart is the one to read for those.",
     rows: (d, w) => ageRowsOrdered(d.outputUniverses.data.universe, d.outputUniverses.data.universeOrder, w, { drop: ["Zero"] }),
   },
   {
@@ -217,8 +218,18 @@ const REGISTRY = [
     desc: "Total channel count sent over the network per device, across E1.31 / sACN, ArtNet, DDP and KiNet.",
     source: "co-universes.json",
     keywords: ["channels", "e1.31", "e131", "sacn", "artnet", "ddp", "kinet", "channel count", "size"],
-    note: "Devices with no configured network output are excluded.",
+    note: "Devices with no configured network output are excluded. Older payloads under-report DDP and Twinkly rows, which were sized by a universe count those protocols do not use; FPP 10.1 measures them directly, so this chart rises as installs update.",
     rows: (d, w) => ageRowsOrdered(d.outputUniverses.data.channel, d.outputUniverses.data.channelOrder, w, { drop: ["Zero"] }),
+  },
+  {
+    id: "output-targets", section: "outputs", chart: "bar", label: "Devices",
+    title: "Controllers Fed Over the Network",
+    desc: "How many distinct unicast destinations each device sends network output to — roughly, how many controllers it feeds.",
+    source: "co-universes.json",
+    keywords: ["controllers", "targets", "destinations", "unicast", "ip", "e1.31", "ddp", "fed"],
+    note: "Distinct destinations rather than output rows, so a controller described by several rows counts once. Broadcast and multicast are excluded — they are not a single device. Needs FPP 10.1 or later, so this covers only recently updated installs.",
+    // Absent until a collector run that knows this handler has completed
+    rows: (d, w) => d.outputTargets ? ageRowsOrdered(d.outputTargets.data.targets, d.outputTargets.data.targetsOrder, w) : [],
   },
   {
     id: "local-pixels", section: "outputs", chart: "bar", label: "Devices",
@@ -371,12 +382,22 @@ const REGISTRY = [
     rows: (d, w) => ageRows(d.sensorVoltage.data.voltage, w),
   },
   {
-    id: "non-fpp", section: "environment", wide: true, chart: "bar", label: "Devices", limit: 15,
-    title: "Non-FPP Gear on the Network",
-    desc: "Other controllers discovered alongside FPP via multisync. The chart shows the top 15; the table lists everything seen.",
+    id: "non-fpp", section: "environment", wide: true, chart: "bar", label: "Units", limit: 15,
+    title: "Non-FPP Controllers on the Network",
+    desc: "Third party controllers discovered alongside FPP via multisync, counted per unit. The chart shows the top 15; the table lists everything seen.",
     keywords: ["falcon", "wled", "genius", "controller", "non-fpp", "third party", "discovered", "neighbours"],
-    note: "Seen via multisync discovery (typeId 128 and above).",
-    rows: (d, w) => ageRows(d.nonFppMultisync.data.types, w),
+    note: "A controller is seen by every FPP host in its show, so hosts that see each other are grouped into a show and each model is counted as the most any one host there sees. Only gear that answers FPP's discovery (typeId 128 and above) is visible, so plain E1.31 receivers are absent no matter how many channels they drive.",
+    // Absent until a collector run that knows this handler has completed
+    rows: (d, w) => d.outputHardware ? ageRows(d.outputHardware.data.gear, w).filter(r => d.outputHardware.data.kind[r.label] === "Controller") : [],
+  },
+  {
+    id: "output-hardware", section: "environment", wide: true, chart: "bar", label: "Units", limit: 20,
+    title: "Controllers & Capes",
+    desc: "Every string and panel driving cape and every third party controller in use, counted per unit — a K16A-B and a Falcon F16v4 on the same scale. The chart shows the top 20; the table lists everything.",
+    keywords: ["gear", "capes", "controllers", "hardware", "falcon", "wled", "genius", "kulp", "units", "market"],
+    note: "A cape is counted once per device; controllers are counted per show as on the Non-FPP chart. Only gear that answers FPP's discovery is visible, so plain E1.31 receivers are absent. Display-only capes are excluded.",
+    // Absent until a collector run that knows this handler has completed
+    rows: (d, w) => d.outputHardware ? ageRows(d.outputHardware.data.gear, w) : [],
   },
 ];
 

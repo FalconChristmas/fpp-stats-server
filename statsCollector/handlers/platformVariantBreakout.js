@@ -22,9 +22,7 @@ module.exports = [
                     platform = obj.systemInfo.platform;
 
                     if ("platformVariant" in obj.systemInfo) {
-                        if ("platformVariant" in obj.systemInfo) {
-                            platformVariant = obj.systemInfo.platformVariant;
-                        }
+                        platformVariant = util.normalizePlatformVariant(obj.systemInfo.platformVariant);
                     }
 
                     if (platform == "BeagleBone 64" || platform == "BeagleBone Black") {

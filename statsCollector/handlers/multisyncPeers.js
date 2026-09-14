@@ -3,7 +3,6 @@ const util = require("../lib/util.js");
 
 let myData = {};
 
-
 let peerGroup = [
     {
         label: "None",
@@ -54,7 +53,7 @@ let peerGroup = [
 module.exports = [
     {
         name: "multisyncPeers",
-        description: "How many multisync peers are connected to the host machine?",
+        description: "How many distinct multisync peer devices are visible to the host machine?",
 
         reset: async () => {
             myData = {
@@ -69,13 +68,9 @@ module.exports = [
             return myData;
         },
         currentHandler: async (obj) => {
-            let peerCnt = 0;
+            let peerCnt = util.distinctFppPeers(obj.multisync);
             let pGroup = "Unknown";
 
-            if ("multisync" in obj) {
-                // -1 is because you always see yourself
-                peerCnt = obj.multisync.length -1;
-            }
             peerGroup.forEach(e => {
                 if (peerCnt >= e.min && peerCnt <= e.max) {
                     pGroup = e.label;
