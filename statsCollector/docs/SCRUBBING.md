@@ -140,7 +140,7 @@ These are documented so nobody "tidies" them away later.
 | `capeInfo.designer` | Product attribution, 21 distinct values in the 2026-09-12 corpus — the same class as `vendor.name`. Identifies the cape *designer*, not the device owner, and is already public on the cape EEPROM. Several values are personal names; if that is judged unacceptable, add `designer` to `CAPE_DROP`. |
 | `consent` | The record of the user's consent to collection: `{value, date, via, version, textHash}`. A compliance cleanup that deletes the evidence of consent has it backwards. Carries a timestamp, an enumerable source and a hash of the consent text — no household detail. |
 | `TimeZone`, `Locale`, RTC and resolution selects | Analytically load-bearing — the show-graph validation runs on UTC offset — and not free text in practice. |
-| Audio/video device names | `AudioOutput`, `AudioMixerDevice`, `ForceAudioId`, `VideoOutput`, `AES67Interface`. Hardware strings (`pcm510x`, `SoundBlaster Play! 3`) and how the project knows which kernel modules, plugins and USB devices an image must support. See `VALUE_DENYLIST` for the value-level exception. |
+| Audio/video device names | `AudioOutput`, `AudioCardType`, `AudioMixerDevice`, `ForceAudioId`, `VideoOutput`, `AES67Interface`. Hardware strings (`pcm510x`, `SoundBlaster Play! 3`) and how the project knows which kernel modules, plugins and USB devices an image must support. See `VALUE_DENYLIST` for the value-level exception. |
 | Every checkbox and number | Cannot carry a hostname or a person's name. |
 
 ---

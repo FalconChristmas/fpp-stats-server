@@ -158,6 +158,16 @@ const REGISTRY = [
     rows: (d, w) => ageRowsOrdered(d.deviceStorage.data.usedStorage, d.deviceStorage.data.usedStorageOrder, w),
   },
 
+  {
+    id: "audio-device", section: "hardware", wide: true, chart: "bar", label: "Devices", limit: 20,
+    title: "Audio Output Device",
+    desc: "The sound card FPP plays through: the Pi headphone jack, HDMI, a USB adapter or an audio cape.",
+    keywords: ["audio", "sound card", "usb audio", "headphones", "hdmi", "dac", "pipewire", "alsa", "speaker"],
+    note: "FPP 10 and newer; older releases record only a card number, which does not identify the hardware. Devices on the Advanced PipeWire backend route audio through a graph that can reach several outputs, so they are grouped as PipeWire Advanced.",
+    // Absent until a collector run that knows this handler has completed
+    rows: (d, w) => d.audioDevice ? ageRows(d.audioDevice.data, w) : [],
+  },
+
   /* ---------------- Software & Versions ---------------- */
   {
     id: "release", section: "software", chart: "pie", label: "Devices",
@@ -347,7 +357,7 @@ const REGISTRY = [
     title: "Most-Changed Settings",
     desc: "Which settings people explicitly change from their defaults, most often first.",
     keywords: ["settings", "defaults", "configuration", "changed", "customised", "customized", "tweaks"],
-    note: "Counts settings that were explicitly set; defaults are not included.",
+    note: "Counts settings whose value differs from FPP's default. A setting the setup wizard writes but leaves at its default is not counted, and settings chosen by the wizard or by hardware detection (time zone, locale, audio device) are left out.",
     rows: (d, w) => ageRows(d.settingsPopular.data, w),
   },
 

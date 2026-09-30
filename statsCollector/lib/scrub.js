@@ -105,7 +105,7 @@ const TOP_LEVEL_KEEP = new Set([
 // is a value-level review of that short list -- see VALUE_DENYLIST -- not
 // blanking a field the project needs.
 const SETTING_HARDWARE_KEEP = new Set([
-  "AudioOutput", "AudioMixerDevice", "ForceAudioId", "VideoOutput",
+  "AudioOutput", "AudioCardType", "AudioMixerDevice", "ForceAudioId", "VideoOutput",
   "AES67Interface",
 ]);
 

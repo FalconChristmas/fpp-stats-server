@@ -1,40 +1,50 @@
 {
-  "_comment": "GENERATED - do not edit by hand. Trimmed snapshot of www/settings.json from FalconChristmas/fpp, reduced to the type/pii declarations lib/scrub.js needs. Regenerate with: node statsCollector/tools/gen-settings-policy.js",
+  "_comment": "GENERATED - do not edit by hand. Trimmed snapshot of www/settings.json from FalconChristmas/fpp, reduced to the type/pii declarations lib/scrub.js needs and the effective defaults handlers/settingsPopular.js compares against. Regenerate with: node statsCollector/tools/gen-settings-policy.js",
   "_source": "https://github.com/FalconChristmas/fpp/blob/master/www/settings.json",
-  "_sourceCommit": "fed49ecfd1b89cb6adb0871abc5caa4dda4692f7",
-  "_sourceCommitDate": "2026-09-12T11:28:58Z",
+  "_sourceCommit": "acd7b81ba3b9a2d0a4ef78224e1e7ec6d3678eee",
+  "_sourceCommitDate": "2026-09-29T01:17:31Z",
   "settings": {
     "AES67Channels": {
-      "type": "select"
+      "type": "select",
+      "default": "2"
     },
     "AES67Enabled": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "AES67Interface": {
-      "type": "select"
+      "type": "select",
+      "default": ""
     },
     "AES67Latency": {
-      "type": "number"
+      "type": "number",
+      "default": "10"
     },
     "AES67Mode": {
-      "type": "select"
+      "type": "select",
+      "default": "send"
     },
     "AES67MulticastIP": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": "239.69.0.1"
     },
     "AES67PTPEnabled": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "AES67Port": {
-      "type": "number"
+      "type": "number",
+      "default": "5004"
     },
     "AES67SAPEnabled": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "AES67SessionName": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": "FPP AES67"
     },
     "AudioCard0Type": {},
     "AudioCardAliases": {
@@ -42,41 +52,53 @@
     },
     "AudioCardType": {},
     "AudioFormat": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "AudioMixerDevice": {
-      "type": "select"
+      "type": "select",
+      "default": "PCM"
     },
     "AudioOutput": {
-      "type": "select"
+      "type": "select",
+      "default": ""
     },
     "AudioPeriodSize": {
-      "type": "select"
+      "type": "select",
+      "default": "1024"
     },
     "AutoEnableOutputs": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "AutoRebootOnUSBNetworkFailure": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "BBBLedPWR": {
-      "type": "select"
+      "type": "select",
+      "default": "1"
     },
     "BBBLeds0": {
-      "type": "select"
+      "type": "select",
+      "default": "heartbeat"
     },
     "BBBLeds1": {
-      "type": "select"
+      "type": "select",
+      "default": "mmc0"
     },
     "BBBLeds2": {
-      "type": "select"
+      "type": "select",
+      "default": "cpu"
     },
     "BBBLeds3": {
-      "type": "select"
+      "type": "select",
+      "default": "mmc1"
     },
     "BeaglePlatform": {},
     "BridgeSourcePriority": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "ClockDate": {
       "type": "date"
@@ -85,48 +107,65 @@
       "type": "time"
     },
     "CompressMultiSyncTransfers": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "DateFormat": {
-      "type": "select"
+      "type": "select",
+      "default": "%a %b %e"
     },
     "DisableFakeNetworkBridges": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
+    },
+    "DisableHDMICECInit": {
+      "type": "checkbox",
+      "default": "0"
     },
     "DisablePiRTC": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "DisableScheduler": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "DistccHosts": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": ""
     },
     "DistributedCompile": {
-      "type": "select"
+      "type": "select",
+      "default": "off"
     },
     "E131BridgingInterval": {
-      "type": "select"
+      "type": "select",
+      "default": "50"
     },
     "EnableBBBHDMI": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "EnableTethering": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "FPP_UUID": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": ""
     },
     "FetchVendorLogos": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "ForceAudioId": {
       "type": "text"
     },
     "ForceHDMI": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "ForceHDMIResolution": {
       "type": "select"
@@ -135,28 +174,34 @@
       "type": "select"
     },
     "GPIOFan": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "GPIOFanTemperature": {
-      "type": "number"
+      "type": "number",
+      "default": "70"
     },
     "HardwareDecoding": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "HostDescription": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": "FPP"
     },
     "HostName": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": "fpp"
     },
     "InstalledCape": {
       "type": "select"
     },
     "IsDesktop": {},
     "KioskRotate": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "KioskTimeout": {
       "type": "number"
@@ -166,71 +211,91 @@
       "pii": true
     },
     "LEDDisplayType": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "Latitude": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": "38.938524"
     },
     "LegalJurisdiction": {
       "type": "select"
     },
     "Locale": {
-      "type": "select"
+      "type": "select",
+      "default": "Global"
     },
     "LogLevel_ChannelData": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_ChannelOut": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Command": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Control": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_E131Bridge": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Effect": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_GPIO": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_General": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_HTTP": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_MediaOut": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Playlist": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Plugin": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Schedule": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Sequence": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Settings": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "LogLevel_Sync": {
-      "type": "select"
+      "type": "select",
+      "default": "info"
     },
     "Logo": {},
     "LogoLink": {},
     "Longitude": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": "-104.600945"
     },
     "MQTTCaFile": {
       "type": "text"
@@ -240,7 +305,8 @@
       "pii": true
     },
     "MQTTFrequency": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "MQTTHost": {
       "type": "text",
@@ -250,17 +316,20 @@
       "type": "password"
     },
     "MQTTPort": {
-      "type": "number"
+      "type": "number",
+      "default": "1883"
     },
     "MQTTPortStatusFrequency": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "MQTTPrefix": {
       "type": "text",
       "pii": true
     },
     "MQTTStatusFrequency": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "MQTTSubscribe": {
       "type": "text",
@@ -271,31 +340,40 @@
       "pii": true
     },
     "MediaBackend": {
-      "type": "select"
+      "type": "select",
+      "default": "pipewire-simple"
     },
     "MultiSyncBroadcast": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncCopyEffects": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncCopyEvents": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncCopyMusic": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncCopyScripts": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncCopySequences": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "MultiSyncCopyVideos": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncEnabled": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncExternalIPAddress": {
       "type": "text",
@@ -309,22 +387,28 @@
       "type": "text"
     },
     "MultiSyncHide10": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncHide172": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncHide192": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncMulticast": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncRefreshStatus": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "MultiSyncUnicast": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "OSImagePrefix": {},
     "PipeWireAES67Config": {
@@ -343,12 +427,16 @@
       "type": "modal"
     },
     "PipeWirePassiveSinks": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "PipeWireRTSPOutputs": {
       "type": "modal"
     },
     "PipeWireRoutingMatrix": {
+      "type": "modal"
+    },
+    "PipeWireVBANConfig": {
       "type": "modal"
     },
     "PipeWireVideoInputSources": {
@@ -359,86 +447,110 @@
     },
     "Platform": {},
     "ScheduleDistance": {
-      "type": "select"
+      "type": "select",
+      "default": "28"
     },
     "ScheduleSeconds": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "SendVendorSerial": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "Service_MQTT_localbroker": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "Service_rsync": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "Service_smbd_nmbd": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "Service_vsftpd": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "ShareCrashData": {
-      "type": "select"
+      "type": "select",
+      "default": "3"
     },
     "SubPlatform": {},
     "TetherInterface": {
       "type": "select"
     },
     "TetherPSK": {
-      "type": "password"
+      "type": "password",
+      "default": "Christmas"
     },
     "TetherSSID": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": "FPP"
     },
     "TimeFormat": {
-      "type": "select"
+      "type": "select",
+      "default": "%I:%M %p"
     },
     "TimeZone": {
-      "type": "select"
+      "type": "select",
+      "default": "Europe/London"
     },
     "UIStartedPlaylistsProtected": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "UseNTPFromDHCP": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "Variant": {},
     "VideoOutput": {
       "type": "select"
     },
     "WLEDAudioInput": {
-      "type": "select"
+      "type": "select",
+      "default": "-- Playing Media --"
     },
     "WLEDAudioSyncDest": {
-      "type": "text"
+      "type": "text",
+      "default": "239.0.0.1"
     },
     "WLEDAudioSyncMode": {
-      "type": "select"
+      "type": "select",
+      "default": "off"
     },
     "WLEDAudioSyncPort": {
-      "type": "number"
+      "type": "number",
+      "default": "11988"
     },
     "WifiRegulatoryDomain": {
-      "type": "select"
+      "type": "select",
+      "default": "US"
     },
     "alwaysTransmit": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "backgroundColor": {
-      "type": "select"
+      "type": "select",
+      "default": ""
     },
     "blankBetweenSequences": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "bootDelay": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "bootDirectory": {},
     "bridgeDataPriority": {
-      "type": "select"
+      "type": "select",
+      "default": "Warn If Sequence Running"
     },
     "channelOutputsJSON": {},
     "co-bbbStrings": {},
@@ -448,38 +560,48 @@
     "configDirectory": {},
     "currentHeaderSensor": {},
     "dhcpOffset": {
-      "type": "number"
+      "type": "number",
+      "default": "100"
     },
     "dhcpPoolSize": {
-      "type": "number"
+      "type": "number",
+      "default": "50"
     },
     "dhcpServer": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "disableAudioVolumeSlider": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "disableIPAnnouncement": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "disableUIPopoverAlerts": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "disableUIWarnings": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "dmxInputs": {},
     "docsDirectory": {},
     "eFuseRetryCount": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "eFuseRetryInterval": {
-      "type": "number"
+      "type": "number",
+      "default": "100"
     },
     "effectDirectory": {},
     "emailAddress": {
       "type": "text",
-      "pii": true
+      "pii": true,
+      "default": ""
     },
     "emailfromtext": {
       "type": "text",
@@ -493,7 +615,8 @@
       "type": "password"
     },
     "emailport": {
-      "type": "select"
+      "type": "select",
+      "default": "587"
     },
     "emailserver": {
       "type": "text",
@@ -509,16 +632,23 @@
     },
     "eventDirectory": {},
     "exim4Directory": {},
+    "fileManagerHideEmptyTabs": {
+      "type": "checkbox",
+      "default": "0"
+    },
     "fileManagerTableFilter": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "fileManagerThumbnailSize": {
-      "type": "select"
+      "type": "select",
+      "default": "75"
     },
     "fppBinDir": {},
     "fppDir": {},
     "fppMode": {
-      "type": "select"
+      "type": "select",
+      "default": "player"
     },
     "gitBranch": {},
     "gitHubPAT": {
@@ -529,28 +659,34 @@
       "pii": true
     },
     "gitRemote": {
-      "type": "select"
+      "type": "select",
+      "default": "origin"
     },
     "globalMediaOffset": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "gpioHideCapePins": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     },
     "hideExternalURLs": {},
     "imageDirectory": {},
     "initialSetup-02": {},
     "ipForwarding": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "locale": {},
     "logDirectory": {},
     "masqUIPlatform": {
-      "type": "select"
+      "type": "select",
+      "default": ""
     },
     "mediaDirectory": {},
     "mediaOffset": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "model-overlays": {},
     "musicDirectory": {},
@@ -559,13 +695,15 @@
       "pii": true
     },
     "openStartDelay": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "osPassword": {
       "type": "password"
     },
     "osPasswordEnable": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "osPasswordVerify": {
       "type": "password"
@@ -575,86 +713,109 @@
       "type": "password"
     },
     "passwordEnable": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "passwordVerify": {
       "type": "password"
     },
     "pauseBackgroundEffects": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "piRTC": {
-      "type": "select"
+      "type": "select",
+      "default": "N"
     },
     "playlistAutoScroll": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "playlistDirectory": {},
     "pluginDirectory": {},
     "remoteIgnoreSync": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "remoteOffset": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "routeMetric": {
-      "type": "number"
+      "type": "number",
+      "default": "0"
     },
     "scheduleJsonFile": {},
     "screensaver": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "screensaverTimeout": {
-      "type": "number"
+      "type": "number",
+      "default": "1"
     },
     "scriptDirectory": {},
     "sequenceDirectory": {},
     "showAllOptions": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "statsFile": {},
     "statsPublish": {
-      "type": "select"
+      "type": "select",
+      "default": "Banner"
     },
     "statsPublishUrl": {},
     "tableColorPair1A": {
-      "type": "color"
+      "type": "color",
+      "default": "b0efbc"
     },
     "tableColorPair1B": {
-      "type": "color"
+      "type": "color",
+      "default": "7be38f"
     },
     "tableColorPair2A": {
-      "type": "color"
+      "type": "color",
+      "default": "cae7fb"
     },
     "tableColorPair2B": {
-      "type": "color"
+      "type": "color",
+      "default": "a6d7f8"
     },
     "tableColorPair3A": {
-      "type": "color"
+      "type": "color",
+      "default": "e9beed"
     },
     "tableColorPair3B": {
-      "type": "color"
+      "type": "color",
+      "default": "da92e1"
     },
     "tableColorPair4A": {
-      "type": "color"
+      "type": "color",
+      "default": "fcefbb"
     },
     "tableColorPair4B": {
-      "type": "color"
+      "type": "color",
+      "default": "f9e077"
     },
     "temperatureInF": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "themeOverride": {
-      "type": "select"
+      "type": "select",
+      "default": ""
     },
     "uiLevel": {
-      "type": "select"
+      "type": "select",
+      "default": "0"
     },
     "universeInputs": {},
     "universeOutputs": {},
     "uploadDirectory": {},
     "verbosePlaylistItemDetails": {
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "0"
     },
     "videoDirectory": {},
     "volume": {},
