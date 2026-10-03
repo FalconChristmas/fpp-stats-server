@@ -19,6 +19,6 @@
   "homepage": "https://github.com/FalconChristmas/fpp-stats-server#readme",
   "dependencies": {
     "glob": "^13.0.3",
-    "moment": "^2.30.1"
+    "moment": "^2.31.0"
   }
 }
