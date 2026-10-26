@@ -23,6 +23,13 @@ services:
   fpp-stats-collect:
     build: statsCollector/.
     restart: always
+    # Page cache counts against this limit, so reading the whole corpus for the
+    # scrub and archive recycles the collector's own cache instead of evicting
+    # the rest of the host's.  blkio weight (10-1000, default 500) only applies
+    # under the bfq IO scheduler.
+    mem_limit: 512m
+    blkio_config:
+      weight: 100
     volumes: 
       - statsdata:/statsdata
     environment: 
