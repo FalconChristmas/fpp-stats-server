@@ -384,6 +384,23 @@ const REGISTRY = [
     rows: (d, w) => ageRowsOrdered(d.wifiStrength.data.strength, d.wifiStrength.data.strengthOrder, w),
   },
   {
+    id: "network-link-remote", section: "environment", chart: "pie", label: "Devices",
+    title: "Remote Network Connection",
+    desc: "Whether devices in remote mode are connected over wifi, a wired link, or both.",
+    keywords: ["wifi", "wireless", "ethernet", "wired", "cable", "network", "remote", "bridge", "colorlight", "connection"],
+    note: "Link state of each interface as reported at check-in. A remote with both links up that sends ColorLight or E1.31/DDP output is shown as bridging: in that setup wifi carries multisync from the player and ethernet feeds the controllers. Other remotes with both links up could be using either for multisync.",
+    // Absent until a collector run that knows this handler has completed
+    rows: (d, w) => d.networkLink ? ageRowsOrdered(d.networkLink.data.remote, d.networkLink.data.order, w).filter(r => r.value > 0) : [],
+  },
+  {
+    id: "network-link-player", section: "environment", chart: "pie", label: "Devices",
+    title: "Player Network Connection",
+    desc: "Whether players and standalone devices are connected over wifi, a wired link, or both.",
+    keywords: ["wifi", "wireless", "ethernet", "wired", "cable", "network", "player", "master", "standalone", "connection"],
+    note: "Link state of each interface as reported at check-in. Players commonly run wifi to the home network and ethernet to the show network, so both links being up does not say which one carries multisync.",
+    rows: (d, w) => d.networkLink ? ageRowsOrdered(d.networkLink.data.player, d.networkLink.data.order, w).filter(r => r.value > 0) : [],
+  },
+  {
     id: "voltage", section: "environment", chart: "bar", label: "Readings", limit: 20,
     title: "Reported Voltages",
     desc: "Voltages read from on-board sensors, rounded to the nearest volt.",
